@@ -12,7 +12,19 @@ module SharedMethods
   end
 
   def hash_populate
-    
+    load_csv("./data/Kindergartners in full-day program.csv")
+    data_hash = {}
+    @data.each_with_index do |row, i|
+    location = row[:location]
+    timeframe = row[:timeframe]
+    dataformat = row[:dataformat]
+    data = row[:data]
+    data_hash["location" => location]  =
+                    {"timeframe"    => timeframe,
+                    "dataformat" => dataformat,
+                    "data"       => data}
+                  end
+    data_hash
   end
 
 
