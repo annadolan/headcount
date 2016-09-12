@@ -11,9 +11,9 @@ class SharedMethodsTest < Minitest::Test
   end
 
   def test_loader_can_create_array
-    assert_instance_of Array, turn_csv_into_hash
+    assert_instance_of Array, turn_csv_into_array
   end
-  
-  def test_loader
+
+  def test_loader_can_
 
 end
