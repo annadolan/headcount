@@ -9,7 +9,11 @@ class DistrictRepository
   attr_reader :district, :data
 
   def initialize
-    @data = load_data("./data/Kindergartners in full-day program.csv")
+    @data = load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
     @district = nil
   end
 
