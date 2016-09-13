@@ -13,12 +13,12 @@ module SharedMethods
       location_row = row[:location]
       timeframe_row = row[:timeframe]
       data_row = row[:data]
-
       @data_hash[location_row]  =
                       {"timeframe"    => timeframe_row,
                         "data"       => data_row}
     end
     @data_hash
+
   end
 
   def load_into_hash(initial_hash)

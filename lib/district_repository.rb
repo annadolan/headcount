@@ -20,21 +20,12 @@ class DistrictRepository
   })
 
   load_into_hash(path)
-<<<<<<< HEAD
-  
-=======
 
-
->>>>>>> 7746414502957141a7ec844281623414123b929e
   end
 
 
   def find_by_name(district_name)
-    district_hash = @input.select { |k, v| k == district_name.upcase}
-    @district = []
-    district_hash.each do |k,v|
-      @district << {:name => k}
-    end
+    @district = District.new({:name => district_name})
   end
 
   def find_all_matching(district_name_fragment)
