@@ -5,13 +5,8 @@ require 'pry'
 class DistrictRepository
 
   include SharedMethods
-<<<<<<< HEAD
   
   attr_reader :district, :data, :data_hash
-=======
-
-  attr_reader :district, :data
->>>>>>> 2ecac27835c8a95a46cbbe0aa0942dfcec922058
 
   def initialize
     @input = load_data({
