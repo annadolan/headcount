@@ -21,7 +21,7 @@ module SharedMethods
     @data_hash
   end
 
-  def load_data(initial_hash)
+  def load_into_hash(initial_hash)
     items = initial_hash[:enrollment][:kindergarten]
     hash_populate(load_csv(items))
   end
