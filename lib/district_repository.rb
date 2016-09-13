@@ -21,7 +21,6 @@ class DistrictRepository
   
   load_into_hash(path)
   
-  
   end
 
 
