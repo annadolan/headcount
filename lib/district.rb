@@ -9,5 +9,4 @@ class District
     @name = district_input[:name]
   end
 
-
 end
