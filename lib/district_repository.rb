@@ -5,7 +5,7 @@ require 'pry'
 class DistrictRepository
 
   include SharedMethods
-  
+
   attr_reader :district, :data, :data_hash
 
   def initialize
@@ -22,8 +22,11 @@ class DistrictRepository
   end
 
   def find_all_matching(district_name_fragment)
-    @district = @input.keys.select { |k| k.include?(district_name_fragment.upcase)}
-
+    district_hash = @input.select { |k, v| k.include?(district_name_fragment.upcase)}
+    @district = []
+    district_hash.each do |k,v|
+      @district << {:name => k}
+    end
   end
 
 end
