@@ -6,7 +6,7 @@ class DistrictRepository
 
   include SharedMethods
   
-  attr_reader :district, :data
+  attr_reader :district, :data, :data_hash
 
   def initialize
     @data = load_data({
