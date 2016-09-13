@@ -20,8 +20,12 @@ class DistrictRepository
   })
 
   load_into_hash(path)
+<<<<<<< HEAD
+  
+=======
 
 
+>>>>>>> 7746414502957141a7ec844281623414123b929e
   end
 
 
