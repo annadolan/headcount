@@ -5,8 +5,10 @@ class District
   
   include SharedMethods
   
-  def name
-    name
+  attr_reader :name
+  
+  def initialize(district_name)
+    @name = district_name[:name]
   end
   
   
