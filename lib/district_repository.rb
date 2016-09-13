@@ -1,7 +1,9 @@
 require 'csv'
-require './lib/shared_methods'
+require_relative 'shared_methods'
 require 'pry'
+
 class DistrictRepository
+
   include SharedMethods
   
   attr_reader :district, :data
