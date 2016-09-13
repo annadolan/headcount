@@ -9,7 +9,7 @@ class DistrictRepositoryTest < Minitest::Test
     dr = DistrictRepository.new
     assert_instance_of Hash, dr.data_hash
   end
-  
+
   def test_dr_can_find_a_district_by_name
     
     dr = DistrictRepository.new
@@ -17,11 +17,10 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal "0.49022", dr.district["data"]
   
   end
-  
+
   def test_dr_can_find_using_just_a_fragment
-    skip
     dr = DistrictRepository.new
-    dr.find_all_matching("aca")
-    assert_equal "0.49022", dr.district["data"]
+    dr.find_all_matching("we")
+    assert_equal 7, dr.district.count
   end
 end
