@@ -6,16 +6,24 @@ class DistrictRepository
 
   include SharedMethods
 
-  attr_reader :district, :data, :data_hash
+  attr_reader :district, :data, :data_hash, :input
 
   def initialize
-    @input = load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
+    @input = load_data
     @district = nil
   end
+  
+  def load_data(path = {
+    :enrollment => {
+      :kindergarten => "./data/Kindergartners in full-day program.csv"
+    }
+  })
+  
+  load_into_hash(path)
+  
+  
+  end
+
 
   def find_by_name(district_name)
     @district = @input["#{district_name}"]

@@ -16,4 +16,16 @@ class EnrollmentTest < Minitest::Test
     assert_equal "{2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}", er.enrollment_data
   end
   
+#   
+#   e = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
+#   
+#   er = EnrollmentRepository.new(...)
+#   load enrollment data
+#   enrollment = er.find_by_name("ACADEMY 20")
+#   enrollment.kindergarten_participation_by_year
+# => { 2010 => 0.391,
+#      2011 => 0.353,
+#      2012 => 0.267,
+#    }
+  
 end

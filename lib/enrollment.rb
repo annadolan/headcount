@@ -12,7 +12,7 @@ class Enrollment
     @enrollment_data = enrollment_data
   end
   
-  def kindergarten_participation_by_year
+  def kindergarten_participation_in_year
     @enrollment_data = [:kindergarten_participation]
   end
   
