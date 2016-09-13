@@ -6,7 +6,7 @@ module SharedMethods
     @data = CSV.open filename_path, headers: true, header_converters: :symbol
     hash_populate
   end
-  
+
   def hash_populate
     data_hash = {}
     @data.each_with_index do |row, i|
@@ -20,7 +20,7 @@ module SharedMethods
                   end
     data_hash
   end
-  
+
   def load_data(enrollment_hash)
     path = enrollment_hash[:enrollment][:kindergarten]
     load_csv(path)
