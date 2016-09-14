@@ -1,7 +1,9 @@
+require './test/test_helper'
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/enrollment'
 require 'pry'
+
 
 class EnrollmentTest < Minitest::Test
   def test_enrollment_has_a_district_name

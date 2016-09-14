@@ -10,7 +10,7 @@ class Enrollment
 
   def initialize(name_and_enrollment_data)
     @name = name_and_enrollment_data[:name]
-    @enrollment_data = name_and_enrollment_data[:kindergarten_participation]
+    @enrollment_data = name_and_enrollment_data[:kindergarten_participation] # make this more widely applicable
   end
 
   def kindergarten_participation_by_year

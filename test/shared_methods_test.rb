@@ -1,5 +1,7 @@
+require './test/test_helper'
 require 'minitest/autorun'
 require 'minitest/pride'
+require './test/test_helper'
 require './lib/shared_methods'
 require 'pry'
 

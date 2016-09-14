@@ -7,23 +7,23 @@ class EnrollmentRepository
 
   def initialize
     @input = load_data
-    @district = nil
+    @enrollments = nil
   end
 
   def load_data(path = {
     :enrollment => {
       :kindergarten => "./data/Kindergartners in full-day program.csv"
     }
-  })
+  }) # change tests to use this argument, remove default argument
   load_into_hash(path)
   end
 
   def find_by_name(district_name)
     if @input.key?(district_name)
       enrollment_data = @input[district_name]
-      district = Enrollment.new({:name => district_name, :kindergarten_participation => enrollment_data})
+      enrollments = Enrollment.new({:name => district_name, :kindergarten_participation => enrollment_data})
     else
-      district = nil
+      enrollments = nil
     end
   end
 end

@@ -8,14 +8,14 @@ class DistrictRepository
 
   def initialize
     @input = load_data
-    @district = nil
+    @district = []
   end
 
   def load_data(path = {
     :enrollment => {
       :kindergarten => "./data/Kindergartners in full-day program.csv"
     }
-  })
+  }) # change tests to use this argument, remove default argument
   load_into_hash(path)
   end
 
@@ -29,7 +29,6 @@ class DistrictRepository
 
   def find_all_matching(district_name_fragment)
     district_hash = @input.select { |k, v| k.include?(district_name_fragment.upcase)}
-    @district = []
     district_hash.each do |k,v|
       @district << {:name => k}
     end
