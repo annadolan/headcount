@@ -16,6 +16,7 @@ class DistrictRepository
 
   def find_by_name(district_name)
     input = @organized_entries
+    district_name = district_name.upcase
     if input.key?(district_name)
       district = District.new({:name => district_name})
     else

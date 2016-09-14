@@ -27,6 +27,16 @@ class DistrictRepositoryTest < Minitest::Test
     assert_instance_of District, dr.find_by_name("ADAMS COUNTY 14")
   end
 
+  def test_find_by_name_can_use_lowercase
+    dr = DistrictRepository.new
+    dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+    assert_instance_of District, dr.find_by_name("adams county 14")
+  end
+
   def test_find_by_name_returns_nil_if_no_matching
     dr = DistrictRepository.new
     dr.load_data({

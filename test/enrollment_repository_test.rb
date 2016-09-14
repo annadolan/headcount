@@ -26,6 +26,16 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_instance_of Enrollment, er.find_by_name("ADAMS COUNTY 14")
   end
 
+  def test_find_by_name_can_use_lowercase
+    er = EnrollmentRepository.new
+    er.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+    assert_instance_of Enrollment, er.find_by_name("adams county 14")
+  end
+
   def test_find_by_name_returns_enrollment_instance_with_correct_name
     er = EnrollmentRepository.new
     er.load_data({

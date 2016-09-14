@@ -9,12 +9,13 @@ class EnrollmentRepository
     @enrollments = nil
   end
 
-  def load_data(path) 
+  def load_data(path)
     load_into_hash(path)
   end
 
   def find_by_name(district_name)
     input = @organized_entries
+    district_name = district_name.upcase
     if input.key?(district_name)
       enrollment_data = input[district_name]
       enrollments = Enrollment.new({:name => district_name, :kindergarten_participation => enrollment_data})
