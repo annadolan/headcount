@@ -7,18 +7,10 @@ module SharedMethods
   end
 
   def hash_populate(incoming_data)
-    @data_hash = {}
-    output = incoming_data.each do |row|
-
-      location_row = row[:location]
-      timeframe_row = row[:timeframe]
-      data_row = row[:data]
-      @data_hash[location_row]  =
-                      {"timeframe"    => timeframe_row,
-                        "data"       => data_row}
-    end
-    @data_hash
-
+    all_entries = {}
+    temporary_array = incoming_data.map { |row| row.to_hash }
+    @organized_entries = temporary_array.group_by { |location| location[:location] }
+    @organized_entries
   end
 
   def load_into_hash(initial_hash)
