@@ -9,7 +9,6 @@ class EnrollmentRepository
 
   def initialize
     @input = load_data
-    binding.pry
     @district = nil
   end
 
