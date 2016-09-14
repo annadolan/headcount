@@ -18,7 +18,6 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_find_by_name_returns_new_district_instance
-    skip
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -29,7 +28,6 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_find_by_name_can_use_lowercase
-    skip
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
