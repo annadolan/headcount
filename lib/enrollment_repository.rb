@@ -3,7 +3,7 @@ require_relative 'enrollment'
 
 class EnrollmentRepository
   include SharedMethods
-  attr_reader :district
+  attr_reader :district, :enrollments, :input
 
   def initialize
     @enrollments = nil
@@ -15,12 +15,13 @@ class EnrollmentRepository
 
   def find_by_name(district_name)
     input = @organized_entries
-    district_name = district_name.upcase
-    if input.key?(district_name)
-      enrollment_data = input[district_name]
-      enrollments = Enrollment.new({:name => district_name, :kindergarten_participation => enrollment_data})
+    district_name_upcase = district_name.upcase
+    if input.key?(district_name_upcase)
+      enrollment_data = input[district_name_upcase]
+      enrollments = Enrollment.new({:name => district_name_upcase, :kindergarten_participation => enrollment_data})
     else
       enrollments = nil
     end
+    enrollments
   end
 end

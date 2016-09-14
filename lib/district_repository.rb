@@ -1,10 +1,11 @@
 require 'csv'
 require_relative 'shared_methods'
+require_relative 'enrollment_repository'
 require 'pry'
 
 class DistrictRepository
   include SharedMethods
-  attr_reader :district, :data, :data_hash, :name
+  attr_reader :district, :data, :data_hash, :name, :enrollment
 
   def initialize
     @district = []
@@ -22,6 +23,12 @@ class DistrictRepository
     else
       district = nil
     end
+    generate_enrollment(district_name)
+  end
+
+  def generate_enrollment(district_name)
+    enrollment_repository = EnrollmentRepository.new
+    enrollment = enrollment_repository.find_by_name(district_name)
   end
 
   def find_all_matching(district_name_fragment)
