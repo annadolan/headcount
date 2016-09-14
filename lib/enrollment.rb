@@ -17,11 +17,10 @@ class Enrollment
     enrollment_data
   end
 
-
   def kindergarten_participation_in_year(year)
     if enrollment_data.none? { |word| word.include?(:timeframe) }
         enrollment_data[year].to_f
-    else    
+    else
       participation = enrollment_data.select { |i| i[:timeframe] == "#{year}" }
       usable = participation.map do |row|
         timeframe_row = row[:timeframe]
@@ -31,21 +30,4 @@ class Enrollment
       @results_hash["#{year}"].to_f
     end
   end
-
 end
-
-
-# def hash_populate(incoming_data)
-#   @data_hash = {}
-#   output = incoming_data.each do |row|
-# 
-#     location_row = row[:location]
-#     timeframe_row = row[:timeframe]
-#     data_row = row[:data]
-#     @data_hash[location_row]  =
-#                     {"timeframe"    => timeframe_row,
-#                       "data"       => data_row}
-#   end
-#   @data_hash
-# 
-# end

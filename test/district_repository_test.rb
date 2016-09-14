@@ -1,14 +1,24 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/district_repository'
+require './lib/district'
 require 'pry'
 
 class DistrictRepositoryTest < Minitest::Test
 
-  def test_dr_can_load_a_csv
+  def test_dr_loads_data_into_hash
     dr = DistrictRepository.new
-    dr.load_data
-    assert_instance_of Hash, dr.data_hash
+    assert_instance_of Hash, dr.input
+  end
+
+  def test_find_by_name_returns_new_district_instance
+    dr = DistrictRepository.new
+    assert_instance_of District, dr.find_by_name("ADAMS COUNTY 14")
+  end
+
+  def test_find_by_name_returns_nil_if_no_matching
+    dr = DistrictRepository.new
+    assert_equal nil, dr.find_by_name("QWX")
   end
 
   def test_dr_can_find_using_just_a_fragment

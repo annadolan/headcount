@@ -17,5 +17,4 @@ module SharedMethods
     items = initial_hash[:enrollment][:kindergarten]
     hash_populate(load_csv(items))
   end
-
 end

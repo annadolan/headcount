@@ -2,10 +2,8 @@ require_relative 'shared_methods'
 require_relative 'enrollment'
 
 class EnrollmentRepository
-
   include SharedMethods
-
-  attr_reader :district
+  attr_reader :district, :input
 
   def initialize
     @input = load_data
@@ -17,15 +15,15 @@ class EnrollmentRepository
       :kindergarten => "./data/Kindergartners in full-day program.csv"
     }
   })
-
   load_into_hash(path)
   end
 
   def find_by_name(district_name)
-    enrollment_data = @input[district_name]
-    district = Enrollment.new({:name => district_name, :kindergarten_participation => enrollment_data})
+    if @input.key?(district_name)
+      enrollment_data = @input[district_name]
+      district = Enrollment.new({:name => district_name, :kindergarten_participation => enrollment_data})
+    else
+      district = nil
+    end
   end
-  
-  
-
 end
