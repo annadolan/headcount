@@ -1,6 +1,7 @@
 require 'csv'
 
 module SharedMethods
+  attr_reader :organized_entries
 
   def load_csv(filename_path)
     @data = CSV.open filename_path, headers: true, header_converters: :symbol
