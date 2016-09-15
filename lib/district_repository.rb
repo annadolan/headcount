@@ -22,11 +22,11 @@ class DistrictRepository
 
   def find_by_name(district_name)
     input = @organized_entries
-    district_name = district_name.upcase
-    enrollment_symbol = input[district_name]
+    district_name_upcase = district_name.upcase
+    enrollment_symbol = input[district_name_upcase]
     hash_entry = date_hash_maker(enrollment_symbol)
-    if input.key?(district_name)
-      district = District.new({:name => district_name, :kindergarten_participation => hash_entry})
+    if input.key?(district_name_upcase)
+      district = District.new({:name => district_name_upcase, :kindergarten_participation => hash_entry})
     else
       district = nil
     end
