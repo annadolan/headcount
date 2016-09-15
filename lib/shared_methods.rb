@@ -23,13 +23,13 @@ module SharedMethods
     time = @enrollment.group_by { |x| x[:timeframe] }
     data = @enrollment.group_by { |x| x[:data]}
     all_info = time.keys.zip(data.keys)
-    @enrollment_data = all_info.to_h
+    @enrollment = all_info.to_h
   end
   
   def enrollment_generator(data)
     @enrollment = data
     zip_time_and_data
-    @enrollment_data
+    @enrollment
   end
 
 end

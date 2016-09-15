@@ -53,7 +53,7 @@ class EnrollmentRepositoryTest < Minitest::Test
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
-    assert_equal ({:location=>"ADAMS COUNTY 14", :timeframe=>"2014", :dataformat=>"Percent", :data=>"1"}), er.find_by_name("ADAMS COUNTY 14").enrollment_data.last
+    assert_equal ({:location=>"ADAMS COUNTY 14", :timeframe=>"2014", :dataformat=>"Percent", :data=>"1"}), er.find_by_name("ADAMS COUNTY 14").enrollment.last
   end
 
   def test_find_by_name_returns_nil_if_no_matching

@@ -16,8 +16,8 @@ class EnrollmentRepository
   def find_by_name(district_name)
     input = @organized_entries
     district_name_upcase = district_name.upcase
+    enrollment_symbol = input[district_name]
     if input.key?(district_name_upcase)
-      enrollment_symbol = input[district_name_upcase]
       enrollments = Enrollment.new({:name => district_name_upcase, :kindergarten_participation => enrollment_symbol})
     else
       enrollments = nil

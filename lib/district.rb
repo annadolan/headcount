@@ -9,11 +9,10 @@ class District
   include Kindergarten
 
 
-  def initialize(name, enrollment_information)
+  def initialize(name_and_enrollment_data)
     @name = name_and_enrollment_data[:name]
-    @enrollment = enrollment_generator(name_and_enrollment_data[:kindergarten_participation])
+    @enrollment = name_and_enrollment_data[:kindergarten_participation]
   end
-
 
 
 

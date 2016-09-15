@@ -6,6 +6,8 @@ require './lib/district'
 require 'pry'
 
 class DistrictRepositoryTest < Minitest::Test
+  
+  include Kindergarten
 
   def test_dr_loads_data_into_hash
     dr = DistrictRepository.new
@@ -99,6 +101,6 @@ class DistrictRepositoryTest < Minitest::Test
       }
     })
     district = dr.find_by_name("ACADEMY 20")
-    assert_equal 0.436, district.enrollment.kindergarten_participation_in_year(2010)
+    assert_equal 0.436, district.enrollment.kindergarten_participation_in_year(2012)
   end
 end
