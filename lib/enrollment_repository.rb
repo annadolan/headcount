@@ -3,6 +3,8 @@ require_relative 'enrollment'
 
 class EnrollmentRepository
   include SharedMethods
+  include Kindergarten
+  
   attr_reader :district, :enrollments, :input
 
   def initialize

@@ -19,7 +19,7 @@ module SharedMethods
     hash_populate(load_csv(items))
   end
   
-  def zip_time_and_data
+  def zip_time_and_data(input)
     time = @enrollment.group_by { |x| x[:timeframe] }
     data = @enrollment.group_by { |x| x[:data]}
     all_info = time.keys.zip(data.keys)

@@ -1,44 +1,21 @@
 require 'csv'
 
 module Kindergarten
-  
-  include SharedMethods
-  
+        
   def kindergarten_participation_by_year
     enrollment
   end
 
-  def kindergarten_participation_in_year(year)    
-    # if enrollment.none? { |word| word.include?(:timeframe) }
-    #     enrollment["#{year}"].to_f
-    # else
-      enrollment["#{year}"].to_f
-      
-      
-      # participation = enrollment.select { |i| i[:timeframe] == "#{year}" }
-    
-      # participation.map do |row|
-      #   timeframe_row = row[:timeframe]
-      #   data_row = row[:data]
-      #   @results_hash = {timeframe_row => data_row}
-      # end  
-      # @results_hash["#{year}"].to_f
-    # end
+  def kindergarten_participation_in_year(year)  
+      enrollment[year].to_f
   end
   
   def date_hash_maker(input)
     unless input.nil?
-       input.map do |row|
-        timeframe_row = row[:timeframe]
-        data_row = row[:data]
-        @results_hash = {timeframe_row => data_row}
-      end
-      @results_hash.to_h
+      time_hash = input.group_by { |x| x[:timeframe].to_i }
+      data_hash = input.group_by { |x| x[:data].to_f }
+      all_info = time_hash.keys.zip(data_hash.keys)
+      @enrollment = all_info.to_h
     end
-  end
-      
-  
-  
-  
-  
+  end  
 end

@@ -1,13 +1,14 @@
 require 'csv'
 require_relative 'shared_methods'
 require_relative 'enrollment_repository'
+require_relative 'kindergarten'
 require 'pry'
 
 class DistrictRepository
   include SharedMethods
   include Kindergarten
   
-  attr_reader :district, :data, :data_hash, :name, :enrollment
+  attr_reader :district
 
   def initialize
     @district = []
