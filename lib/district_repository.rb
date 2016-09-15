@@ -1,11 +1,14 @@
 require 'csv'
 require_relative 'shared_methods'
 require_relative 'enrollment_repository'
+require_relative 'kindergarten'
 require 'pry'
 
 class DistrictRepository
   include SharedMethods
-  attr_reader :district, :data, :data_hash, :name, :enrollment
+  include Kindergarten
+
+  attr_reader :district
 
   def initialize
     @district = []
@@ -21,14 +24,13 @@ class DistrictRepository
     input = @organized_entries
     district_name = district_name.upcase
     enrollment_symbol = input[district_name]
+    hash_entry = date_hash_maker(enrollment_symbol)
     if input.key?(district_name)
-      district = District.new({:name => district_name, :kindergarten_participation => enrollment_symbol})
+      district = District.new({:name => district_name, :kindergarten_participation => hash_entry})
     else
       district = nil
     end
   end
-
-
 
   def find_all_matching(district_name_fragment)
     input = @organized_entries
