@@ -65,4 +65,6 @@ class EnrollmentRepositoryTest < Minitest::Test
     })
     assert_equal nil, er.find_by_name("XYZ")
   end
+  
+  
 end

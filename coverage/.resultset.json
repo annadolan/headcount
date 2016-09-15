@@ -144,17 +144,20 @@
         null,
         null,
         1,
-        8,
-        2,
         null,
-        0,
         null,
-        0,
-        0,
-        0,
-        0,
         null,
-        0,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         null,
         null,
         null,
@@ -165,6 +168,7 @@
         33,
         33,
         null,
+        3,
         null,
         null,
         null,
@@ -277,6 +281,8 @@
         null,
         1,
         null,
+        null,
+        null,
         null
       ],
       "/Users/noah/turing/1module/headcount/test/enrollment_test.rb": [
@@ -348,6 +354,6 @@
         null
       ]
     },
-    "timestamp": 1473904309
+    "timestamp": 1473905887
   }
 }
