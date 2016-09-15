@@ -19,6 +19,12 @@ module Kindergarten
     enrollment[year].to_f
   end
 
+  def enrollment_graduation_rate_by_year
+  end
+
+  def graduation_rate_in_year(year)
+  end
+
   def truncate_float(num)
     (num.to_f*1000).floor/1000.0
   end

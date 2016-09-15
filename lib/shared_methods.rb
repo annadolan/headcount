@@ -16,7 +16,10 @@ module SharedMethods
 
   def load_into_hash(initial_hash)
     items = initial_hash[:enrollment][:kindergarten]
-    hash_populate(load_csv(items))
+    items2 = initial_hash[:enrollment][:high_school_graduation]
+    kindergarten = hash_populate(load_csv(items))
+    high_school_graduation = hash_populate(load_csv(items2))
+    full_hash = {:kindergarten => kindergarten, :high_school_graduation => high_school_graduation}
   end
 
   def zip_time_and_data(input)

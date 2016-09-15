@@ -80,5 +80,16 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_in_delta 0.144, enrollment.kindergarten_participation_in_year(2004), 0.005
   end
 
+  def test_add_high_school_data
+    er = EnrollmentRepository.new
+    er.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv",
+        :high_school_graduation => "./data/High school graduation rates.csv"
+    }
+    })
+    assert_equal "ADAMS COUNTY 14", er.find_by_name("ADAMS COUNTY 14").name
+  end
+
 
 end
