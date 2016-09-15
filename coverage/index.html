@@ -14,18 +14,18 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-09-14T20:55:29-06:00">2016-09-14T20:55:29-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-09-14T21:01:40-06:00">2016-09-14T21:01:40-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">95.51%</span></span>
+    (<span class="covered_percent"><span class="green">96.07%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         566.53
+         566.59
        </span>
     </span> hits/line)
   </h2>
@@ -33,8 +33,8 @@
   <div>
     <b>10</b> files in total.
     <b>178</b> relevant lines. 
-    <span class="green"><b>170</b> lines covered</span> and
-    <span class="red"><b>8</b> lines missed </span>
+    <span class="green"><b>171</b> lines covered</span> and
+    <span class="red"><b>7</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -53,7 +53,7 @@
       <tr>
         <td class="strong"><a href="#7d964afa18a8b519ecc5affe57774028bd2b0550" class="src_link" title="lib/district.rb">lib/district.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>16</td>
+        <td>19</td>
         <td>10</td>
         <td>10</td>
         <td>0</td>
@@ -77,7 +77,7 @@
         <td>11</td>
         <td>11</td>
         <td>0</td>
-        <td>2.6</td>
+        <td>3.4</td>
       </tr>
       
       <tr>
@@ -97,7 +97,7 @@
         <td>12</td>
         <td>12</td>
         <td>0</td>
-        <td>7.5</td>
+        <td>7.6</td>
       </tr>
       
       <tr>
@@ -112,12 +112,12 @@
       
       <tr>
         <td class="strong"><a href="#6c705227c59333a56c5738f792a393850b4e43f3" class="src_link" title="test/district_test.rb">test/district_test.rb</a></td>
-        <td class="yellow strong">88.89 %</td>
+        <td class="green strong">100.0 %</td>
         <td>12</td>
         <td>9</td>
-        <td>8</td>
-        <td>1</td>
-        <td>0.9</td>
+        <td>9</td>
+        <td>0</td>
+        <td>1.0</td>
       </tr>
       
       <tr>
@@ -183,13 +183,13 @@
         <li class="covered" data-hits="1" data-linenumber="1">
           <span class="hits">1</span>
           
-          <code class="ruby">require_relative &#39;shared_methods&#39;</code>
+          <code class="ruby">require_relative &#39;enrollment_repository&#39;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="2">
           <span class="hits">1</span>
           
-          <code class="ruby">require_relative &#39;enrollment_repository&#39;</code>
+          <code class="ruby">require_relative &#39;shared_methods&#39;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="3">
@@ -237,7 +237,7 @@
         <li class="covered" data-hits="1" data-linenumber="10">
           <span class="hits">1</span>
           
-          <code class="ruby">  attr_reader :name, :enrollment, :district_name</code>
+          <code class="ruby">  attr_reader :name, :enrollment, :district_name, :enrollment_data</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="11">
@@ -261,7 +261,7 @@
         <li class="covered" data-hits="4" data-linenumber="14">
           <span class="hits">4</span>
           
-          <code class="ruby">    @enrollment = Enrollment.new({:name =&gt; district_name_upcase, :kindergarten_participation =&gt; enrollment_symbol})</code>
+          <code class="ruby">    @enrollment = Enrollment.new(name_and_enrollment_data)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="15">
@@ -271,6 +271,24 @@
         </li>
       
         <li class="never" data-hits="" data-linenumber="16">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="17">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="18">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="19">
           
           
           <code class="ruby">end</code>
@@ -642,14 +660,14 @@
           <code class="ruby">  def initialize(name_and_enrollment_data)</code>
         </li>
       
-        <li class="covered" data-hits="10" data-linenumber="14">
-          <span class="hits">10</span>
+        <li class="covered" data-hits="14" data-linenumber="14">
+          <span class="hits">14</span>
           
           <code class="ruby">    @name = name_and_enrollment_data[:name]</code>
         </li>
       
-        <li class="covered" data-hits="10" data-linenumber="15">
-          <span class="hits">10</span>
+        <li class="covered" data-hits="14" data-linenumber="15">
+          <span class="hits">14</span>
           
           <code class="ruby">    @enrollment = name_and_enrollment_data[:kindergarten_participation]</code>
         </li>
@@ -948,8 +966,8 @@
           <code class="ruby">  def kindergarten_participation_in_year(year)  </code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="10">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="3" data-linenumber="10">
+          <span class="hits">3</span>
           
           <code class="ruby">      enrollment[year].to_f</code>
         </li>
@@ -1255,11 +1273,11 @@
         <div class="source_table" id="6c705227c59333a56c5738f792a393850b4e43f3">
   <div class="header">
     <h3>test/district_test.rb</h3>
-    <h4><span class="yellow">88.89 %</span> covered</h4>
+    <h4><span class="green">100.0 %</span> covered</h4>
     <div>
       <b>9</b> relevant lines. 
-      <span class="green"><b>8</b> lines covered</span> and
-      <span class="red"><b>1</b> lines missed.</span>
+      <span class="green"><b>9</b> lines covered</span> and
+      <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
   
@@ -1320,8 +1338,8 @@
           <code class="ruby">    d = District.new({:name =&gt; &quot;ACADEMY 20&quot;})</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="10">
-          
+        <li class="covered" data-hits="1" data-linenumber="10">
+          <span class="hits">1</span>
           
           <code class="ruby">    assert_equal &quot;ACADEMY 20&quot;, d.name</code>
         </li>
