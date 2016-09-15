@@ -25,5 +25,11 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_rate_variation_trend(district1, district2)
+    if district2.class == Hash
+      district2 = district2.values[0]
+    end
+    @dist1 = @new_repo.find_by_name(district1)
+    @dist2 = @new_repo.find_by_name(district2)
+    years_array = @dist1.enrollment.enrollment.zip(@dist2.enrollment.enrollment)
   end
 end
