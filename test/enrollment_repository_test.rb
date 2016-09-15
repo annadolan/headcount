@@ -53,7 +53,7 @@ class EnrollmentRepositoryTest < Minitest::Test
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
-    assert_equal ({:location=>"ADAMS COUNTY 14", :timeframe=>"2014", :dataformat=>"Percent", :data=>"1"}), er.find_by_name("ADAMS COUNTY 14").enrollment.last
+    assert_equal [2014, 1.0], er.find_by_name("ADAMS COUNTY 14").enrollment.to_a.last
   end
 
   def test_find_by_name_returns_nil_if_no_matching
@@ -65,6 +65,20 @@ class EnrollmentRepositoryTest < Minitest::Test
     })
     assert_equal nil, er.find_by_name("XYZ")
   end
-  
-  
+
+  def test_kindergarten_participation_in_year
+    er = EnrollmentRepository.new
+    er.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+    name = "GUNNISON WATERSHED RE1J"
+    enrollment = er.find_by_name(name)
+    assert_equal name, enrollment.name
+    assert enrollment.is_a?(Enrollment)
+    assert_in_delta 0.144, enrollment.kindergarten_participation_in_year(2004), 0.005
+  end
+
+
 end

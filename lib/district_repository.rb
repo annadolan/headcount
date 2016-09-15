@@ -7,7 +7,7 @@ require 'pry'
 class DistrictRepository
   include SharedMethods
   include Kindergarten
-  
+
   attr_reader :district
 
   def initialize

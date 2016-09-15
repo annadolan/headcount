@@ -1,21 +1,21 @@
 require 'csv'
 
 module Kindergarten
-        
   def kindergarten_participation_by_year
     enrollment
   end
 
-  def kindergarten_participation_in_year(year)  
-      enrollment[year].to_f
-  end
-  
   def date_hash_maker(input)
     unless input.nil?
-      time_hash = input.group_by { |x| x[:timeframe].to_i }
-      data_hash = input.group_by { |x| x[:data].to_f }
-      all_info = time_hash.keys.zip(data_hash.keys)
-      @enrollment = all_info.to_h
+      array = []
+      input.each do |elem|
+        array << [elem[:timeframe].to_i, (elem[:data].to_f*1000).floor/1000.0]
+      end
+      @enrollment = array.to_h
     end
-  end  
+  end
+
+  def kindergarten_participation_in_year(year)
+    enrollment[year].to_f
+  end
 end
