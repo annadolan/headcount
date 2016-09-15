@@ -15,6 +15,9 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_rate_variation(district1, district2)
+    if district2.class == Hash
+      district2 = district2.values[0]
+    end
     @dist1 = @new_repo.find_by_name(district1)
     @dist2 = @new_repo.find_by_name(district2)
     variation = district_average(@dist1)/district_average(@dist2)
