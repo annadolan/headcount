@@ -9,12 +9,15 @@ module SharedMethods
 
   def hash_populate(incoming_data)
     all_entries = {}
+    # incoming_data.each do |symbol, filename|
+    enr.send(symbol)
     temporary_array = incoming_data.map { |row| row.to_hash }
     @organized_entries = temporary_array.group_by { |location| location[:location].upcase }
     @organized_entries
   end
 
   def load_into_hash(initial_hash)
+    # items = initial_hash[:enrollment]
     items = initial_hash[:enrollment][:kindergarten]
     hash_populate(load_csv(items))
   end

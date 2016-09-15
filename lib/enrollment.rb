@@ -11,8 +11,13 @@ class Enrollment
   attr_reader :name, :enrollment, :district_name
 
   def initialize(name_and_enrollment_data)
-    @name = name_and_enrollment_data[:name]
-    @enrollment = name_and_enrollment_data[:kindergarten_participation]
+    # @name = name_and_enrollment_data[:name]
+    @hash = name_and_enrollment_data
+    # @enrollment = name_and_enrollment_data[:kindergarten_participation]
+  end
+  
+  def kindergarten
+    @hash[:kindergarten_participation]
   end
 
 end

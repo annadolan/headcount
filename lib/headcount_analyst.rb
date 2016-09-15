@@ -8,7 +8,8 @@ class HeadcountAnalyst
     @new_repo = new_repo
   end
 
-  def district_average(district)
+  def district_average(district_name)
+    district = @new_repo.find_by_name(district_name)
     dist_values = district.enrollment.enrollment.values
     dist_total = dist_values.reduce(:+)
     dist_avg = dist_total/dist_values.count
@@ -18,9 +19,9 @@ class HeadcountAnalyst
     if district2.class == Hash
       district2 = district2.values[0]
     end
-    @dist1 = @new_repo.find_by_name(district1)
-    @dist2 = @new_repo.find_by_name(district2)
-    variation = district_average(@dist1)/district_average(@dist2)
+    dist_1 = district_average(district1)
+    dist_2 = district_average(district2)
+    variation = dist_1/dist_2
     variation_truncated = truncate_float(variation)
   end
 
@@ -31,9 +32,8 @@ class HeadcountAnalyst
     @dist1 = @new_repo.find_by_name(district1)
     @dist2 = @new_repo.find_by_name(district2)
     years_array = @dist1.enrollment.enrollment.zip(@dist2.enrollment.enrollment)
-    year_avg_array = []
-    years_array.to_h.each do |k, v|
-      year_avg_array << [k[0], truncate_float(k[1]/v[1])]
+    year_avg_array = years_array.to_h.map do |k, v|
+      [k[0], truncate_float(k[1]/v[1])]
     end
     year_hash = year_avg_array.to_h
   end

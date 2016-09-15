@@ -1,6 +1,7 @@
 require 'csv'
 require_relative 'shared_methods'
 require_relative 'enrollment_repository'
+require_relative 'district'
 require_relative 'kindergarten'
 require 'pry'
 
