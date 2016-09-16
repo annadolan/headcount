@@ -2,7 +2,7 @@ require 'csv'
 
 module Kindergarten
   def kindergarten_participation_by_year
-    enrollment
+    enrollment_kg
   end
 
   def date_hash_maker(input)
@@ -11,12 +11,12 @@ module Kindergarten
       input.each do |elem|
         array << [elem[:timeframe].to_i, truncate_float(elem[:data])] #create method to truncate
       end
-      @enrollment = array.to_h
+      @enrollment_kg = array.to_h
     end
   end
 
   def kindergarten_participation_in_year(year)
-    enrollment[year].to_f
+    enrollment_kg[year].to_f
   end
 
   def truncate_float(num)

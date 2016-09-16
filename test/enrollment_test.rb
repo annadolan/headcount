@@ -14,12 +14,12 @@ class EnrollmentTest < Minitest::Test
 
   def test_enrollment_can_find_enrollment_data
     er = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
-    assert_equal ({2010=>0.3915, 2011=>0.35356, 2012=>0.2677}), er.enrollment
+    assert_equal ({2010=>0.3915, 2011=>0.35356, 2012=>0.2677}), er.enrollment_kg
   end
 
   def test_kindergarten_participaton_by_year_returns_empty_hash_with_nil_input
     er = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {}})
-    assert_equal ({}), er.enrollment
+    assert_equal ({}), er.enrollment_kg
   end
 
   def test_kindergarten_participation_by_year_returns_hash_of_correct_length
@@ -29,7 +29,7 @@ class EnrollmentTest < Minitest::Test
 
   def test_kindergarten_participation_in_year_returns_float
     er = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
-    assert_instance_of Hash, er.enrollment
+    assert_instance_of Hash, er.enrollment_kg
     assert_instance_of Float, er.kindergarten_participation_in_year(2012)
   end
 

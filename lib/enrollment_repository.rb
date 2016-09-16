@@ -22,7 +22,9 @@ class EnrollmentRepository
     district_name_upcase = district_name.upcase
     enrollment_symbol = input[district_name]
     if input.key?(district_name_upcase)
-      @enrollments = Enrollment.new({:name => district_name_upcase, :kindergarten_participation => date_hash_maker(enrollment_symbol)})
+      @enrollments = Enrollment.new({:name => district_name_upcase, 
+        :kindergarten_participation => date_hash_maker(enrollment_symbol),
+        :high_school_graduation => date_hash_maker(enrollment_symbol)})
     else
       @enrollments = nil
     end

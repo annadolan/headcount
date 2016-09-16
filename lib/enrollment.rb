@@ -8,11 +8,12 @@ class Enrollment
   include SharedMethods
   include Kindergarten
 
-  attr_reader :name, :enrollment, :district_name
+  attr_reader :name, :enrollment_kg, :enrollment_hs, :district_name
 
   def initialize(name_and_enrollment_data)
     @name = name_and_enrollment_data[:name]
-    @enrollment = name_and_enrollment_data[:kindergarten_participation]
+    @enrollment_kg = name_and_enrollment_data[:kindergarten_participation]
+    @enrollment_hs = name_and_enrollment_data[:high_school_graduation]
   end
 
 end
