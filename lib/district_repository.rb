@@ -22,23 +22,17 @@ class DistrictRepository
   end
 
   def find_by_name(district_name)
-    # input = @enrollment_repository
-    # district_name_upcase = district_name.upcase
-    # enrollment_symbol = input[district_name_upcase]
-    # hash_entry = date_hash_maker(enrollment_symbol)
-    # if input.key?(district_name_upcase)
-    #   district = District.new({:name => district_name_upcase, :kindergarten_participation => hash_entry})
-    # else
-    #   district = nil
-    # end
+    name_to_search = district_name.upcase
+    if @organized_entries_kg[name_to_search].nil? && @organized_entries_hs[name_to_search].nil?
+      nil
+    else
+      District.new(:name => name_to_search, :enrollment => @organized_entries_kg && @organized_entries_hs)
+    end 
+       
   end
 
   def find_all_matching(district_name_fragment)
-  #   input = @organized_entries
-  #   district_hash = input.select { |k, v| k.include?(district_name_fragment.upcase)}
-  #   district_hash.each do |k,v|
-  #     @district << {:name => k}
-  #   end
+  
   end
 end
 

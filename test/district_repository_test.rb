@@ -22,7 +22,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_find_by_name_returns_new_district_instance
-    skip
+    
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -34,7 +34,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_find_by_name_can_use_lowercase
-    skip
+    
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -46,7 +46,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_find_by_name_returns_nil_if_no_matching
-    skip
+    
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -58,7 +58,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_dr_can_find_using_just_a_fragment
-    skip
+    
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -71,7 +71,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_find_all_matching_returns_array
-    skip
+    
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -96,7 +96,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_find_all_matching_array_contains_hashes
-    skip
+    
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -109,7 +109,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_dr_can_return_kindergarten_participation_in_year
-    skip
+    
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -118,6 +118,7 @@ class DistrictRepositoryTest < Minitest::Test
       }
     })
     district = dr.find_by_name("ACADEMY 20")
+    binding.pry
     assert_in_delta 0.436, district.enrollment.kindergarten_participation_in_year(2010), 0.005
 
     district = dr.find_by_name("GUNNISON WATERSHED RE1J")

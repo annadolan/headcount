@@ -15,20 +15,15 @@ class EnrollmentRepository
   def load_data(path)
     load_into_hash_kindergarten(path)
     load_into_hash_high_school(path)
+    populate(path)
   end
   
   def populate(path)
-    input = organized_entries
-    district_name_upcase = district_name.upcase
-    enrollment_symbol = input[district_name]
-    if input.key?(district_name_upcase)
-      @enrollments = Enrollment.new({:name => district_name_upcase, 
-        :kindergarten_participation => date_hash_maker(enrollment_symbol),
-        :high_school_graduation => date_hash_maker(enrollment_symbol)})
-    else
-      @enrollments = nil
-    end
-    @enrollments
+    input_1 = organized_entries_kg
+    input_2 = organized_entries_hs
+    @enrollments = Enrollment.new({
+        :kindergarten_participation => input_1,
+        :high_school_graduation => input_2 })
   end
 
   def find_by_name(district_name) 

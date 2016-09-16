@@ -25,9 +25,8 @@ class EnrollmentRepositoryTest < Minitest::Test
         :high_school_graduation => "./data/High school graduation rates.csv"
       }
     })
-  
-    assert_instance_of Enrollment, er.enrollment_hs
-    assert_instance_of Enrollment, er.enrollment_kg
+    assert_instance_of Enrollment, er.enrollments
+    refute er.enrollments.enrollment_hs == er.enrollments.enrollment_kg
   end
 
 
