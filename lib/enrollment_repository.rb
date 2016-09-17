@@ -42,8 +42,9 @@ class EnrollmentRepository
   def new_enrollment(all_enrollment)
     all_enrollment.map do |elem|
       enroll_obj = Enrollment.new(elem)
-      enrollments[elem] = enroll_obj
+      enrollments[elem[:name]] = enroll_obj
     end
+    binding.pry
   end
 
 

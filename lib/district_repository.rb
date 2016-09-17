@@ -23,7 +23,6 @@ class DistrictRepository
      enrollment_repo.load_data(input)
      create_districts
      binding.pry
-
    end
 
    def create_districts
