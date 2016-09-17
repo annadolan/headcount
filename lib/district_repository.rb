@@ -10,14 +10,12 @@ class DistrictRepository
   include SharedMethods
   include Kindergarten
 
-  attr_reader :districts, :enrollment_repo
+  attr_reader :districts, :enrollment_repo, :found_result
 
   def initialize
     @collection = {}
     @enrollment_repo = EnrollmentRepository.new
     @districts = {}
-    # @district = []
-
   end
 
    def load_data(input)
@@ -27,45 +25,20 @@ class DistrictRepository
 
    def create_districts
     enrollment_repo.enrollments.keys.each do |elem|
-      information = find_by_name(elem)
+      information = @enrollment_repo.find_by_name(elem)
       districts[elem] = District.new({:name => elem}, {:information => information })
     end
-    binding.pry
-   end
-  #   path = input[:enrollment][:kindergarten]
-  #   if input[:enrollment][:high_school_graduation].nil?
-  #     kindergarten_array = load_csv(path, :kindergarten_participation)
-  #     new_enrollment(kindergarten_array)
-  #   else
-  #     path2 = input[:enrollment][:high_school_graduation]
-  #     kindergarten_array = load_csv(path, :kindergarten_participation)
-  #     hs_array = load_csv(path2, :high_school_graduation)
-  #     zip_arrays(kindergarten_array, hs_array)
-  #   end
-  # end
-
-
-
-  def find_by_name(district_name)
-    @enrollment_repo.enrollments[district_name]
-    # input = @organized_entries
-    # district_name_upcase = district_name.upcase
-    # enrollment_symbol = input[district_name_upcase]
-    # hash_entry = date_hash_maker(enrollment_symbol)
-    # if input.key?(district_name_upcase)
-    #   district = District.new({:name => district_name_upcase, :kindergarten_participation => hash_entry})
-    # else
-    #   district = nil
-    # end
   end
 
-  # def find_all_matching(district_name_fragment)
-  #   input = @organized_entries
-  #   district_hash = input.select { |k, v| k.include?(district_name_fragment.upcase)}
-  #   district_hash.each do |k,v|
-  #     @district << {:name => k}
-  #   end
-  # end
+  def find_by_name(district_name)
+    @districts[district_name]
+  end
+
+  def find_all_matching(district_name_fragment)
+    input = @districts
+    district_hash = input.select { |k, v| k.include?(district_name_fragment.upcase)}
+    found_result = district_hash.keys[0]
+  end
 end
 
 dr = DistrictRepository.new

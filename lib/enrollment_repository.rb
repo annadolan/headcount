@@ -25,6 +25,10 @@ class EnrollmentRepository
     end
   end
 
+  def find_by_name(district_name)
+    enrollments[district_name]
+  end
+
   # def find_by_name(district_name)
   #   input = @organized_entries
   #   district_name_upcase = district_name.upcase
