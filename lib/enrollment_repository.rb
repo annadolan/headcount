@@ -26,22 +26,8 @@ class EnrollmentRepository
   end
 
   def find_by_name(district_name)
-    enrollments[district_name]
+    @enrollments[district_name]
   end
-
-  # def find_by_name(district_name)
-  #   input = @organized_entries
-  #   district_name_upcase = district_name.upcase
-  #   enrollment_symbol = input[district_name]
-  #   if input.key?(district_name_upcase)
-  #     enrollments = Enrollment.new({:name => district_name_upcase, :kindergarten_participation => date_hash_maker(enrollment_symbol)})
-  #   else
-  #     enrollments = nil
-  #   end
-  #   enrollments
-  # end
-
-
 
   def new_enrollment(all_enrollment)
     all_enrollment.map do |elem|
@@ -50,6 +36,4 @@ class EnrollmentRepository
     end
     @enrollments
   end
-
-
 end

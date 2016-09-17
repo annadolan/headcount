@@ -37,15 +37,8 @@ class DistrictRepository
   def find_all_matching(district_name_fragment)
     input = @districts
     district_hash = input.select { |k, v| k.include?(district_name_fragment.upcase)}
-    found_result = district_hash.keys[0]
+    found_result = []
+    found_result << district_hash.keys
+    found_result.flatten!
   end
 end
-
-dr = DistrictRepository.new
-dr.load_data({
-  :enrollment => {
-    :kindergarten => "./data/Kindergartners in full-day program.csv",
-    :high_school_graduation => "./data/High school graduation rates.csv"
-  }
-})
-#dr.find_by_name("ACADEMY 20")

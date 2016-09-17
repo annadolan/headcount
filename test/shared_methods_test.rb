@@ -9,15 +9,13 @@ class SharedMethodsTest < Minitest::Test
   include SharedMethods
 
   def test_loader_can_load_CSV_files
-    assert_instance_of CSV, load_csv('./data/Kindergartners in full-day program.csv')
+    assert_instance_of Array, load_csv('./data/Kindergartners in full-day program.csv', :kindergarten_participation)
   end
-  
-  def test_loader_can_populate_a_hash
-     assert_instance_of Hash, load_into_hash({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
+
+  def test_parse_method_works
+    skip
+    result = load_csv('./data/Kindergartners in full-day program.csv', :kindergarten_participation)
+    assert result[0]["Colorado"].one? {|word| word == :name}
   end
 
 

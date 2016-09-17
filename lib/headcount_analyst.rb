@@ -9,7 +9,7 @@ class HeadcountAnalyst
   end
 
   def district_average(district)
-    dist_values = district.enrollment.enrollment.values
+    dist_values = district.enrollment.information.values[1].values
     dist_total = dist_values.reduce(:+)
     dist_avg = dist_total/dist_values.count
   end
@@ -30,7 +30,7 @@ class HeadcountAnalyst
     end
     @dist1 = @new_repo.find_by_name(district1)
     @dist2 = @new_repo.find_by_name(district2)
-    years_array = @dist1.enrollment.enrollment.zip(@dist2.enrollment.enrollment)
+    years_array = @dist1.enrollment.information.zip(@dist2.enrollment.information)
     year_avg_array = []
     years_array.to_h.each do |k, v|
       year_avg_array << [k[0], truncate_float(k[1]/v[1])]
