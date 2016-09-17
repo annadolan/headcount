@@ -40,31 +40,25 @@ class DistrictRepository
   def new_enrollment(all_enrollment)
     all_enrollment.map do |elem|
       enroll_obj = Enrollment.new(elem)
-      collection[elem][:name] = enroll_obj
+      collection[elem] = enroll_obj
     end
   end
 
   def find_by_name(district_name)
-    collection[district_name]
-    # input = @organized_entries
-    # district_name_upcase = district_name.upcase
-    # enrollment_symbol = input[district_name_upcase]
-    # hash_entry = date_hash_maker(enrollment_symbol)
-    # if input.key?(district_name_upcase)
-    #   district = District.new({:name => district_name_upcase, :kindergarten_participation => hash_entry})
-    # else
-    #   district = nil
-    # end
+    if district_name.nil?
+      "Entry error."
+    else
+    collection[district_name.upcase]
+    end
   end
 
-  # def find_all_matching(district_name_fragment)
-  #   input = @organized_entries
-  #   district_hash = input.select { |k, v| k.include?(district_name_fragment.upcase)}
-  #   district_hash.each do |k,v|
-  #     @district << {:name => k}
-  #   end
-  # end
-end
+  def find_all_matching(district_fragment)
+    matching = []
+    district.find_all do |district_name, district|
+      matching << district if district_name.include?(district_fragment.upcase)
+    end
+    matching
+  end
 
 dr = DistrictRepository.new
 dr.load_data({
@@ -73,3 +67,4 @@ dr.load_data({
     :high_school_graduation => "./data/High school graduation rates.csv"
   }
 })
+end

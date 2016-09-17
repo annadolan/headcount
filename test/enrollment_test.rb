@@ -9,7 +9,7 @@ class EnrollmentTest < Minitest::Test
 
   def test_enrollment_has_a_district_name
     er = Enrollment.new({:name => "ACADEMY 20"})
-    assert_equal "ACADEMY 20", er.name
+    assert_equal "ACADEMY 20", er.hash.name
   end
 
   def test_enrollment_can_find_enrollment_data

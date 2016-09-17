@@ -83,6 +83,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_find_all_matching_array_contains_hashes
+    skip
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -94,6 +95,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_dr_can_return_kindergarten_participation_in_year
+    skip
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
