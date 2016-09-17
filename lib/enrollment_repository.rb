@@ -44,7 +44,6 @@ class EnrollmentRepository
       enroll_obj = Enrollment.new(elem)
       enrollments[elem[:name]] = enroll_obj
     end
-    binding.pry
   end
 
 

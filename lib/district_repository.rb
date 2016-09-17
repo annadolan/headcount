@@ -3,6 +3,7 @@ require_relative 'shared_methods'
 require_relative 'enrollment_repository'
 require_relative 'enrollment'
 require_relative 'kindergarten'
+require_relative 'district'
 require 'pry'
 
 class DistrictRepository
@@ -14,7 +15,7 @@ class DistrictRepository
   def initialize
     @collection = {}
     @enrollment_repo = EnrollmentRepository.new
-    @districts = districts
+    @districts = {}
     # @district = []
 
   end
@@ -26,9 +27,9 @@ class DistrictRepository
    end
 
    def create_districts
-      enrollment_repo.enrollments.keys.each do |elem|
-        districts[elem] = District.new({:name => elem})
-      end
+    enrollment_repo.enrollments.keys.each do |elem|
+      districts[elem] = District.new({:name => elem})
+    end
    end
   #   path = input[:enrollment][:kindergarten]
   #   if input[:enrollment][:high_school_graduation].nil?
