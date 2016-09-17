@@ -2,7 +2,7 @@ require 'csv'
 
 module Kindergarten
   def kindergarten_participation_by_year
-    enrollment
+    information[:kindergarten_participation]
   end
 
   def date_hash_maker(input)
@@ -16,7 +16,7 @@ module Kindergarten
   end
 
   def kindergarten_participation_in_year(year)
-    enrollment[year].to_f
+    information[:kindergarten_participation][year].to_f
   end
 
   def truncate_float(num)
