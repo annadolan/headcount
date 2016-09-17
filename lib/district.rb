@@ -11,7 +11,7 @@ class District
 
   def initialize(name_and_enrollment_data)
     @name = name_and_enrollment_data[:name]
-    @enrollment = Enrollment.new(name_and_enrollment_data)
+    @enrollment = Enrollment.new(name_and_enrollment_data[:name])
   end
 
 

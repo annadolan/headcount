@@ -23,12 +23,13 @@ class DistrictRepository
      enrollment_repo.load_data(input)
      create_districts
      binding.pry
+
    end
 
    def create_districts
-     @districts = enrollment_repo.enrollments.keys.each do |elem|
-       districts[elem] = District.new({:name => elem})
-     end
+      enrollment_repo.enrollments.keys.each do |elem|
+        districts[elem] = District.new({:name => elem})
+      end
    end
   #   path = input[:enrollment][:kindergarten]
   #   if input[:enrollment][:high_school_graduation].nil?

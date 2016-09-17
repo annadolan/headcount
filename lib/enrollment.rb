@@ -8,7 +8,7 @@ class Enrollment
   include SharedMethods
   include Kindergarten
 
-  attr_reader :name, :enrollment, :district_name
+  attr_reader :information
 
   def initialize(information)
     @information = information
