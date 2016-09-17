@@ -23,7 +23,6 @@ class DistrictRepository
    def load_data(input)
      enrollment_repo.load_data(input)
      create_districts
-     binding.pry
    end
 
    def create_districts
@@ -46,7 +45,7 @@ class DistrictRepository
 
 
   def find_by_name(district_name)
-    collection[district_name]
+    @collection[district_name]
     # input = @organized_entries
     # district_name_upcase = district_name.upcase
     # enrollment_symbol = input[district_name_upcase]
@@ -74,3 +73,4 @@ dr.load_data({
     :high_school_graduation => "./data/High school graduation rates.csv"
   }
 })
+#dr.find_by_name("ACADEMY 20")
