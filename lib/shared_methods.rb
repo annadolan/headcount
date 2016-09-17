@@ -28,6 +28,14 @@ module SharedMethods
      end
    end
 
+   def zip_arrays(kindergarten_array, hs_array)
+     all_enrollment = kindergarten_array.zip(hs_array).map do |kindergarten_array|
+       kindergarten_array.reduce(&:merge)
+
+     end
+     new_enrollment(all_enrollment)
+   end
+
   # def hash_populate(incoming_data)
   #   all_entries = {}
   #   temporary_array = incoming_data.map { |row| row.to_hash }
