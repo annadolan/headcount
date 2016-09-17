@@ -10,9 +10,9 @@ class District
 
   attr_reader :name, :enrollment
 
-  def initialize(name_and_enrollment_data)
-    @name = name_and_enrollment_data[:name]
-    @enrollment = @enrollments[name_and_enrollment_data]
+  def initialize(name, enrollment_data)
+    @name = name[:name]
+    @enrollment = enrollment_data[:information]
   end
 
 

@@ -27,8 +27,10 @@ class DistrictRepository
 
    def create_districts
     enrollment_repo.enrollments.keys.each do |elem|
-      districts[elem] = District.new({:name => elem})
+      information = find_by_name(elem)
+      districts[elem] = District.new({:name => elem}, {:information => information })
     end
+    binding.pry
    end
   #   path = input[:enrollment][:kindergarten]
   #   if input[:enrollment][:high_school_graduation].nil?
@@ -45,7 +47,7 @@ class DistrictRepository
 
 
   def find_by_name(district_name)
-    @collection[district_name]
+    @enrollment_repo.enrollments[district_name]
     # input = @organized_entries
     # district_name_upcase = district_name.upcase
     # enrollment_symbol = input[district_name_upcase]
