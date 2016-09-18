@@ -20,6 +20,16 @@ module Kindergarten
   end
 
   def truncate_float(num)
-    (num.to_f*1000).floor/1000.0
+    truncated = (num.to_f*1000).floor/1000.0
+    zero_handler(truncated)
   end
+  
+  def zero_handler(num)
+    if num == 0
+      nil
+    else
+      num
+    end
+  end
+  
 end

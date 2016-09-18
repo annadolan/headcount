@@ -3,7 +3,8 @@ require_relative 'kindergarten'
 
 class HeadcountAnalyst
   include Kindergarten
-  attr_accessor :dist1, :dist2
+  attr_accessor :dist1, :dist2, :truncated_variance, :results
+  
   def initialize(new_repo)
     @new_repo = new_repo
   end
@@ -12,6 +13,22 @@ class HeadcountAnalyst
     dist_values = district.enrollment.information.values[1].values
     dist_total = dist_values.reduce(:+)
     dist_avg = dist_total/dist_values.count
+  end
+  
+  def hs_district_average(district)
+    dist_values = district.enrollment.information[:high_school_graduation].values
+    dist_total = dist_values.reduce(:+)
+    dist_avg = dist_total/dist_values.count
+  end
+  
+  def high_school_graduation_rate_variation(district1, district2)
+    if district2.class == Hash
+      district2 = district2.values[0]
+    end
+    @dist1 = @new_repo.find_by_name(district1)
+    @dist2 = @new_repo.find_by_name(district2)
+    variation = hs_district_average(@dist1)/hs_district_average(@dist2)
+    variation_truncated = truncate_float(variation)
   end
 
   def kindergarten_participation_rate_variation(district1, district2)
@@ -37,4 +54,91 @@ class HeadcountAnalyst
     end
     year_hash = year_avg_array.to_h
   end
+  
+  def kindergarten_participation_against_high_school_graduation(district)
+    kindergarten_variation = kindergarten_participation_rate_variation(district, "COLORADO")
+    high_school_variation = high_school_graduation_rate_variation(district, "COLORADO")
+    if kindergarten_variation.nil? || high_school_variation.nil?
+      variance = 0
+    else
+      variance = kindergarten_variation / high_school_variation
+    end
+    @truncated_variance = truncate_float(variance)
+  end
+  
+  def kindergarten_participation_correlates_with_high_school_graduation(district)
+    if district.values[0] == 'STATEWIDE'
+      large_group_correlation_finder
+    elsif district.keys[0] == :across 
+      small_group_correlation_finder(district)
+      # answer = district.values[0].each do |item|
+      #   thing_to_check = @new_repo.districts[item]
+      #   binding.pry
+      #   kindergarten_participation_against_high_school_graduation(item[1].enrollment.information[:name])
+      #   correlation_checker(truncated_variance)
+      # end
+      # 
+    else
+      kindergarten_participation_against_high_school_graduation(district.values[0])
+      correlation_checker(truncated_variance)
+    end
+  end
+  
+  def large_group_correlation_finder
+    districts_to_check = reject_all_state_data(@new_repo.districts)
+    results = districts_to_check.map do |item|
+      kindergarten_participation_against_high_school_graduation(item[1].enrollment.information[:name])
+      correlation_checker(truncated_variance)
+    end
+    trues = results.count(true).to_f
+    falses = results.count(false).to_f
+    percent = trues/districts_to_check.count.to_f
+    answer = percentage_checker(truncate_float(percent))
+  end
+  
+  def small_group_correlation_finder(district)
+    results = district.values[0].map do |item|
+      thing_to_check = @new_repo.districts[item]
+      kindergarten_participation_against_high_school_graduation(thing_to_check.enrollment.information[:name])
+      correlation_checker(truncated_variance)
+    end
+    trues = results.count(true).to_f
+    falses = results.count(false).to_f
+    percent = trues/district.values.count.to_f
+    answer = percentage_checker(truncate_float(percent))
+  end
+  
+  
+  def correlation_checker(truncated_variance)
+    if truncated_variance.nil?
+      false
+    else
+      if truncated_variance >= 0.6 && truncated_variance <= 1.5
+        true
+      else
+        false
+      end
+    end
+  end
+  
+  def percentage_checker(percent)
+    if percent >= 0.7
+      true
+    else
+      false
+    end
+  end
+  
+  def statewide_loop(statewide_districts)
+    
+    
+    
+  end
+  
+  def reject_all_state_data(districts)
+    statewide_districts = districts.reject { |district| district == "COLORADO" }
+  end 
+  
+  
+  
 end
