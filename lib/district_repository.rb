@@ -4,6 +4,7 @@ require_relative 'enrollment_repository'
 require_relative 'enrollment'
 require_relative 'kindergarten'
 require_relative 'district'
+require_relative 'statewide_test_repository'
 require 'pry'
 
 class DistrictRepository
@@ -13,6 +14,7 @@ class DistrictRepository
   attr_reader :districts, :enrollment_repo, :found_result
 
   def initialize
+    @statewide_test_repo = StatewideTestRepository.new
     @enrollment_repo = EnrollmentRepository.new
     @districts = {}
   end
