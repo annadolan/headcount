@@ -20,6 +20,16 @@ module SharedMethods
     end
     delete_extra_name(parse, key)
    end
+   
+   def parse_testing(tests_array, key)
+     temp_array = tests_array.group_by { |item| item.values.first }.map{|_, second| second.reduce(:merge)}
+     parse = temp_array.reduce({}) do |result, item|
+      temp_array.map do |item|
+      {:name => temp_array[0].keys, key => item}
+      end
+    end
+    delete_extra_name(parse, key)
+   end
 
    def delete_extra_name(parse, key)
      final_enrollment = parse.map do |elem|

@@ -5,35 +5,58 @@ require_relative 'kindergarten'
 class StatewideTestRepository
   include SharedMethods
   include Kindergarten
-  attr_accessor :statewide_repo
+  attr_accessor :statewide_repo, :tests_array
 
   def initialize
     @statewide_repo = {}
   end
 
   def load_statewide_csv(path, key)
-    enroll_array = []
+    tests_array = []
     CSV.foreach(path, headers: true, header_converters: :symbol) do |row|
-      enroll_array << ({row[:timeframe] => row[:score], row[:timeframe].to_i => row[:data].to_f})
+      if path.include?("Average")
+        tests_array << ({row[:location] => {row[:timeframe] => {row[:race_ethnicity] => row[:data].to_f}}})
+      else
+        tests_array << ({row[:location] => {row[:timeframe] => {row[:score] => row[:data].to_f}}})
+      end
+      tests_array
     end
-    parse(enroll_array, key)
+    parse_testing(tests_array, key)
   end
 
   def load_data(input)
-    paths = input.values[0]
-    statewide_repo = paths.each do |k, v|
-      load_statewide_csv(v, k)
+    path = input[:statewide_testing]
+    if input_contains_ethnicity_data(input) == false
+      third_grade = load_statewide_csv(path[:third_grade], :third_grade)
+      eighth_grade = load_statewide_csv(path[:eighth_grade], :eighth_grade)
+    else
+      third_grade = load_statewide_csv(path[:third_grade], :third_grade)
+      eighth_grade = load_statewide_csv(path[:eighth_grade], :eighth_grade)
+      math_ethnicity = load_statewide_csv(path[:math], :math)
+      reading_ethnicity = load_statewide_csv(path[:reading], :reading)
+      writing_ethnicity = load_statewide_csv(path[:writing], :writing)
     end
-
-    # if input[:enrollment][:high_school_graduation].nil?
-    #   kindergarten_array = load_csv(path, :kindergarten_participation)
-    #   new_enrollment(kindergarten_array)
-    # else
-    #   path2 = input[:enrollment][:high_school_graduation]
-    #   kindergarten_array = load_csv(path, :kindergarten_participation)
-    #   hs_array = load_csv(path2, :high_school_graduation)
-    #   zip_arrays(kindergarten_array, hs_array)
-    # end
+  
   end
+  
+  def input_contains_ethnicity_data(input)
+    if input[:statewide_testing][:math].nil?
+      true
+    elsif input[:statewide_testing][:reading].nil?
+      true
+    elsif input[:statewide_testing][:writing].nil?
+      true
+    else
+      false
+    end
+  end
+  
+  def new_state_repo(all_testing_data)
+    all_testing_data.map do |elem|
+      testing_obj = StatewideTest.new(elem)
+      statewide_repo[elem[:name]] = testing_obj
+    end
+    @statewide_repo
+  end  
 
 end
