@@ -22,7 +22,7 @@ class StatewideTestRepository
   def load_data(input)
     paths = input.values[0]
     statewide_repo = paths.each do |k, v|
-      load_csv(v, k)
+      load_statewide_csv(v, k)
     end
 
     # if input[:enrollment][:high_school_graduation].nil?
