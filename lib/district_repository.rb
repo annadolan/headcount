@@ -13,7 +13,6 @@ class DistrictRepository
   attr_reader :districts, :enrollment_repo, :found_result
 
   def initialize
-    @collection = {}
     @enrollment_repo = EnrollmentRepository.new
     @districts = {}
   end
@@ -40,6 +39,5 @@ class DistrictRepository
     found_result = []
     found_result << district_hash.keys
     found_result.flatten
-
   end
 end
