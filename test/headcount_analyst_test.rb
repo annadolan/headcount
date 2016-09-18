@@ -77,7 +77,18 @@ class HeadcountAnalystTest < Minitest::Test
                  })
     ha = HeadcountAnalyst.new(dr)
     ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
-    assert ha.kindergarten_participation_correlates_with_high_school_graduation('ACADEMY 20')
-    refute ha.kindergarten_participation_correlates_with_high_school_graduation('SIERRA GRANDE R-30')
+    assert ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
+    refute ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'SIERRA GRANDE R-30')
+  end
+  
+  def test_headcount_can_test_statewide_correlations
+    dr = DistrictRepository.new
+    dr.load_data({
+                   :enrollment => {
+                     :kindergarten => "./data/Kindergartners in full-day program.csv",
+                     :high_school_graduation => "./data/High school graduation rates.csv"
+                   }
+                 })
+    ha = HeadcountAnalyst.new(dr)
   end
 end

@@ -62,14 +62,45 @@ class HeadcountAnalyst
   end
   
   def kindergarten_participation_correlates_with_high_school_graduation(district)
-    kindergarten_participation_against_high_school_graduation(district)
+    if district.values[0] == 'STATEWIDE'
+      reject_all_state_data(districts)
+      # some kind of loop to go through all districts and average results?
+      # then run percentage_checker
+    elsif district.values.count > 1 
+      # do basically the same loop as above but over specified districts
+      # then run percentage_checker
+    else
+      kindergarten_participation_against_high_school_graduation(district.values[0])
+      correlation_checker(truncated_variance)
+    end
+  end
+  
+  def correlation_checker(truncated_variance)
     if truncated_variance >= 0.6 && truncated_variance <= 1.5
       true
     else
       false
     end
   end
+  
+  def percentage_checker(percent)
+    if percent >= 0.7
+      true
+    else
+      false
+    end
+  end
+  
+  def statewide_loop(statewide_districts)
     
+    
+    
+  end
+  
+  def reject_all_state_data(districts)
+    statewide_districts = districts.reject { |district| district == "COLORADO" }
+  end 
+  
   
   
 end
