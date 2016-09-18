@@ -20,7 +20,7 @@ module SharedMethods
     end
     delete_extra_name(parse, key)
    end
-   
+
    def parse_testing(tests_array, key)
     temp_array = tests_array.group_by { |item| item.values.first }.map{|_, second| second.reduce(:merge)}
     parse = temp_array.group_by {|item| item.keys[0]}
@@ -33,7 +33,7 @@ module SharedMethods
        elem
      end
    end
-   
+
    def zip_arrays(kindergarten_array, hs_array)
      all_enrollment = kindergarten_array.zip(hs_array).map do |kindergarten_array|
        kindergarten_array.reduce(&:merge)
