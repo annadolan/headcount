@@ -26,7 +26,7 @@ class EnrollmentRepository
   end
 
   def find_by_name(district_name)
-    @enrollments[district_name]
+    @enrollments[district_name.upcase]
   end
 
   def new_enrollment(all_enrollment)

@@ -31,7 +31,7 @@ class DistrictRepository
   end
 
   def find_by_name(district_name)
-    @districts[district_name]
+    @districts[district_name.upcase]
   end
 
   def find_all_matching(district_name_fragment)
@@ -39,6 +39,7 @@ class DistrictRepository
     district_hash = input.select { |k, v| k.include?(district_name_fragment.upcase)}
     found_result = []
     found_result << district_hash.keys
-    found_result.flatten!
+    found_result.flatten
+
   end
 end
