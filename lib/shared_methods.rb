@@ -4,11 +4,11 @@ module SharedMethods
   attr_reader :organized_entries, :enrollment
 
   def load_csv(path, key)
-    enroll_array = []
-    CSV.foreach(path, headers: true, header_converters: :symbol) do |row|
-      enroll_array << ({:name => row[:location].upcase, row[:timeframe].to_i => row[:data].to_f})
+    e = []
+    CSV.foreach(path, headers: true, header_converters: :symbol) do |i|
+      e << ({:name => i[:location].upcase, i[:timeframe].to_i => i[:data].to_f})
     end
-    parse(enroll_array, key)
+    parse(e, key)
   end
 
    def parse(enroll_array, key)
@@ -29,40 +29,10 @@ module SharedMethods
    end
 
    def zip_arrays(kindergarten_array, hs_array)
-     all_enrollment = kindergarten_array.zip(hs_array).map do |kindergarten_array|
-       kindergarten_array.reduce(&:merge)
+     all_enrollment = kindergarten_array.zip(hs_array).map do |kindergarten|
+       kindergarten.reduce(&:merge)
 
      end
      new_enrollment(all_enrollment)
    end
-
-  # def hash_populate(incoming_data)
-  #   all_entries = {}
-  #   temporary_array = incoming_data.map { |row| row.to_hash }
-  #   @organized_entries = temporary_array.group_by { |location| location[:location].upcase }
-  #   @organized_entries
-  # end
-
-  # def load_into_hash(initial_hash)
-  #   items = initial_hash[:enrollment][:kindergarten]
-  #   hash_populate(load_csv(items))
-  # end
-
-
-
-
-
-  # def zip_time_and_data(input)
-  #   time = @enrollment.group_by { |x| x[:timeframe] }
-  #   data = @enrollment.group_by { |x| x[:data]}
-  #   all_info = time.keys.zip(data.keys)
-  #   @enrollment = all_info.to_h
-  # end
-
-  # def enrollment_generator(data)
-  #   @enrollment = data
-  #   zip_time_and_data
-  #   @enrollment
-  # end
-
 end

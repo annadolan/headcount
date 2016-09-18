@@ -9,10 +9,10 @@ module Kindergarten
     unless input.nil?
       array = []
       input.each do |elem|
-        array << [elem[:timeframe].to_i, truncate_float(elem[:data])] #create method to truncate
-      end
+        array << [elem[:timeframe].to_i, truncate_float(elem[:data])]
       @enrollment = array.to_h
     end
+  end
   end
 
   def kindergarten_participation_in_year(year)
