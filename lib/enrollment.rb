@@ -15,5 +15,11 @@ class Enrollment
     @name = information[:name]
   end
 
+  def graduation_rate_by_year
+    graduation_rate_by_year = @information[:high_school_graduation]
+    binding.pry
+  end
+  
+  
 
 end

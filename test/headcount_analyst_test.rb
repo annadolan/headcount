@@ -42,4 +42,5 @@ class HeadcountAnalystTest < Minitest::Test
     assert_instance_of District, ha.dist1
     assert_instance_of District, ha.dist2
   end
+  
 end

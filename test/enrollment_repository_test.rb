@@ -80,5 +80,15 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_in_delta 0.144, enrollment.kindergarten_participation_in_year(2004), 0.005
   end
 
-
+  def test_er_can_load_a_second_file
+    er = EnrollmentRepository.new
+    er.load_data({
+                   :enrollment => {
+                     :kindergarten => "./data/Kindergartners in full-day program.csv",
+                     :high_school_graduation => "./data/High school graduation rates.csv"
+                   }
+                 })
+    result = er.find_by_name("ACADEMY 20")
+    assert_equal 0.895, result.information[:high_school_graduation][2010]
+  end
 end

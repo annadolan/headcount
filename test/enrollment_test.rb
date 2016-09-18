@@ -37,5 +37,10 @@ class EnrollmentTest < Minitest::Test
     er = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
     assert_equal 0.2677, er.kindergarten_participation_in_year(2012)
   end
+  
+  def test_enrollment_can_return_graduation_rate_by_year
+    er = Enrollment.new({:name => "ACADEMY 20", :high_school_graduation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
+    assert_instance_of Hash, er.graduation_rate_by_year
+  end
 
 end
