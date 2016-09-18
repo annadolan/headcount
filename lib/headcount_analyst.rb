@@ -3,7 +3,7 @@ require_relative 'kindergarten'
 
 class HeadcountAnalyst
   include Kindergarten
-  attr_accessor :dist1, :dist2
+  attr_accessor :dist1, :dist2, :truncated_variance
   def initialize(new_repo)
     @new_repo = new_repo
   end
@@ -58,8 +58,18 @@ class HeadcountAnalyst
     kindergarten_variation = kindergarten_participation_rate_variation(district, "COLORADO")
     high_school_variation = high_school_graduation_rate_variation(district, "COLORADO")
     variance = kindergarten_variation / high_school_variation
-    kindergarten_graduation_variance = truncate_float(variance)
+    @truncated_variance = truncate_float(variance)
   end
+  
+  def kindergarten_participation_correlates_with_high_school_graduation(district)
+    kindergarten_participation_against_high_school_graduation(district)
+    if truncated_variance >= 0.6 && truncated_variance <= 1.5
+      true
+    else
+      false
+    end
+  end
+    
   
   
 end
