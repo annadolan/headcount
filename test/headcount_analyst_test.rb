@@ -43,4 +43,28 @@ class HeadcountAnalystTest < Minitest::Test
     assert_instance_of District, ha.dist2
   end
   
+  def test_headcount_can_test_high_school_variation
+    dr = DistrictRepository.new
+    dr.load_data({
+                   :enrollment => {
+                     :kindergarten => "./data/Kindergartners in full-day program.csv",
+                     :high_school_graduation => "./data/High school graduation rates.csv"
+                   }
+                 })
+    ha = HeadcountAnalyst.new(dr)
+    assert_equal 1.195, ha.high_school_graduation_rate_variation("ACADEMY 20", "COLORADO")
+  end
+  
+  def test_headcount_can_test_kg_participation_against_hs_graduation
+    dr = DistrictRepository.new
+    dr.load_data({
+                   :enrollment => {
+                     :kindergarten => "./data/Kindergartners in full-day program.csv",
+                     :high_school_graduation => "./data/High school graduation rates.csv"
+                   }
+                 })
+    ha = HeadcountAnalyst.new(dr)
+    assert_equal 0.641, ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
+  end
+  
 end
