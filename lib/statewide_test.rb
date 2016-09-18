@@ -3,19 +3,21 @@ require 'shared_methods'
 require 'kindergarten'
 require 'pry'
 
-class StatewideTest
+class StatewideTest < StatewideTestRepository
   
   include SharedMethods
   include Kindergarten
   
+  attr_accessor :name, :third_grade, :eighth_grade, :math,
+                :reading, :writing
+  
   def initialize(name)
     @name = name
-    @third_grade = third_grade[name]
-    @eighth_grade = eighth_grade[name]
-    @math = math_ethnicity[name]
-    @reading = reading_ethnicity[name]
-    @writing = writing_ethnicity[name]
+    @third_grade = third_grade
+    @eighth_grade = eighth_grade
+    @math = math
+    @reading = reading
+    @writing = writing
   end
-  
   
 end

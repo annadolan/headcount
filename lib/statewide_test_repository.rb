@@ -11,6 +11,11 @@ class StatewideTestRepository
 
   def initialize
     @statewide_repo = {}
+    @third_grade = {}
+    @eighth_grade = {}
+    @math_ethnicity = {}
+    @reading_ethnicity = {}
+    @writing_ethnicity = {}
   end
 
   def load_statewide_csv(path, key)
@@ -29,17 +34,17 @@ class StatewideTestRepository
   def load_data(input)
     path = input[:statewide_testing]
     if input_contains_ethnicity_data(input)
-      third_grade = load_statewide_csv(path[:third_grade], :third_grade)
-      eighth_grade = load_statewide_csv(path[:eighth_grade], :eighth_grade)
-      # add_to_state_repo
+      @third_grade = load_statewide_csv(path[:third_grade], :third_grade)
+      @eighth_grade = load_statewide_csv(path[:eighth_grade], :eighth_grade)
     else
-      third_grade = load_statewide_csv(path[:third_grade], :third_grade)
-      eighth_grade = load_statewide_csv(path[:eighth_grade], :eighth_grade)
-      math_ethnicity = load_statewide_csv(path[:math], :math)
-      reading_ethnicity = load_statewide_csv(path[:reading], :reading)
-      writing_ethnicity = load_statewide_csv(path[:writing], :writing)
-      add_to_state_repo(third_grade)
+      @third_grade = load_statewide_csv(path[:third_grade], :third_grade)
+      @eighth_grade = load_statewide_csv(path[:eighth_grade], :eighth_grade)
+      @math_ethnicity = load_statewide_csv(path[:math], :math)
+      @reading_ethnicity = load_statewide_csv(path[:reading], :reading)
+      @writing_ethnicity = load_statewide_csv(path[:writing], :writing)
     end
+    keys = third_grade.keys
+    add_to_state_repo(keys)
   end
   
   def input_contains_ethnicity_data(input)
@@ -54,9 +59,15 @@ class StatewideTestRepository
     end
   end
   
-  def add_to_state_repo(third_grade)
-    third_grade.keys.map do |elem|
+  def add_to_state_repo(keys)
+    keys.map do |elem|
       testing_obj = StatewideTest.new(elem)
+      testing_obj.third_grade = third_grade[elem]
+      testing_obj.eighth_grade = eighth_grade[elem]
+      testing_obj.math = math_ethnicity[elem]      
+      testing_obj.reading = reading_ethnicity[elem]
+      testing_obj.writing = writing_ethnicity[elem]
+      binding.pry
       @statewide_repo[elem] = testing_obj
     end
     @statewide_repo
