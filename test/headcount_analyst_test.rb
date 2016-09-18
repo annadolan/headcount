@@ -90,5 +90,6 @@ class HeadcountAnalystTest < Minitest::Test
                    }
                  })
     ha = HeadcountAnalyst.new(dr)
+    refute ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE')
   end
 end

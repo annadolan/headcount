@@ -57,29 +57,48 @@ class HeadcountAnalyst
   def kindergarten_participation_against_high_school_graduation(district)
     kindergarten_variation = kindergarten_participation_rate_variation(district, "COLORADO")
     high_school_variation = high_school_graduation_rate_variation(district, "COLORADO")
-    variance = kindergarten_variation / high_school_variation
+    if kindergarten_variation.nil? || high_school_variation.nil?
+      variance = 0
+    else
+      variance = kindergarten_variation / high_school_variation
+    end
     @truncated_variance = truncate_float(variance)
   end
   
   def kindergarten_participation_correlates_with_high_school_graduation(district)
     if district.values[0] == 'STATEWIDE'
-      reject_all_state_data(districts)
-      # some kind of loop to go through all districts and average results?
-      # then run percentage_checker
+      large_group_correlation_finder
     elsif district.values.count > 1 
-      # do basically the same loop as above but over specified districts
-      # then run percentage_checker
+      
+    
     else
       kindergarten_participation_against_high_school_graduation(district.values[0])
       correlation_checker(truncated_variance)
     end
   end
   
+  def large_group_correlation_finder
+    districts_to_check = reject_all_state_data(@new_repo.districts)
+    results = districts_to_check.map do |item|
+      kindergarten_participation_against_high_school_graduation(item[1].enrollment.information[:name])
+      correlation_checker(truncated_variance)
+    end
+    trues = results.count(true).to_f
+    falses = results.count(false).to_f
+    percent = trues/districts_to_check.count.to_f
+    answer = percentage_checker(truncate_float(percent))
+  end
+  
+  
   def correlation_checker(truncated_variance)
-    if truncated_variance >= 0.6 && truncated_variance <= 1.5
-      true
-    else
+    if truncated_variance.nil?
       false
+    else
+      if truncated_variance >= 0.6 && truncated_variance <= 1.5
+        true
+      else
+        false
+      end
     end
   end
   
