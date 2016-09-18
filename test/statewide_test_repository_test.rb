@@ -16,6 +16,21 @@ class StatewideTestRepositoryTest < Minitest::Test
         :writing => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing fixture.csv"
       }
       })
-  assert_equal "Colorado", str.statewide_repo.keys[0]
+  assert_equal "COLORADO", str.statewide_repo.keys[0]
+  end
+
+  def test_find_by_name_returns_new_state_test_instance
+    str = StatewideTestRepository.new
+    str.load_data({
+      :statewide_testing => {
+        :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
+        :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+        :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
+        :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
+        :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+      }
+    })
+
+    assert_instance_of StatewideTest, str.find_by_name("Colorado")
   end
 end

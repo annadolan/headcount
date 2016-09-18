@@ -46,7 +46,7 @@ class StatewideTestRepository
     keys = third_grade.keys
     add_to_state_repo(keys)
   end
-  
+
   def input_contains_ethnicity_data(input)
     if input[:statewide_testing][:math].nil?
       true
@@ -58,19 +58,23 @@ class StatewideTestRepository
       false
     end
   end
-  
+
   def add_to_state_repo(keys)
     keys.map do |elem|
+      elem = elem.upcase
       testing_obj = StatewideTest.new(elem)
       testing_obj.third_grade = third_grade[elem]
       testing_obj.eighth_grade = eighth_grade[elem]
-      testing_obj.math = math_ethnicity[elem]      
+      testing_obj.math = math_ethnicity[elem]
       testing_obj.reading = reading_ethnicity[elem]
       testing_obj.writing = writing_ethnicity[elem]
-      binding.pry
       @statewide_repo[elem] = testing_obj
     end
     @statewide_repo
-  end  
+  end
+
+  def find_by_name(district_name)
+    @statewide_repo[district_name.upcase]
+  end
 
 end
