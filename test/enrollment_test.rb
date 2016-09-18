@@ -38,4 +38,18 @@ class EnrollmentTest < Minitest::Test
     assert_equal 0.2677, er.kindergarten_participation_in_year(2012)
   end
 
+  def test_enrollment_returns_graduation_rate_by_year
+    er = Enrollment.new({:name => "MONTROSE COUNTY RE-1J", :high_school_graduation => {2010=>0.738, 2011=>0.751, 2012=>0.777, 2013=>0.713, 2014=>0.757}})
+    assert_instance_of Hash, er.graduation_rate_by_year
+  end
+  
+  def test_graduation_rate_in_year_returns_specified_value
+    er = Enrollment.new({:name => "MONTROSE COUNTY RE-1J", :high_school_graduation => {2010=>0.738, 2011=>0.751, 2012=>0.777, 2013=>0.713, 2014=>0.757}})
+    assert_equal 0.777, er.graduation_rate_in_year(2012)
+  end
+  
+  def test_graduation_rate_in_year_returns_nil_if_given_unknown_year
+    er = Enrollment.new({:name => "MONTROSE COUNTY RE-1J", :high_school_graduation => {2010=>0.738, 2011=>0.751, 2012=>0.777, 2013=>0.713, 2014=>0.757}})
+    assert_equal nil, er.graduation_rate_in_year(2034)
+  end
 end
