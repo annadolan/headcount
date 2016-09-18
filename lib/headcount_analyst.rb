@@ -3,7 +3,8 @@ require_relative 'kindergarten'
 
 class HeadcountAnalyst
   include Kindergarten
-  attr_accessor :dist1, :dist2, :truncated_variance
+  attr_accessor :dist1, :dist2, :truncated_variance, :results
+  
   def initialize(new_repo)
     @new_repo = new_repo
   end
@@ -68,9 +69,15 @@ class HeadcountAnalyst
   def kindergarten_participation_correlates_with_high_school_graduation(district)
     if district.values[0] == 'STATEWIDE'
       large_group_correlation_finder
-    elsif district.values.count > 1 
-      
-    
+    elsif district.keys[0] == :across 
+      small_group_correlation_finder(district)
+      # answer = district.values[0].each do |item|
+      #   thing_to_check = @new_repo.districts[item]
+      #   binding.pry
+      #   kindergarten_participation_against_high_school_graduation(item[1].enrollment.information[:name])
+      #   correlation_checker(truncated_variance)
+      # end
+      # 
     else
       kindergarten_participation_against_high_school_graduation(district.values[0])
       correlation_checker(truncated_variance)
@@ -86,6 +93,18 @@ class HeadcountAnalyst
     trues = results.count(true).to_f
     falses = results.count(false).to_f
     percent = trues/districts_to_check.count.to_f
+    answer = percentage_checker(truncate_float(percent))
+  end
+  
+  def small_group_correlation_finder(district)
+    results = district.values[0].map do |item|
+      thing_to_check = @new_repo.districts[item]
+      kindergarten_participation_against_high_school_graduation(thing_to_check.enrollment.information[:name])
+      correlation_checker(truncated_variance)
+    end
+    trues = results.count(true).to_f
+    falses = results.count(false).to_f
+    percent = trues/district.values.count.to_f
     answer = percentage_checker(truncate_float(percent))
   end
   
