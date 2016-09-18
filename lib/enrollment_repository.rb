@@ -14,6 +14,7 @@ class EnrollmentRepository
 
   def load_data(input)
     path = input[:enrollment][:kindergarten]
+    binding.pry
     if input[:enrollment][:high_school_graduation].nil?
       kindergarten_array = load_csv(path, :kindergarten_participation)
       new_enrollment(kindergarten_array)
