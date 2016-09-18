@@ -12,11 +12,5 @@ class SharedMethodsTest < Minitest::Test
     assert_instance_of Array, load_csv('./data/Kindergartners in full-day program.csv', :kindergarten_participation)
   end
 
-  def test_parse_method_works
-    skip
-    result = load_csv('./data/Kindergartners in full-day program.csv', :kindergarten_participation)
-    assert result[0]["Colorado"].one? {|word| word == :name}
-  end
-
 
 end

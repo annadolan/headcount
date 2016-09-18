@@ -30,7 +30,7 @@ class HeadcountAnalyst
     end
     @dist1 = @new_repo.find_by_name(district1)
     @dist2 = @new_repo.find_by_name(district2)
-    years_array = @dist1.enrollment.information.zip(@dist2.enrollment.information)
+    years_array = @dist1.enrollment.information[:kindergarten_participation].zip(@dist2.enrollment.information[:kindergarten_participation])
     year_avg_array = []
     years_array.to_h.each do |k, v|
       year_avg_array << [k[0], truncate_float(k[1]/v[1])]

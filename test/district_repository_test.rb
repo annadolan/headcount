@@ -16,7 +16,7 @@ class DistrictRepositoryTest < Minitest::Test
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
-    assert_instance_of Hash, dr.organized_entries
+    assert_instance_of Hash, dr.districts
   end
 
   def test_find_by_name_returns_new_district_instance
@@ -56,8 +56,7 @@ class DistrictRepositoryTest < Minitest::Test
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
-    dr.find_all_matching("we")
-    assert_equal 7, dr.district.count
+    assert_equal 7, dr.find_all_matching("we").count
   end
 
   def test_find_all_matching_returns_array
@@ -67,8 +66,7 @@ class DistrictRepositoryTest < Minitest::Test
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
-    dr.find_all_matching("we")
-    assert_instance_of Array, dr.district
+    assert_instance_of Array, dr.find_all_matching("we")
   end
 
   def test_find_all_matching_returns_empty_array_if_no_matching
@@ -78,19 +76,7 @@ class DistrictRepositoryTest < Minitest::Test
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
-    dr.find_all_matching("xyzz")
-    assert_equal [], dr.district
-  end
-
-  def test_find_all_matching_array_contains_hashes
-    dr = DistrictRepository.new
-    dr.load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
-    dr.find_all_matching("we")
-    assert_instance_of Hash, dr.district[0]
+    assert_equal [], dr.find_all_matching("xyzz")
   end
 
   def test_dr_can_return_kindergarten_participation_in_year

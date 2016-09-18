@@ -13,7 +13,7 @@ class EnrollmentRepositoryTest < Minitest::Test
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
-    assert_instance_of Hash, er.organized_entries
+    assert_instance_of Hash, er.enrollments
   end
 
   def test_find_by_name_returns_new_enrollment_instance
@@ -53,7 +53,7 @@ class EnrollmentRepositoryTest < Minitest::Test
         :kindergarten => "./data/Kindergartners in full-day program.csv"
       }
     })
-    assert_equal [2014, 1.0], er.find_by_name("ADAMS COUNTY 14").enrollment.to_a.last
+    assert_equal [2014, 1.0], er.find_by_name("ADAMS COUNTY 14").information[:kindergarten_participation].to_a.last
   end
 
   def test_find_by_name_returns_nil_if_no_matching
