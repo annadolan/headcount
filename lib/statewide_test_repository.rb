@@ -6,6 +6,8 @@ class StatewideTestRepository
   include SharedMethods
   include Kindergarten
   attr_accessor :statewide_repo, :tests_array
+  attr_reader :third_grade, :eighth_grade, :math_ethnicity,
+              :reading_ethnicity, :writing_ethnicity
 
   def initialize
     @statewide_repo = {}
@@ -26,17 +28,18 @@ class StatewideTestRepository
 
   def load_data(input)
     path = input[:statewide_testing]
-    if input_contains_ethnicity_data(input) == false
+    if input_contains_ethnicity_data(input)
       third_grade = load_statewide_csv(path[:third_grade], :third_grade)
       eighth_grade = load_statewide_csv(path[:eighth_grade], :eighth_grade)
+      # add_to_state_repo
     else
       third_grade = load_statewide_csv(path[:third_grade], :third_grade)
       eighth_grade = load_statewide_csv(path[:eighth_grade], :eighth_grade)
       math_ethnicity = load_statewide_csv(path[:math], :math)
       reading_ethnicity = load_statewide_csv(path[:reading], :reading)
       writing_ethnicity = load_statewide_csv(path[:writing], :writing)
+      add_to_state_repo(third_grade)
     end
-  
   end
   
   def input_contains_ethnicity_data(input)
@@ -51,10 +54,10 @@ class StatewideTestRepository
     end
   end
   
-  def new_state_repo(all_testing_data)
-    all_testing_data.map do |elem|
+  def add_to_state_repo(third_grade)
+    third_grade.keys.map do |elem|
       testing_obj = StatewideTest.new(elem)
-      statewide_repo[elem[:name]] = testing_obj
+      @statewide_repo[elem] = testing_obj
     end
     @statewide_repo
   end  
