@@ -33,8 +33,28 @@ class StatewideTest < StatewideTestRepository
   end
 
   def clean_grade(grade_to_clean)
-    get_year(grade_to_clean)
+    year_array = get_year(grade_to_clean)
+    subject_array = get_subject(get_year(grade_to_clean))
+    data_array = get_data(get_subject(get_year(grade_to_clean)))
 
+    values_array = []
+    subject_array.each do |elem|
+      values_array << {elem.keys[0].downcase.to_sym => elem.values[0]}
+    end
+    years = []
+    year_array.each do |elem|
+      years << elem.keys[0].to_i
+    end
+
+    grouped = values_array.group_by {|elem| elem.keys[0]}
+    math_array = grouped[:math]
+    reading_array = grouped[:reading]
+    writing_array = grouped[:writing]
+
+    # math_hash = Hash[years.zip(math_array)]
+    # reading_hash = Hash[years.zip(reading_array)]
+    # writing_hash = Hash[years.zip(writing_array)]
+    # binding.pry
   end
 
   def get_year(grade_to_clean)
@@ -43,7 +63,7 @@ class StatewideTest < StatewideTestRepository
       year_array << elem.values
     end
     year_array = year_array.flatten
-    get_subject(year_array)
+
   end
 
   def get_subject(year_array)
@@ -52,7 +72,7 @@ class StatewideTest < StatewideTestRepository
       subject_array << elem.values
     end
     subject_array = subject_array.flatten
-    get_data(subject_array)
+
   end
 
   def get_data(subject_array)
