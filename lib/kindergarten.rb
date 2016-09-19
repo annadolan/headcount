@@ -9,7 +9,7 @@ module Kindergarten
     unless input.nil?
       array = []
       input.each do |elem|
-        array << [elem[:timeframe].to_i, truncate_float(elem[:data])] #create method to truncate
+        array << [elem[:timeframe].to_i, truncate_float(elem[:data])]
       end
       @enrollment = array.to_h
     end
@@ -23,7 +23,7 @@ module Kindergarten
     truncated = (num.to_f*1000).floor/1000.0
     zero_handler(truncated)
   end
-  
+
   def zero_handler(num)
     if num == 0
       nil
@@ -31,5 +31,5 @@ module Kindergarten
       num
     end
   end
-  
+
 end

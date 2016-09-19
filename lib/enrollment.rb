@@ -17,11 +17,11 @@ class Enrollment
 
   def graduation_rate_by_year
     grad_year = information[:high_school_graduation].reduce({}) do |year, data|
-      year.merge!(data.first => truncate_float(data.last))    
+      year.merge!(data.first => truncate_float(data.last))
     end
     grad_year
   end
-  
+
   def graduation_rate_in_year(year)
     if information[:high_school_graduation].include?(year) == false
       result = nil

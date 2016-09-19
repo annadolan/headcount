@@ -35,8 +35,8 @@ module SharedMethods
    end
 
    def zip_arrays(kindergarten_array, hs_array)
-     all_enrollment = kindergarten_array.zip(hs_array).map do |kindergarten_array|
-       kindergarten_array.reduce(&:merge)
+     all_enrollment = kindergarten_array.zip(hs_array).map do |kinder_array|
+       kinder_array.reduce(&:merge)
 
      end
      new_enrollment(all_enrollment)

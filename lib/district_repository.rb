@@ -26,8 +26,8 @@ class DistrictRepository
 
    def create_districts
     enrollment_repo.enrollments.keys.each do |elem|
-      information = @enrollment_repo.find_by_name(elem)
-      districts[elem] = District.new({:name => elem}, {:information => information })
+      data = @enrollment_repo.find_by_name(elem)
+      districts[elem] = District.new({:name => elem}, {:information => data })
     end
   end
 
@@ -35,9 +35,9 @@ class DistrictRepository
     @districts[district_name.upcase]
   end
 
-  def find_all_matching(district_name_fragment)
+  def find_all_matching(district_fragment)
     input = @districts
-    district_hash = input.select { |k, v| k.include?(district_name_fragment.upcase)}
+    district_hash = input.select { |k, v| k.include?(district_fragment.upcase)}
     found_result = []
     found_result << district_hash.keys
     found_result.flatten
