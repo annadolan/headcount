@@ -13,6 +13,10 @@ class StatewideTest < StatewideTestRepository
   attr_accessor :name, :third_grade, :eighth_grade, :math,
                 :reading, :writing, :final_hash
 
+  GRADES = [3, 8]
+  RACES = [:asian, :black, :pacific_islander, :hispanic, :native_american,
+            :two_or_more, :white]
+
   def initialize(name)
     @name = name
     @third_grade = third_grade
@@ -21,25 +25,35 @@ class StatewideTest < StatewideTestRepository
     @reading = reading
     @writing = writing
     @final_hash = {}
-    @grades = [3, 8]
-    @races = [:asian, :black, :pacific_islander, :hispanic, :native_american,
-              :two_or_more, :white]
   end
 
   def proficient_by_grade(grade)
-    raise UnknownDataError unless grades.include?(grade)
+    raise UnknownDataError unless GRADES.include?(grade)
     if grade == 3
       grade_to_clean = third_grade
     elsif grade == 8
       grade_to_clean = eighth_grade
     end
     clean_grade(grade_to_clean)
+    binding.pry
   end
 
   def proficient_by_race_or_ethnicity(race)
-    raise UnknownRaceError unless @races.include?(race)
+    raise UnknownRaceError unless RACES.include?(race)
     race_to_parse = race
     clean_grade(race_to_parse)
+  end
+
+  def build_race_ethnicity_hash
+    race_ethnicity_hash = new_hash_ethnicity
+  end
+
+  def new_hash_ethnicity
+    setup_ethnicity_hash =
+    { 2011=>{:math=>nil, :reading=>nil, :writing=>nil},
+      2012=>{:math=>nil, :reading=>nil, :writing=>nil},
+      2013=>{:math=>nil, :reading=>nil, :writing=>nil},
+      2014=>{:math=>nil, :reading=>nil, :writing=>nil}}
   end
 
   def clean_grade(grade_to_clean)
@@ -87,7 +101,6 @@ class StatewideTest < StatewideTestRepository
     end
     years.uniq!
   end
-
 
   def make_final_hash(years, math_array, reading_array, writing_array)
     new_array = years.zip(math_array.zip(reading_array, writing_array))
