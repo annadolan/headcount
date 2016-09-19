@@ -41,10 +41,6 @@ class StatewideTest < StatewideTestRepository
     raise UnknownRaceError unless RACES.include?(race)
     race_to_parse = race
     build_race_ethnicity_hash(race)
-    # clean_math = clean_subject(math, race)
-    # clean_reading = clean_subject(reading, race)
-    # clean_writing = clean_subject(writing, race)
-    # clean_grade(@math)
   end
 
   def build_race_ethnicity_hash(race)
@@ -79,6 +75,7 @@ class StatewideTest < StatewideTestRepository
     subject_data = subject_array.map do |item|
       item.values
     end
+
   end
 
   def clean_grade(grade_to_clean)

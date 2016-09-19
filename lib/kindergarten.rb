@@ -20,8 +20,13 @@ module Kindergarten
   end
 
   def truncate_float(num)
-    truncated = (num.to_f*1000).floor/1000.0
-    zero_handler(truncated)
+    if num.class == String
+      truncated = 0
+    else
+      truncated = (num.to_f*1000).floor/1000.0
+    end
+      zero_handler(truncated)
+
   end
 
   def zero_handler(num)
