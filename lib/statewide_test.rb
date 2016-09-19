@@ -50,11 +50,21 @@ class StatewideTest < StatewideTestRepository
     math_array = grouped[:math]
     reading_array = grouped[:reading]
     writing_array = grouped[:writing]
-    
+
+    array = math_array.zip(reading_array, writing_array)
+    new_array = years.zip(array)
+    final_hash = {}
+    new_array.each do |item|
+      final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
+                            :reading => truncate_float(item[1][1][:reading]),
+                            :writing => truncate_float(item[1][2][:writing])
+                            }
+      end
+
     # math_hash = Hash[years.zip(math_array)]
     # reading_hash = Hash[years.zip(reading_array)]
     # writing_hash = Hash[years.zip(writing_array)]
-    # binding.pry
+     binding.pry
   end
 
   def get_year(grade_to_clean)
