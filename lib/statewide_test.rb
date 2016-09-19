@@ -8,6 +8,7 @@ class StatewideTest < StatewideTestRepository
 
   include SharedMethods
   include Kindergarten
+  
   attr_reader :grades
   attr_accessor :name, :third_grade, :eighth_grade, :math,
                 :reading, :writing, :final_hash
@@ -20,6 +21,8 @@ class StatewideTest < StatewideTestRepository
     @reading = reading
     @writing = writing
     @grades = [3, 8]
+    @races = [:asian, :black, :pacific_islander, :hispanic, :native_american, 
+              :two_or_more, :white]
   end
 
   def proficient_by_grade(grade)
@@ -31,6 +34,14 @@ class StatewideTest < StatewideTestRepository
     end
     clean_grade(grade_to_clean)
   end
+  
+  def proficient_by_race_or_ethnicity(race)
+    raise UnknownRaceError unless @races.include?(race)
+    race_to_parse = race.to_
+    binding.pry
+    clean_grade(race_to_parse)
+  end
+    
 
   def clean_grade(grade_to_clean)
     year_array = get_year(grade_to_clean)
