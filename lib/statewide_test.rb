@@ -39,7 +39,6 @@ class StatewideTest < StatewideTestRepository
 
   def proficient_by_race_or_ethnicity(race)
     raise UnknownRaceError unless RACES.include?(race)
-    race_to_parse = race
     build_race_ethnicity_hash(race)
   end
 
@@ -69,13 +68,19 @@ class StatewideTest < StatewideTestRepository
   end
   def clean_subject(subject, race)
     ethnicities = get_ethnicity(subject)
-    year_array = get_year(subject)
-    years = years(year_array)
     subject_array = ethnicities[race.to_s.capitalize]
-    subject_data = subject_array.map do |item|
-      item.values
+    if subject_array.nil?
+      subject_data = [0],[0],[0],[0]
+    else
+      subject_data = subject_array.map do |item|
+        if item.values[0].class != Float
+          item.values = 0
+        else
+          item.values
+        end
+      end
     end
-
+    subject_data
   end
 
   def clean_grade(grade_to_clean)
