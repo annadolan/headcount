@@ -8,7 +8,7 @@ class StatewideTest < StatewideTestRepository
 
   include SharedMethods
   include Kindergarten
-  
+
   attr_reader :grades
   attr_accessor :name, :third_grade, :eighth_grade, :math,
                 :reading, :writing, :final_hash
@@ -20,8 +20,9 @@ class StatewideTest < StatewideTestRepository
     @math = math
     @reading = reading
     @writing = writing
+    @final_hash = {}
     @grades = [3, 8]
-    @races = [:asian, :black, :pacific_islander, :hispanic, :native_american, 
+    @races = [:asian, :black, :pacific_islander, :hispanic, :native_american,
               :two_or_more, :white]
   end
 
@@ -34,14 +35,12 @@ class StatewideTest < StatewideTestRepository
     end
     clean_grade(grade_to_clean)
   end
-  
+
   def proficient_by_race_or_ethnicity(race)
     raise UnknownRaceError unless @races.include?(race)
-    race_to_parse = race.to_
-    binding.pry
+    race_to_parse = race
     clean_grade(race_to_parse)
   end
-    
 
   def clean_grade(grade_to_clean)
     year_array = get_year(grade_to_clean)
@@ -92,13 +91,12 @@ class StatewideTest < StatewideTestRepository
 
   def make_final_hash(years, math_array, reading_array, writing_array)
     new_array = years.zip(math_array.zip(reading_array, writing_array))
-    @final_hash = {}
     new_array.each do |item|
-      @final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
+      final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
                             :reading => truncate_float(item[1][1][:reading]),
                             :writing => truncate_float(item[1][2][:writing])
                             }
       end
-    @final_hash
+    final_hash
   end
 end
