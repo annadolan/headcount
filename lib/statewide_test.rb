@@ -35,17 +35,31 @@ class StatewideTest < StatewideTestRepository
       grade_to_clean = eighth_grade
     end
     clean_grade(grade_to_clean)
-    binding.pry
+binding.pry
   end
 
   def proficient_by_race_or_ethnicity(race)
     raise UnknownRaceError unless RACES.include?(race)
     race_to_parse = race
-    clean_grade(race_to_parse)
+    # clean_grade(@math)
   end
 
   def build_race_ethnicity_hash
+    math_by_ethnicity = @math.group_by{|item| item.values[0].values[0].keys}
+    math_array = math_by_ethnicity.map do |item|
+      [:math, item[1]]
+    end
+    reading_by_ethnicity = @reading.group_by{|item| item.values[0].values[0].keys}
+    reading_array = reading_by_ethnicity.map do |item|
+      [:reading, item[1]]
+    end
+    writing_by_ethnicity = @writing.group_by{|item| item.values[0].values[0].keys}
+    writing_array = math_by_ethnicity.map do |item|
+      [:writing, item[1]]
+    end
+    full_array = math_array.zip(reading_array, writing_array).flatten
     race_ethnicity_hash = new_hash_ethnicity
+    # race_ethnicity_hash[:math] =
   end
 
   def new_hash_ethnicity
