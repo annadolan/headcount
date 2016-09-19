@@ -45,12 +45,12 @@ class StatewideTest < StatewideTestRepository
     year_array.each do |elem|
       years << elem.keys[0].to_i
     end
-
+    years.uniq!
     grouped = values_array.group_by {|elem| elem.keys[0]}
     math_array = grouped[:math]
     reading_array = grouped[:reading]
     writing_array = grouped[:writing]
-
+    
     # math_hash = Hash[years.zip(math_array)]
     # reading_hash = Hash[years.zip(reading_array)]
     # writing_hash = Hash[years.zip(writing_array)]
