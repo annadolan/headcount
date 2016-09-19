@@ -10,7 +10,7 @@ class StatewideTest < StatewideTestRepository
   include Kindergarten
   attr_reader :grades
   attr_accessor :name, :third_grade, :eighth_grade, :math,
-                :reading, :writing
+                :reading, :writing, :final_hash
 
   def initialize(name)
     @name = name
@@ -53,18 +53,14 @@ class StatewideTest < StatewideTestRepository
 
     array = math_array.zip(reading_array, writing_array)
     new_array = years.zip(array)
-    final_hash = {}
+    @final_hash = {}
     new_array.each do |item|
-      final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
+      @final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
                             :reading => truncate_float(item[1][1][:reading]),
                             :writing => truncate_float(item[1][2][:writing])
                             }
       end
-
-    # math_hash = Hash[years.zip(math_array)]
-    # reading_hash = Hash[years.zip(reading_array)]
-    # writing_hash = Hash[years.zip(writing_array)]
-     binding.pry
+      @final_hash
   end
 
   def get_year(grade_to_clean)
@@ -73,6 +69,7 @@ class StatewideTest < StatewideTestRepository
       year_array << elem.values
     end
     year_array = year_array.flatten
+    year_array.sort_by! {|hsh| hsh.keys }
 
   end
 

@@ -50,7 +50,6 @@ class StatewideTestTest < Minitest::Test
       })
     st = str.find_by_name("ACADEMY 20")
     assert_equal st.eighth_grade, st.proficient_by_grade(8)
-
   end
 
   def test_clean_grade_returns_cleaned_grade
@@ -66,8 +65,10 @@ class StatewideTestTest < Minitest::Test
       })
     st = str.find_by_name("ACADEMY 20")
     st.proficient_by_grade(3)
-    assert_equal ({:math => 0.857, :reading => 0.866, :writing => 0.671}), cleaned_grade[2008]
-
+    assert_equal ({:math => 0.857, :reading => 0.866, :writing => 0.671}), st.final_hash[2008]
+    assert_equal ({:math => 0.819, :reading => 0.867, :writing => 0.678}), st.final_hash[2011]
+    assert_equal ({:math => 0.834, :reading => 0.831, :writing => 0.639}), st.final_hash[2014]
+    binding.pry
   end
 
 
