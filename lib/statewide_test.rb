@@ -35,32 +35,12 @@ class StatewideTest < StatewideTestRepository
   def clean_grade(grade_to_clean)
     year_array = get_year(grade_to_clean)
     subject_array = get_subject(get_year(grade_to_clean))
-    data_array = get_data(get_subject(get_year(grade_to_clean)))
-
-    values_array = []
-    subject_array.each do |elem|
-      values_array << {elem.keys[0].downcase.to_sym => elem.values[0]}
-    end
-    years = []
-    year_array.each do |elem|
-      years << elem.keys[0].to_i
-    end
-    years.uniq!
-    grouped = values_array.group_by {|elem| elem.keys[0]}
+    years = years(year_array)
+    grouped = get_grouped(subject_array)
     math_array = grouped[:math]
     reading_array = grouped[:reading]
     writing_array = grouped[:writing]
-
-    array = math_array.zip(reading_array, writing_array)
-    new_array = years.zip(array)
-    @final_hash = {}
-    new_array.each do |item|
-      @final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
-                            :reading => truncate_float(item[1][1][:reading]),
-                            :writing => truncate_float(item[1][2][:writing])
-                            }
-      end
-      @final_hash
+    make_final_hash(years, math_array, reading_array, writing_array)
   end
 
   def get_year(grade_to_clean)
@@ -82,13 +62,32 @@ class StatewideTest < StatewideTestRepository
 
   end
 
-  def get_data(subject_array)
-    data_array = []
+  def get_grouped(subject_array)
+    values_array = []
     subject_array.each do |elem|
-      data_array << elem.values
+      values_array << {elem.keys[0].downcase.to_sym => elem.values[0]}
     end
-    data_array = data_array.flatten
-
+    grouped = values_array.group_by {|elem| elem.keys[0]}
   end
 
+  def years(year_array)
+    years = []
+    year_array.each do |elem|
+      years << elem.keys[0].to_i
+    end
+    years.uniq!
+  end
+
+
+  def make_final_hash(years, math_array, reading_array, writing_array)
+    new_array = years.zip(math_array.zip(reading_array, writing_array))
+    @final_hash = {}
+    new_array.each do |item|
+      @final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
+                            :reading => truncate_float(item[1][1][:reading]),
+                            :writing => truncate_float(item[1][2][:writing])
+                            }
+      end
+    @final_hash
+  end
 end
