@@ -35,31 +35,33 @@ class StatewideTest < StatewideTestRepository
       grade_to_clean = eighth_grade
     end
     clean_grade(grade_to_clean)
-binding.pry
   end
 
   def proficient_by_race_or_ethnicity(race)
     raise UnknownRaceError unless RACES.include?(race)
     race_to_parse = race
+    build_race_ethnicity_hash(race)
+    # clean_math = clean_subject(math, race)
+    # clean_reading = clean_subject(reading, race)
+    # clean_writing = clean_subject(writing, race)
     # clean_grade(@math)
   end
 
-  def build_race_ethnicity_hash
-    math_by_ethnicity = @math.group_by{|item| item.values[0].values[0].keys}
-    math_array = math_by_ethnicity.map do |item|
-      [:math, item[1]]
-    end
-    reading_by_ethnicity = @reading.group_by{|item| item.values[0].values[0].keys}
-    reading_array = reading_by_ethnicity.map do |item|
-      [:reading, item[1]]
-    end
-    writing_by_ethnicity = @writing.group_by{|item| item.values[0].values[0].keys}
-    writing_array = math_by_ethnicity.map do |item|
-      [:writing, item[1]]
-    end
-    full_array = math_array.zip(reading_array, writing_array).flatten
+  def build_race_ethnicity_hash(race)
     race_ethnicity_hash = new_hash_ethnicity
-    # race_ethnicity_hash[:math] =
+     race_ethnicity_hash[2011][:math] = truncate_float(clean_subject(math, race)[0][0])
+     race_ethnicity_hash[2012][:math] = truncate_float(clean_subject(math, race)[1][0])
+     race_ethnicity_hash[2013][:math] = truncate_float(clean_subject(math, race)[2][0])
+     race_ethnicity_hash[2014][:math] = truncate_float(clean_subject(math, race)[3][0])
+     race_ethnicity_hash[2011][:reading] = truncate_float(clean_subject(reading, race)[0][0])
+     race_ethnicity_hash[2012][:reading] = truncate_float(clean_subject(reading, race)[1][0])
+     race_ethnicity_hash[2013][:reading] = truncate_float(clean_subject(reading, race)[2][0])
+     race_ethnicity_hash[2014][:reading] = truncate_float(clean_subject(reading, race)[3][0])
+     race_ethnicity_hash[2011][:writing] = truncate_float(clean_subject(writing, race)[0][0])
+     race_ethnicity_hash[2012][:writing] = truncate_float(clean_subject(writing, race)[1][0])
+     race_ethnicity_hash[2013][:writing] = truncate_float(clean_subject(writing, race)[2][0])
+     race_ethnicity_hash[2014][:writing] = truncate_float(clean_subject(writing, race)[3][0])
+     race_ethnicity_hash
   end
 
   def new_hash_ethnicity
@@ -68,6 +70,15 @@ binding.pry
       2012=>{:math=>nil, :reading=>nil, :writing=>nil},
       2013=>{:math=>nil, :reading=>nil, :writing=>nil},
       2014=>{:math=>nil, :reading=>nil, :writing=>nil}}
+  end
+  def clean_subject(subject, race)
+    ethnicities = get_ethnicity(subject)
+    year_array = get_year(subject)
+    years = years(year_array)
+    subject_array = ethnicities[race.to_s.capitalize]
+    subject_data = subject_array.map do |item|
+      item.values
+    end
   end
 
   def clean_grade(grade_to_clean)
@@ -98,6 +109,15 @@ binding.pry
     end
     subject_array = subject_array.flatten
 
+  end
+
+  def get_ethnicity(subject)
+    ethnicity = []
+    subject.each_with_index do |elem, i|
+      ethnicity << subject[i].values[0].values
+    end
+    ethnicity.flatten!
+    ethnicity.group_by {|item| item.keys[0]}
   end
 
   def get_grouped(subject_array)
