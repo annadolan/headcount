@@ -39,24 +39,19 @@ class StatewideTest < StatewideTestRepository
 
   def proficient_by_race_or_ethnicity(race)
     raise UnknownRaceError unless RACES.include?(race)
-    build_race_ethnicity_hash(race)
+    subjects = [["math", math], ["reading", reading], ["writing", writing]]
+    build_race_ethnicity_hash(subjects, race)
   end
 
-  def build_race_ethnicity_hash(race)
+  def build_race_ethnicity_hash(subjects, race)
     race_ethnicity_hash = new_hash_ethnicity
-     race_ethnicity_hash[2011][:math] = truncate_float(clean_subject(math, race)[0][0])
-     race_ethnicity_hash[2012][:math] = truncate_float(clean_subject(math, race)[1][0])
-     race_ethnicity_hash[2013][:math] = truncate_float(clean_subject(math, race)[2][0])
-     race_ethnicity_hash[2014][:math] = truncate_float(clean_subject(math, race)[3][0])
-     race_ethnicity_hash[2011][:reading] = truncate_float(clean_subject(reading, race)[0][0])
-     race_ethnicity_hash[2012][:reading] = truncate_float(clean_subject(reading, race)[1][0])
-     race_ethnicity_hash[2013][:reading] = truncate_float(clean_subject(reading, race)[2][0])
-     race_ethnicity_hash[2014][:reading] = truncate_float(clean_subject(reading, race)[3][0])
-     race_ethnicity_hash[2011][:writing] = truncate_float(clean_subject(writing, race)[0][0])
-     race_ethnicity_hash[2012][:writing] = truncate_float(clean_subject(writing, race)[1][0])
-     race_ethnicity_hash[2013][:writing] = truncate_float(clean_subject(writing, race)[2][0])
-     race_ethnicity_hash[2014][:writing] = truncate_float(clean_subject(writing, race)[3][0])
-     race_ethnicity_hash
+    subjects.each do |subject|
+      race_ethnicity_hash[2011][subject[0].to_sym] = truncate_float(clean_subject(subject[1], race)[0][0])
+      race_ethnicity_hash[2012][subject[0].to_sym] = truncate_float(clean_subject(subject[1], race)[1][0])
+      race_ethnicity_hash[2013][subject[0].to_sym] = truncate_float(clean_subject(subject[1], race)[2][0])
+      race_ethnicity_hash[2014][subject[0].to_sym] = truncate_float(clean_subject(subject[1], race)[3][0])
+    end
+    race_ethnicity_hash
   end
 
   def new_hash_ethnicity
@@ -86,6 +81,7 @@ class StatewideTest < StatewideTestRepository
   def clean_grade(grade_to_clean)
     year_array = get_year(grade_to_clean)
     subject_array = get_subject(get_year(grade_to_clean))
+    subject_array.uniq!
     years = years(year_array)
     grouped = get_grouped(subject_array)
     math_array = grouped[:math]
