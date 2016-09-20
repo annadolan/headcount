@@ -27,7 +27,9 @@ class DistrictRepository
    def create_districts
     enrollment_repo.enrollments.keys.each do |elem|
       data = @enrollment_repo.find_by_name(elem)
-      districts[elem] = District.new({:name => elem}, {:information => data })
+      statewide = @statewide_test_repo.find_by_name(elem)
+      districts[elem] = District.new({:name => elem}, {:information => data},
+                                      {:statewide => statewide})
     end
   end
 

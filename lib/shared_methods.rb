@@ -6,7 +6,8 @@ module SharedMethods
   def load_csv(path, key)
     enroll_array = []
     CSV.foreach(path, headers: true, header_converters: :symbol) do |row|
-      enroll_array << ({:name => row[:location].upcase, row[:timeframe].to_i => row[:data].to_f})
+      enroll_array << ({:name => row[:location].upcase,
+                        row[:timeframe].to_i => row[:data].to_f})
     end
     parse(enroll_array, key)
   end
@@ -40,4 +41,6 @@ module SharedMethods
      end
      new_enrollment(all_enrollment)
    end
+
+
 end
