@@ -1,5 +1,6 @@
 require_relative 'district_repository'
 require_relative 'district'
+require_relative 'economic_profile'
 require_relative 'shared_methods'
 require_relative 'kindergarten'
 require 'csv'
@@ -42,8 +43,9 @@ class EconomicProfileRepository
       elsif path.include?("Title")
         economic_array << ({row[:location] => {row[:timeframe] => row[:data].to_f }})
       end
+      economic_array
     end
-    economic_array
+    parse_econ_data(economic_array, key)
   end
 
   def add_to_economic_repo(keys)
@@ -57,5 +59,9 @@ class EconomicProfileRepository
     end
     @economic_repo
   end  
+  
+  def find_by_name(district_name)
+    @economic_repo[district_name.upcase]
+  end
   
 end

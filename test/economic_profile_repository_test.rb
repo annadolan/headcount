@@ -21,9 +21,37 @@ class EconomicProfileRepositoryTest < Minitest::Test
         :title_i => "./fixtures/Title I students fixture.csv"
       }
       })
-      binding.pry
     assert_instance_of Hash, epr.economic_repo
   end
+  
+  def test_economic_p_repo_can_store_data_in_one_large_hash
+    epr = EconomicProfileRepository.new
+    epr.load_data({
+      :economic_profile => {
+        :median_household_income => "./fixtures/Median household income fixture.csv",
+        :children_in_poverty => "./fixtures/School-aged children in poverty fixture.csv",
+        :free_or_reduced_price_lunch => "./fixtures/Students qualifying for free or reduced price lunch fixture.csv",
+        :title_i => "./fixtures/Title I students fixture.csv"
+      }
+      })
+    assert epr.economic_repo.include?(:children_in_poverty)
+  end
+  
+  def test_economic_p_repo_find_data
+    skip
+    epr = EconomicProfileRepository.new
+    epr.load_data({
+      :economic_profile => {
+        :median_household_income => "./fixtures/Median household income fixture.csv",
+        :children_in_poverty => "./fixtures/School-aged children in poverty fixture.csv",
+        :free_or_reduced_price_lunch => "./fixtures/Students qualifying for free or reduced price lunch fixture.csv",
+        :title_i => "./fixtures/Title I students fixture.csv"
+      }
+      })
+    assert_instance_of Hash, epr.economic_repo
+  end
+  
+  
   
   
   
