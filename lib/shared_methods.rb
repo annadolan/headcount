@@ -22,10 +22,8 @@ module SharedMethods
    end
 
    def parse_testing(tests_array, key)
-    # temp_array = tests_array.group_by { |item| item.values.first }.map{|_, second| second.reduce(:merge)}
     parse = tests_array.group_by {|item| item.keys[0]}
     parse
-
   end
 
    def delete_extra_name(parse, key)

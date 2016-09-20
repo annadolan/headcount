@@ -136,6 +136,9 @@ class StatewideTestTest < Minitest::Test
       })
       st = str.find_by_name("ACADEMY 20")
       assert_equal 0.857, st.proficient_for_subject_by_grade_in_year(:math, 3, 2008)
+      assert_equal 0.843, st.proficient_for_subject_by_grade_in_year(:reading, 8, 2008)
+      assert_equal 0.831, st.proficient_for_subject_by_grade_in_year(:reading, 3, 2014)
+
   end
 
 

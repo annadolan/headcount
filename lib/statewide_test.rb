@@ -47,12 +47,10 @@ class StatewideTest < StatewideTestRepository
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
     raise UnknownDataError unless SUBJECTS.include?(subject)
+    grade
     result = proficient_by_grade(grade)
     result[year][subject]
   end
-
-
-
 
   def build_race_ethnicity_hash(subjects, race)
     race_ethnicity_hash = new_hash_ethnicity
