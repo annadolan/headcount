@@ -55,6 +55,7 @@ class StatewideTest < StatewideTestRepository
     raise UnknownDataError unless SUBJECTS.include?(subject) && RACES.include?(race) && (year.class == Fixnum)
     result = proficient_by_race_or_ethnicity(race)
     result[year][subject]
+
   end
 
   def build_race_ethnicity_hash(subjects, race)
@@ -86,15 +87,26 @@ class StatewideTest < StatewideTestRepository
   end
 
   def clean_grade(grade_to_clean)
-    year_array = get_year(grade_to_clean)
-    subject_array = get_subject(get_year(grade_to_clean))
-    subject_array.uniq!
-    years = years(year_array)
+     year_array = get_year(grade_to_clean)
+     subject_array = get_subject(get_year(grade_to_clean))
+     subject_array.uniq!
+     years = years(year_array)
     grouped = get_grouped(subject_array)
+
     math_array = grouped[:math]
     reading_array = grouped[:reading]
     writing_array = grouped[:writing]
-    make_final_hash(years, math_array, reading_array, writing_array)
+
+    # final_hash = new_hash_statewide
+      # final_hash[2008] = math_array[0], reading_array[0], writing_array[0]
+      # final_hash[2009] = math_array[1], reading_array[1], writing_array[1]
+      # final_hash[2010] = math_array[2], reading_array[2], writing_array[2]
+      # final_hash[2011] = math_array[3], reading_array[3], writing_array[3]
+      # final_hash[2012] = math_array[4], reading_array[4], writing_array[4]
+      # final_hash[2013] = math_array[5], reading_array[5], writing_array[5]
+      # final_hash[2014] = math_array[6], reading_array[6], writing_array[6]
+
+     make_final_hash(years, math_array, reading_array, writing_array)
   end
 
   def get_year(grade_to_clean)
@@ -141,17 +153,45 @@ class StatewideTest < StatewideTestRepository
     years.uniq!
   end
 
+  def array_length_validator(array)
+    array.sort_by { |arr| arr.length }.reverse
+  end
+
   def make_final_hash(years, math_array, reading_array, writing_array)
-    new_array = years.zip(math_array.zip(reading_array, writing_array))
-    new_array.each do |item|
-      final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
-                            :reading => truncate_float(item[1][1][:reading]),
-                            :writing => truncate_float(item[1][2][:writing])
+
+    years = [2008, 2009, 2010, 2011, 2012, 2013, 2014]
+    ordered_arrays = array_length_validator([math_array, reading_array, writing_array])
+    new_array = years.zip(ordered_arrays[0].zip(ordered_arrays[1], ordered_arrays[2]))
+     new_array.each do |item|
+       temp_hash = item_validator(item)
+       
+      final_hash[item[0]] = {:math => truncate_float(temp_hash[1][0][:math]),
+                            :reading => truncate_float(temp_hash[1][1][:reading]),
+                            :writing => truncate_float(temp_hash[1][2][:writing])
                             }
       end
+      binding.pry
+
+
     final_hash
 
   end
+
+  def item_validator(argument)
+    argument[1].map do |hash|
+      hash.nil? ? {} : hash
+    end
+  end
+ #  def new_hash_statewide
+ #    { 2008 => {:math => 0, :reading => 0, :writing => 0},
+ #     2009 => {:math => 0, :reading => 0, :writing => 0},
+ #     2010 => {:math => 0, :reading => 0, :writing => 0},
+ #     2011 => {:math => 0, :reading => 0, :writing => 0},
+ #     2012 => {:math => 0, :reading => 0, :writing => 0},
+ #     2013 => {:math => 0, :reading => 0, :writing => 0},
+ #     2014 => {:math => 0, :reading => 0, :writing => 0}
+ #   }
+ # end
 
   def new_hash_ethnicity
     setup_ethnicity_hash =

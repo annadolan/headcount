@@ -19,14 +19,14 @@ module Kindergarten
     information[:kindergarten_participation][year].to_f
   end
 
-  def truncate_float(num)
-    if num.class == String
-      truncated = 0
+  def truncate_float(num = 0)
+
+    if (num.class == String || num == nil)
+      truncated = 0.0
     else
       truncated = (num.to_f*1000).floor/1000.0
     end
-      zero_handler(truncated)
-
+      # zero_handler(truncated)
   end
 
   def zero_handler(num)
