@@ -28,7 +28,6 @@ class StatewideTestRepository
         tests_array << ({row[:location] => {row[:timeframe] => {row[:score] => row[:data].to_f}}})
       end
       tests_array
-
     end
     parse_testing(tests_array, key)
 
@@ -72,6 +71,7 @@ class StatewideTestRepository
       testing_obj.math = math_ethnicity[elem]
       testing_obj.reading = reading_ethnicity[elem]
       testing_obj.writing = writing_ethnicity[elem]
+      #statewide_array = [third_grade[elem]]
       @statewide_repo[elem] = testing_obj
     end
     @statewide_repo

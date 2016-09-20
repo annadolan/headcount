@@ -36,7 +36,9 @@ class StatewideTest < StatewideTestRepository
     elsif grade == 8
       grade_to_clean = eighth_grade
     end
+
     clean_grade(grade_to_clean)
+
   end
 
   def proficient_by_race_or_ethnicity(race)
@@ -47,6 +49,7 @@ class StatewideTest < StatewideTestRepository
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
     raise UnknownDataError unless SUBJECTS.include?(subject)
+
     result = proficient_by_grade(grade)
     result[year][subject]
   end
@@ -87,24 +90,44 @@ class StatewideTest < StatewideTestRepository
   end
 
   def clean_grade(grade_to_clean)
+
      year_array = get_year(grade_to_clean)
+
+     data_array = []
+    #  year_array.each do |entry|
+    #    data_array << [[entry.keys[0].to_i, entry.values[0].keys[0].downcase.to_sym, entry.values[0].values[0]]]
+    #
+    #  end
+    #  data_array.flatten!
+    #  array = data_array.each_slice(3).to_a
+    #
+    #
+    #   grouped = data_array.group_by {|item| item.keys[0]}
+    # final_hash = new_hash_statewide
+    #  subjects.each_with_index do |subject, i|
+    #    final_hash[2008][subject]
+    #  end
+
      subject_array = get_subject(get_year(grade_to_clean))
      subject_array.uniq!
      years = years(year_array)
-    grouped = get_grouped(subject_array)
+    grouped = get_grouped(year_array)
+
 
     math_array = grouped[:math]
     reading_array = grouped[:reading]
     writing_array = grouped[:writing]
 
+
+    #
     # final_hash = new_hash_statewide
-      # final_hash[2008] = math_array[0], reading_array[0], writing_array[0]
-      # final_hash[2009] = math_array[1], reading_array[1], writing_array[1]
-      # final_hash[2010] = math_array[2], reading_array[2], writing_array[2]
-      # final_hash[2011] = math_array[3], reading_array[3], writing_array[3]
-      # final_hash[2012] = math_array[4], reading_array[4], writing_array[4]
-      # final_hash[2013] = math_array[5], reading_array[5], writing_array[5]
-      # final_hash[2014] = math_array[6], reading_array[6], writing_array[6]
+    #   final_hash[2008] = math_array[0], reading_array[0], writing_array[0]
+    #   final_hash[2009] = math_array[1], reading_array[1], writing_array[1]
+    #   final_hash[2010] = math_array[2], reading_array[2], writing_array[2]
+    #   final_hash[2011] = math_array[3], reading_array[3], writing_array[3]
+    #   final_hash[2012] = math_array[4], reading_array[4], writing_array[4]
+    #   final_hash[2013] = math_array[5], reading_array[5], writing_array[5]
+    #   final_hash[2014] = math_array[6], reading_array[6], writing_array[6]
 
      make_final_hash(years, math_array, reading_array, writing_array)
   end
@@ -137,16 +160,22 @@ class StatewideTest < StatewideTestRepository
     ethnicity.group_by {|item| item.keys[0]}
   end
 
-  def get_grouped(subject_array)
-    values_array = []
-    subject_array.each do |elem|
-      values_array << {elem.keys[0].downcase.to_sym => elem.values[0]}
+  def get_grouped(year_array)
+    values_hash = year_array.group_by {|item| item.keys[0].to_i}
+    binding.pry
+    newp = values_hash.map do |item|
+      item.values[0]
     end
-    grouped = values_array.group_by {|elem| elem.keys[0]}
+    # subject_array.each do |elem|
+    #   values_array << {elem.keys[0].downcase.to_sym => elem.values[0]}
+    # end
+     grouped = values_array.group_by {|elem| elem.keys[0]}
+
   end
 
   def years(year_array)
     years = []
+
     year_array.each do |elem|
       years << elem.keys[0].to_i
     end
@@ -158,19 +187,18 @@ class StatewideTest < StatewideTestRepository
   end
 
   def make_final_hash(years, math_array, reading_array, writing_array)
-
     years = [2008, 2009, 2010, 2011, 2012, 2013, 2014]
     ordered_arrays = array_length_validator([math_array, reading_array, writing_array])
     new_array = years.zip(ordered_arrays[0].zip(ordered_arrays[1], ordered_arrays[2]))
      new_array.each do |item|
        temp_hash = item_validator(item)
-       
+
       final_hash[item[0]] = {:math => truncate_float(temp_hash[1][0][:math]),
                             :reading => truncate_float(temp_hash[1][1][:reading]),
                             :writing => truncate_float(temp_hash[1][2][:writing])
                             }
       end
-      binding.pry
+
 
 
     final_hash
@@ -182,16 +210,16 @@ class StatewideTest < StatewideTestRepository
       hash.nil? ? {} : hash
     end
   end
- #  def new_hash_statewide
- #    { 2008 => {:math => 0, :reading => 0, :writing => 0},
- #     2009 => {:math => 0, :reading => 0, :writing => 0},
- #     2010 => {:math => 0, :reading => 0, :writing => 0},
- #     2011 => {:math => 0, :reading => 0, :writing => 0},
- #     2012 => {:math => 0, :reading => 0, :writing => 0},
- #     2013 => {:math => 0, :reading => 0, :writing => 0},
- #     2014 => {:math => 0, :reading => 0, :writing => 0}
- #   }
- # end
+  def new_hash_statewide
+    { 2008 => {:math => nil, :reading => nil, :writing => nil},
+     2009 => {:math => nil, :reading => nil, :writing => nil},
+     2010 => {:math => nil, :reading => nil, :writing => nil},
+     2011 => {:math => nil, :reading => nil, :writing => nil},
+     2012 => {:math => nil, :reading => nil, :writing => nil},
+     2013 => {:math => nil, :reading => nil, :writing => nil},
+     2014 => {:math => nil, :reading => nil, :writing => nil}
+   }
+ end
 
   def new_hash_ethnicity
     setup_ethnicity_hash =
