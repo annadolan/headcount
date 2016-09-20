@@ -9,7 +9,21 @@ class EconomicProfile
   include SharedMethods
   include Kindergarten
   
-  def initialize(name)
+  attr_accessor :name, :median_household_income, :children_in_poverty,
+                :free_or_reduced_price_lunch, :title_i, :data
+  
+  def initialize(data)
     @name = name
+    @median_household_income = {}
+    @children_in_poverty = {}
+    @free_or_reduced_price_lunch = {}
+    @title_i = {}
     @data = {}
   end
+
+  
+  
+  
+  
+  
+end

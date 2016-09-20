@@ -13,7 +13,8 @@ class EconomicProfileRepository
   include Kindergarten
   
   attr_reader :median_household_income, :children_in_poverty, 
-              :free_or_reduced_price_lunch, :title_i, :economic_repo
+              :free_or_reduced_price_lunch, :title_i, :economic_repo,
+              :districts
   
   def initialize
     @economic_repo = {}
@@ -29,6 +30,9 @@ class EconomicProfileRepository
     @children_in_poverty = load_economic_csv(path[:children_in_poverty], :children_in_poverty)
     @free_or_reduced_price_lunch = load_economic_csv(path[:free_or_reduced_price_lunch], :free_or_reduced_price_lunch)
     @title_i = load_economic_csv(path[:title_i], :title_i)    
+    districts = free_or_reduced_price_lunch.keys
+    add_to_economic_repo(districts)
+    
   end
   
   def load_economic_csv(path, key)
@@ -45,7 +49,7 @@ class EconomicProfileRepository
       end
       economic_array
     end
-    parse_econ_data(economic_array, key)
+    parse_testing(economic_array, key)
   end
 
   def add_to_economic_repo(keys)
@@ -55,6 +59,7 @@ class EconomicProfileRepository
       econ_obj.children_in_poverty = children_in_poverty[elem]
       econ_obj.free_or_reduced_price_lunch = free_or_reduced_price_lunch[elem]
       econ_obj.title_i = title_i[elem]
+      # econ_obj.data = econ_hash_maker
       @economic_repo[elem] = econ_obj
     end
     @economic_repo
@@ -63,5 +68,17 @@ class EconomicProfileRepository
   def find_by_name(district_name)
     @economic_repo[district_name.upcase]
   end
+  
+  # def econ_hash_maker
+  #   econ_hash[]
+  # def econ_hash_raw
+  #   {
+  #     {:median_household_income => nil},
+  #     {:children_in_poverty => nil},
+  #     {:free_or_reduced_price_lunch => nil},
+  #     {:title_i => econ_obj.nil},
+  #     :name => nil
+  #   }
+  # end
   
 end
