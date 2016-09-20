@@ -5,9 +5,9 @@ require './lib/statewide_test'
 require 'pry'
 
 class StatewideTestTest < Minitest::Test
-  
+
   include SharedMethods
-  
+
   def test_instance_of_statewide_test
     str = StatewideTestRepository.new
     str.load_data({
@@ -88,7 +88,7 @@ class StatewideTestTest < Minitest::Test
     assert_raises(UnknownRaceError) do st.proficient_by_race_or_ethnicity(:martian)
     end
   end
-  
+
   def test_proficient_by_race_or_ethnicity_returns_correct_data
     str = StatewideTestRepository.new
     str.load_data({
@@ -122,7 +122,7 @@ class StatewideTestTest < Minitest::Test
       assert_raises(UnknownDataError) do st.proficient_for_subject_by_grade_in_year(:transmogrification, 3, 2012)
     end
   end
-  
+
   def test_proficient_for_subject_by_grade_in_year_returns_error_if_given_incorrect_subject
     str = StatewideTestRepository.new
     str.load_data({
@@ -138,8 +138,34 @@ class StatewideTestTest < Minitest::Test
       assert_equal 0.857, st.proficient_for_subject_by_grade_in_year(:math, 3, 2008)
   end
 
+  def test_proficient_for_subject_by_race_in_year_returns_error_if_given_bad_input
+    str = StatewideTestRepository.new
+    str.load_data({
+      :statewide_testing => {
+        :third_grade => "./fixtures/3rd grade students scoring proficient or above on the CSAP_TCAP fixture.csv",
+        :eighth_grade => "./fixtures/8th grade students scoring proficient or above on the CSAP_TCAP fixture.csv",
+        :math => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math fixture.csv",
+        :reading => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading fixture.csv",
+        :writing => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing fixture.csv"
+      }
+      })
+      st = str.find_by_name("ACADEMY 20")
+      assert_raises(UnknownDataError) do st.proficient_for_subject_by_grade_in_year(:boink, :white, 2008)
+  end
 
+  def test_proficient_for_subject_by_race_in_year_returns_correct_data
+    str = StatewideTestRepository.new
+    str.load_data({
+      :statewide_testing => {
+        :third_grade => "./fixtures/3rd grade students scoring proficient or above on the CSAP_TCAP fixture.csv",
+        :eighth_grade => "./fixtures/8th grade students scoring proficient or above on the CSAP_TCAP fixture.csv",
+        :math => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math fixture.csv",
+        :reading => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading fixture.csv",
+        :writing => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing fixture.csv"
+      }
+      })
+      st = str.find_by_name("ACADEMY 20")
+      assert_equal 0.604, st.proficient_for_subject_by_race_in_year(:math, :hispanic, 2014)
+    end
+  end
 end
-
-
-
