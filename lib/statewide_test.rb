@@ -65,7 +65,7 @@ class StatewideTest < StatewideTestRepository
     ethnicities = get_ethnicity(subject)
     subject_array = ethnicities[race.to_s.capitalize]
     if subject_array.nil?
-      subject_data = [0],[0],[0],[0]
+      subject_data = [[0.001],[0.001],[0.001],[0.001]]
     else
       subject_data = subject_array.map do |item|
         if item.values[0].class != Float
@@ -76,6 +76,7 @@ class StatewideTest < StatewideTestRepository
       end
     end
     subject_data
+
   end
 
   def clean_grade(grade_to_clean)
