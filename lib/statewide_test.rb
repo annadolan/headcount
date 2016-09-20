@@ -16,6 +16,7 @@ class StatewideTest < StatewideTestRepository
   GRADES = [3, 8]
   RACES = [:asian, :black, :pacific_islander, :hispanic, :native_american,
             :two_or_more, :white]
+  SUBJECTS = [:math, :reading, :writing]
 
   def initialize(name)
     @name = name
@@ -43,6 +44,15 @@ class StatewideTest < StatewideTestRepository
     subjects = [["math", math], ["reading", reading], ["writing", writing]]
     build_race_ethnicity_hash(subjects, race)
   end
+
+  def proficient_for_subject_by_grade_in_year(subject, grade, year)
+    raise UnknownDataError unless SUBJECTS.include?(subject)
+    result = proficient_by_grade(grade)
+    result[year][subject]
+  end
+
+
+
 
   def build_race_ethnicity_hash(subjects, race)
     race_ethnicity_hash = new_hash_ethnicity
