@@ -1,5 +1,6 @@
 require 'pry'
 require_relative 'shared_methods'
+require_relative 'statewide_test'
 require_relative 'kindergarten'
 
 
@@ -50,7 +51,7 @@ class StatewideTestRepository
     add_to_state_repo(keys)
 
   end
-
+  
   def input_contains_ethnicity_data(input)
     if input[:statewide_testing][:math].nil?
       true
@@ -75,7 +76,6 @@ class StatewideTestRepository
       @statewide_repo[elem] = testing_obj
     end
     @statewide_repo
-
   end
 
   def find_by_name(district_name)

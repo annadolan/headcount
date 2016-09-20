@@ -11,7 +11,7 @@ class DistrictRepository
   include SharedMethods
   include Kindergarten
 
-  attr_reader :districts, :enrollment_repo, :found_result
+  attr_reader :districts, :enrollment_repo, :found_result, :statewide_test_repo
 
   def initialize
     @statewide_test_repo = StatewideTestRepository.new
@@ -21,6 +21,9 @@ class DistrictRepository
 
    def load_data(input)
      enrollment_repo.load_data(input)
+     if input.include?(:statewide_testing)
+       statewide_test_repo.load_data(input)
+     end
      create_districts
    end
 

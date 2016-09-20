@@ -4,7 +4,7 @@ require_relative 'kindergarten'
 require_relative 'errors'
 require 'pry'
 
-class StatewideTest < StatewideTestRepository
+class StatewideTest
 
   include SharedMethods
   include Kindergarten

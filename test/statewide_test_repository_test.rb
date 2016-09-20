@@ -5,6 +5,7 @@ require './lib/statewide_test_repository'
 require 'pry'
 
 class StatewideTestRepositoryTest < Minitest::Test
+  
   def test_str_loads_a_hash
     str = StatewideTestRepository.new
     str.load_data({
