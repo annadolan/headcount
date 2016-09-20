@@ -11,7 +11,7 @@ class StatewideTest < StatewideTestRepository
 
   attr_reader :grades
   attr_accessor :name, :third_grade, :eighth_grade, :math,
-                :reading, :writing, :final_hash
+                :reading, :writing, :final_hash, :race_ethnicity_hash
 
   GRADES = [3, 8]
   RACES = [:asian, :black, :pacific_islander, :hispanic, :native_american,
@@ -25,6 +25,7 @@ class StatewideTest < StatewideTestRepository
     @reading = reading
     @writing = writing
     @final_hash = {}
+    @race_ethnicity_hash = {}
   end
 
   def proficient_by_grade(grade)
@@ -51,7 +52,7 @@ class StatewideTest < StatewideTestRepository
       race_ethnicity_hash[2013][subject[0].to_sym] = truncate_float(clean_subject(subject[1], race)[2][0])
       race_ethnicity_hash[2014][subject[0].to_sym] = truncate_float(clean_subject(subject[1], race)[3][0])
     end
-    race_ethnicity_hash
+    @race_ethnicity_hash = race_ethnicity_hash
   end
 
   def new_hash_ethnicity

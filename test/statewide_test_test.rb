@@ -5,6 +5,9 @@ require './lib/statewide_test'
 require 'pry'
 
 class StatewideTestTest < Minitest::Test
+  
+  include SharedMethods
+  
   def test_instance_of_statewide_test
     str = StatewideTestRepository.new
     str.load_data({
@@ -98,9 +101,9 @@ class StatewideTestTest < Minitest::Test
       }
       })
     st = str.find_by_name("ACADEMY 20")
-    st.proficient_by_race_or_ethnicity(:asian)
-    assert_equal ({:math => 0.857, :reading => 0.866, :writing => 0.671}), st.final_hash[2012]
-    assert_equal ({:math => 0.834, :reading => 0.831, :writing => 0.639}), st.final_hash[2014]
+    result = st.proficient_by_race_or_ethnicity(:asian)
+    assert_equal ({:math => 0.818, :reading => 0.893, :writing => 0.808}), st.race_ethnicity_hash[2012]
+    assert_equal ({:math => 0.800, :reading => 0.855, :writing => 0.789}), st.race_ethnicity_hash[2014]
   end
 
 end
