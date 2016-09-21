@@ -12,6 +12,9 @@ class EconomicProfileRepository
   include SharedMethods
   include Kindergarten
 
+  YEARS = [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
+          2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015]
+
   attr_reader :median_household_income, :children_in_poverty,
               :free_or_reduced_price_lunch, :title_i, :economic_repo,
               :districts, :econ_hash
@@ -32,6 +35,7 @@ class EconomicProfileRepository
     @title_i = load_economic_csv(path[:title_i], :title_i)
     districts = free_or_reduced_price_lunch.keys
     econ_hash_maker(districts)
+
   end
 
   def load_economic_csv(path, key)
@@ -51,15 +55,18 @@ class EconomicProfileRepository
     parse_testing(economic_array, key)
   end
 
-  def add_to_economic_repo(districts, econ_hash)
-    districts.map do |elem|
-      econ_obj = EconomicProfile.new(elem)
+  def new_enrollment_object(dist, econ_hash)
+      econ_obj = EconomicProfile.new(econ_hash)
       econ_obj.data = econ_hash
-      elem = elem.upcase
-      @economic_repo[elem] = econ_obj
-    end
-    @economic_repo
-    binding.pry
+      dist = dist.upcase
+
+      add_to_economic_repo(econ_obj, dist)
+
+  end
+
+  def add_to_economic_repo(econ_obj, dist)
+    @economic_repo[dist] = econ_obj
+
   end
 
   def find_by_name(district_name)
@@ -73,49 +80,48 @@ class EconomicProfileRepository
       if @median_household_income[dist].nil?
         collect_median = 0
       else
-       temp_median = @median_household_income[dist].collect {|item| item.values}.flatten
-       collect_median = {}
-       temp_median.each do |entry|
+        temp_median = @median_household_income[dist].collect {|item| item.values}.flatten
+        collect_median = {}
+        temp_median.each do |entry|
          collect_median[[entry.keys[0][0..3].to_i, entry.keys[0][-4..-1].to_i]] = entry.values[0]
-       end
-
+        end
       end
-    
+
       if @children_in_poverty[dist].nil?
         collect_children = 0
       else
-       temp_children = @children_in_poverty[dist].collect {|item| item.values}.flatten
-       collect_children = {}
-       temp_children.each do |entry|
-         collect_children[entry.keys[0][0..3].to_i] = entry.values[0].to_f
-       end
+        temp_children = @children_in_poverty[dist].collect {|item| item.values}.flatten
+        collect_children = {}
+        temp_children.each do |entry|
+        collect_children[entry.keys[0].to_i] = entry.values[0].to_f
+        end
       end
 
       if @free_or_reduced_price_lunch[dist].nil?
-          collect_lunch = 0
-        else
-          temp_lunch = @free_or_reduced_price_lunch[dist].collect {|item| item.values}.flatten
-          collect_lunch = percent_or_number_seperator(temp_lunch)
-        end
+        collect_lunch = 0
+      else
+        temp_lunch = @free_or_reduced_price_lunch[dist].collect {|item| item.values}.flatten
+        collect_lunch = percent_or_number_seperator(temp_lunch)
+      end
 
       if @title_i[dist].nil?
           collect_title = 0
       else
         collect_title = {}
-         temp_title = @title_i[dist].collect {|item| item.values}.flatten
-         temp_title.each do |entry|
-           collect_title[entry.keys[0].to_i] = entry.values[0].to_f
-       end
+        temp_title = @title_i[dist].collect {|item| item.values}.flatten
+        temp_title.each do |entry|
+          collect_title[entry.keys[0].to_i] = entry.values[0].to_f
+        end
       end
-      
+
 
        econ_hash[:median_household_income] = collect_median
        econ_hash[:children_in_poverty] = collect_children
        econ_hash[:free_or_reduced_price_lunch] = collect_lunch
        econ_hash[:title_i] = collect_title
        econ_hash[:name] = dist
-       econ_hash
-       add_to_economic_repo(districts, econ_hash)
+
+       new_enrollment_object(dist, econ_hash)
 
      end
 
@@ -130,22 +136,33 @@ class EconomicProfileRepository
       :name => nil
     }
   end
-  
-  def percent_or_number_seperator(row)
+
+  def percent_or_number_seperator(temp_lunch)
     percent = []
     number = []
     new_hash = {}
-    row.each do |row|
+    temp_lunch.each do |row|
+
       if row.values[0].values[0].to_f >= 1
         number << [row.keys[0].to_i, row.values[0].values[0].to_i]
       elsif row.values[0].values[0].to_f < 1
         percent << [row.keys[0].to_i, truncate_float(row.values[0].values[0].to_f)]
       end
     end
-    zipped = number.zip(percent)
-    zipped.each do |item|
-    new_hash[item[0][0]] = {:percentage => item[1][1].to_f, :total =>item[0][1].to_i}
-  end
+
+      zipped = number.zip(percent)
+      zipped.each do |row|
+        if row[0].nil?
+          row[0] = 0
+        elsif row[1].nil?
+          row[1] = 0
+        end
+      end
+      zipped.each do |item|
+        new_hash[item[0][0]] = {:percentage => item[1][1].to_f, :total =>item[0][1].to_i}
+      end
+
+
   new_hash
 end
 
