@@ -49,7 +49,11 @@ class StatewideTest
     raise UnknownDataError unless SUBJECTS.include?(subject)
     grade
     result = proficient_by_grade(grade)
-    result[year][subject]
+    final_result = result[year][subject]
+    if final_result == 0.0 || final_result == nil
+      final_result = "N/A"
+    end
+    final_result
   end
 
   def proficient_for_subject_by_race_in_year(subject, race, year)
@@ -90,7 +94,6 @@ class StatewideTest
   def clean_grade(grade_to_clean)
     year_array = get_year(grade_to_clean)
     subject_array = get_subject(get_year(grade_to_clean))
-    subject_array.uniq!
     years = years(year_array)
     grouped = get_grouped(subject_array)
     math_array = grouped[:math]
