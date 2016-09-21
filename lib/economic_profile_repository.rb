@@ -54,7 +54,7 @@ class EconomicProfileRepository
   def add_to_economic_repo(districts)
     districts.map do |elem|
       econ_obj = EconomicProfile.new(elem)
-      econ_obj.data = {:median_household_income => median_household_income[elem]},
+       econ_obj.data = {:median_household_income => median_household_income[elem]},
                       {:children_in_poverty => children_in_poverty[elem]},
                       {:free_or_reduced_price_lunch => free_or_reduced_price_lunch[elem]},
                       {:title_i => title_i[elem]}
@@ -62,6 +62,7 @@ class EconomicProfileRepository
       @economic_repo[elem] = econ_obj
     end
     @economic_repo
+    binding.pry
   end
 
   def find_by_name(district_name)
