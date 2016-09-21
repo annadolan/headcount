@@ -37,7 +37,7 @@ class EconomicProfile
     result = household_income_avg.reduce(:+) / household_income_avg.count
     result
   end
-
+  
   def children_in_poverty_in_year(year)
     raise UnknownDataError unless YEARS.include?(year)
     percent = []
@@ -45,27 +45,27 @@ class EconomicProfile
     result = array_to_check.map do |row|
       if row.values[0].keys[0].to_s.include?(year.to_s)
         percent << truncate_float(row.values[0].values[0].to_f)
-
+    
       end
     end
     percent.sort! # this is because until we get the number/percent thing figured out, this should return
                   # the right answer. urhg urhg urhg
     final_answer = percent[0]
   end
-
+  
   def free_or_reduced_price_lunch_percentage_in_year(year)
     raise UnknownDataError unless YEARS.include?(year)
     percent = []
     array_to_check = data[2][:free_or_reduced_price_lunch]
     result = array_to_check.map do |row|
-      if row.values[0].keys[0].to_s.include?(year.to_s)
+      if row.values[0].keys[0].to_s.include?(year.to_s)          
         percent << truncate_float(row.values[0].values[0].values[0].to_f)
       end
   end
   percent.sort!
   final_answer = percent[0]
   end
-
+  
   def free_or_reduced_price_lunch_number_in_year(year)
     raise UnknownDataError unless YEARS.include?(year)
     number = []
@@ -77,7 +77,7 @@ class EconomicProfile
   end
   final_answer = number[0].to_i
   end
-
+  
   def title_i_in_year(year)
     raise UnknownDataError unless YEARS.include?(year)
     percent = []
@@ -90,7 +90,7 @@ class EconomicProfile
   percent.sort!
   final_answer = percent[0]
   end
-
-
-
+  
+  
+  
 end

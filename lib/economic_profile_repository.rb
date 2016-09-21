@@ -96,6 +96,7 @@ class EconomicProfileRepository
         collect_lunch = 0
       else
         collect_lunch = @free_or_reduced_price_lunch[dist].collect {|item| item.values}.flatten
+        percent_or_number_seperator(collect_lunch)
       end
 
       if @title_i[dist].nil?
@@ -124,5 +125,21 @@ class EconomicProfileRepository
       :name => nil
     }
   end
+  
+  def percent_or_number_seperator(row)
+    percent = []
+    number = []
+    binding.pry
+    row.each do |row|
+        if row[1].values[0].values[0].to_f >= 1
+          number << row[1].values[0].values[0].to_i
+        elsif row[1].values[0].values[0].to_f < 1
+          percent << truncate_float(row[1].values[0].values[0].to_f)
+        end
+      end
+      binding.pry
+  end
+
+
 
 end
