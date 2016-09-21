@@ -14,6 +14,7 @@ class DistrictRepository
   attr_reader :districts, :enrollment_repo, :found_result, :statewide_test_repo
 
   def initialize
+    @economic_repo = EconomicProfileRepository.new
     @statewide_test_repo = StatewideTestRepository.new
     @enrollment_repo = EnrollmentRepository.new
     @districts = {}
@@ -31,8 +32,11 @@ class DistrictRepository
     enrollment_repo.enrollments.keys.each do |elem|
       data = @enrollment_repo.find_by_name(elem)
       statewide = @statewide_test_repo.find_by_name(elem)
-      districts[elem] = District.new({:name => elem}, {:information => data},
-                                      {:statewide => statewide})
+      economic = @economic_repo.find_by_name(elem)
+      districts[elem] = District.new({:name => elem}, 
+                                      {:information => data},
+                                      {:statewide => statewide}, 
+                                      {:economic => economic})
     end
   end
 

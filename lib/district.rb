@@ -8,12 +8,14 @@ class District
   include SharedMethods
   include Kindergarten
 
-  attr_reader :name, :enrollment, :statewide_test
+  attr_reader :name, :enrollment, :statewide_test, :economic_profile
 
-  def initialize(name, enrollment_data = {}, statewide_test = {})
+  def initialize(name, enrollment_data = {}, statewide_test = {}, 
+                economic_profile = {})
     @name = name[:name]
     @enrollment = enrollment_data[:information]
     @statewide_test = statewide_test[:statewide]
+    @economic_profile = economic_profile[:economic]
   end
 
 

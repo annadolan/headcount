@@ -92,9 +92,9 @@ class EconomicProfileRepository
 
       if @title_i[dist].nil?
         collect_title = 0
-      else
+      else 
        collect_title = @title_i[dist].collect {|item| item.values}.flatten
-      end
+      end 
 
        econ_hash[:median_household_income] = collect_median
        econ_hash[:children_in_poverty] = collect_children
