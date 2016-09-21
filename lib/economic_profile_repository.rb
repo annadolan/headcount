@@ -75,13 +75,21 @@ class EconomicProfileRepository
       if @median_household_income[dist].nil?
         collect_median = 0
       else
-       collect_median = @median_household_income[dist].collect {|item| item.values}.flatten
-      end
+       temp_median = @median_household_income[dist].collect {|item| item.values}.flatten
+       collect_median = {}
+       temp_median.each do |entry|
+         collect_median[[entry.keys[0][0..3].to_i, entry.keys[0][-4..-1].to_i]] = entry.values[0]
+       end
 
+      end
       if @children_in_poverty[dist].nil?
         collect_children = 0
       else
-       collect_children = @children_in_poverty[dist].collect {|item| item.values}.flatten
+       temp_children = @children_in_poverty[dist].collect {|item| item.values}.flatten
+       collect_children = {}
+       temp_children.each do |entry|
+         collect_children[entry.keys[0][0..3].to_i] = entry.values[0].to_f
+       end
       end
 
       if @free_or_reduced_price_lunch[dist].nil?
@@ -92,9 +100,9 @@ class EconomicProfileRepository
 
       if @title_i[dist].nil?
         collect_title = 0
-      else 
+      else
        collect_title = @title_i[dist].collect {|item| item.values}.flatten
-      end 
+      end
 
        econ_hash[:median_household_income] = collect_median
        econ_hash[:children_in_poverty] = collect_children
