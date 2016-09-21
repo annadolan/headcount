@@ -51,18 +51,18 @@ class EconomicProfileRepository
     parse_testing(economic_array, key)
   end
 
-  def add_to_economic_repo(districts)
-    districts.map do |elem|
+  def add_to_economic_repo(total_hash, districts)
+
+    districts.each do |elem|
       econ_obj = EconomicProfile.new(elem)
-       econ_obj.data = {:median_household_income => median_household_income[elem]},
-                      {:children_in_poverty => children_in_poverty[elem]},
-                      {:free_or_reduced_price_lunch => free_or_reduced_price_lunch[elem]},
-                      {:title_i => title_i[elem]}
+       econ_obj.data = total_hash[elem]
       elem = elem.upcase
       @economic_repo[elem] = econ_obj
+
     end
     @economic_repo
-    binding.pry
+
+
   end
 
   def find_by_name(district_name)
@@ -70,6 +70,7 @@ class EconomicProfileRepository
   end
 
    def econ_hash_maker(districts)
+     total_hash = {}
      econ_hash = econ_hash_raw
      districts.each do |dist|
 
@@ -115,9 +116,14 @@ class EconomicProfileRepository
        econ_hash[:free_or_reduced_price_lunch] = collect_lunch
        econ_hash[:title_i] = collect_title
        econ_hash[:name] = dist
-       add_to_economic_repo(districts)
+
+
+       total_hash[dist] = econ_hash
 
      end
+     add_to_economic_repo(total_hash, districts)
+
+  
 
    end
 
