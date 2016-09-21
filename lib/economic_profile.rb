@@ -5,25 +5,19 @@ require_relative 'errors'
 require 'pry'
 
 class EconomicProfile
-  
+
   include SharedMethods
   include Kindergarten
-  
-  attr_accessor :name, :median_household_income, :children_in_poverty,
-                :free_or_reduced_price_lunch, :title_i, :data
-  
+
+  attr_accessor :data
+
   def initialize(data)
-    @name = name
-    @median_household_income = {}
-    @children_in_poverty = {}
-    @free_or_reduced_price_lunch = {}
-    @title_i = {}
     @data = {}
   end
 
-  
-  
-  
-  
-  
+
+
+
+
+
 end
