@@ -5,6 +5,7 @@ require_relative 'enrollment'
 require_relative 'kindergarten'
 require_relative 'district'
 require_relative 'statewide_test_repository'
+require_relative 'economic_profile_repository'
 require 'pry'
 
 class DistrictRepository
@@ -33,9 +34,9 @@ class DistrictRepository
       data = @enrollment_repo.find_by_name(elem)
       statewide = @statewide_test_repo.find_by_name(elem)
       economic = @economic_repo.find_by_name(elem)
-      districts[elem] = District.new({:name => elem}, 
+      districts[elem] = District.new({:name => elem},
                                       {:information => data},
-                                      {:statewide => statewide}, 
+                                      {:statewide => statewide},
                                       {:economic => economic})
     end
   end
