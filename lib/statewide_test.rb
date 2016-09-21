@@ -144,11 +144,24 @@ class StatewideTest
   end
 
   def make_final_hash(years, math_array, reading_array, writing_array)
-    new_array = years.zip(math_array.zip(reading_array, writing_array))
-    new_array.each do |item|
-      final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
-                            :reading => truncate_float(item[1][1][:reading]),
-                            :writing => truncate_float(item[1][2][:writing])
+    nils = [nil, nil, nil, nil, nil, nil, nil]
+    new_array = nils.zip(years.zip(math_array))    
+    new_array_2 = reading_array.zip(writing_array)
+    new_array_3 = new_array.zip(new_array_2)
+    new_array_3.each do |item|
+      binding.pry
+      if item[:math].nil?
+         item[:math] = 0
+      end
+      if item[1][0][:reading].nil?
+        item[1][0][:reading] = 0
+      end
+      if item[1][1][:writing].nil?
+         item[1][1][:writing] = 0
+      end
+      final_hash[item[0][1][0]] = {:math => truncate_float(item[0][1][1][:math]),
+                            :reading => truncate_float(item[1][0][:reading]),
+                            :writing => truncate_float(item[1][1][:writing])
                             }
       end
     final_hash
