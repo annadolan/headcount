@@ -95,14 +95,18 @@ class EconomicProfileRepository
       if @free_or_reduced_price_lunch[dist].nil?
         collect_lunch = 0
       else
-        collect_lunch = @free_or_reduced_price_lunch[dist].collect {|item| item.values}.flatten
-        percent_or_number_seperator(collect_lunch)
+        temp_lunch = @free_or_reduced_price_lunch[dist].collect {|item| item.values}.flatten
+        collect_lunch = percent_or_number_seperator(temp_lunch)
       end
 
       if @title_i[dist].nil?
         collect_title = 0
       else
-       collect_title = @title_i[dist].collect {|item| item.values}.flatten
+      collect_title = {}
+       temp_title = @title_i[dist].collect {|item| item.values}.flatten
+       temp_title.each do |entry|
+         collect_title[entry.keys[0].to_i] = entry.values[0].to_f
+       end
       end
 
        econ_hash[:median_household_income] = collect_median
@@ -125,19 +129,32 @@ class EconomicProfileRepository
       :name => nil
     }
   end
-  
+
   def percent_or_number_seperator(row)
     percent = []
     number = []
-    binding.pry
+    new_hash = {}
     row.each do |row|
-        if row[1].values[0].values[0].to_f >= 1
-          number << row[1].values[0].values[0].to_i
-        elsif row[1].values[0].values[0].to_f < 1
-          percent << truncate_float(row[1].values[0].values[0].to_f)
+
+
+        if row.values[0].values[0].to_f >= 1
+          number << [row.keys[0].to_i, row.values[0].values[0].to_i]
+        elsif row.values[0].values[0].to_f < 1
+          percent << [row.keys[0].to_i, truncate_float(row.values[0].values[0].to_f)]
+
         end
+
+
       end
-      binding.pry
+
+      zipped = number.zip(percent)
+      zipped.each do |item|
+        new_hash[item[0][0]] = {:percentage => item[1][1].to_f, :total =>item[0][1].to_i}
+
+
+      end
+      new_hash
+
   end
 
 
