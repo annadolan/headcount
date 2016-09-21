@@ -31,10 +31,7 @@ class EconomicProfileRepository
     @free_or_reduced_price_lunch = load_economic_csv(path[:free_or_reduced_price_lunch], :free_or_reduced_price_lunch)
     @title_i = load_economic_csv(path[:title_i], :title_i)
     districts = free_or_reduced_price_lunch.keys
-
-    # add_to_economic_repo(districts)
-econ_hash_maker(districts)
-
+    econ_hash_maker(districts)
   end
 
   def load_economic_csv(path, key)
@@ -52,13 +49,9 @@ econ_hash_maker(districts)
       economic_array
     end
     parse_testing(economic_array, key)
-
-
   end
 
   def add_to_economic_repo(districts)
-    # @economic_repo = econ_hash_raw
-
     districts.map do |elem|
       econ_obj = EconomicProfile.new(elem)
       econ_obj.data = {:median_household_income => median_household_income[elem]},
@@ -76,24 +69,44 @@ econ_hash_maker(districts)
   end
 
    def econ_hash_maker(districts)
-     collect_median =
      econ_hash = econ_hash_raw
      districts.each do |dist|
-       collect_median = @median_household_income[dist].collect {|item| item.values}.flatten
-       collect_children = @children_in_poverty[dist].collect {|item| item.values}.flatten
-       collect_lunch = @free_or_reduced_price_lunch[dist].collect {|item| item.values}.flatten
-       collect_title = @title_i[dist].collect {|item| item.values}.flatten
 
-       econ_hash[:median_household_income] = {@median_household_income[dist] =>
-       binding.pry
-       econ_hash[:children_in_poverty]
-       econ_hash[:free_or_reduced_price_lunch]
-       econ_hash[:title_i]
+      if @median_household_income[dist].nil?
+        collect_median = 0
+      else
+       collect_median = @median_household_income[dist].collect {|item| item.values}.flatten
+      end
+
+      if @children_in_poverty[dist].nil?
+        collect_children = 0
+      else
+       collect_children = @children_in_poverty[dist].collect {|item| item.values}.flatten
+      end
+
+      if @free_or_reduced_price_lunch[dist].nil?
+        collect_lunch = 0
+      else
+        collect_lunch = @free_or_reduced_price_lunch[dist].collect {|item| item.values}.flatten
+      end
+
+      if @title_i[dist].nil?
+        collect_title = 0
+      else
+       collect_title = @title_i[dist].collect {|item| item.values}.flatten
+      end
+
+       econ_hash[:median_household_income] = collect_median
+       econ_hash[:children_in_poverty] = collect_children
+       econ_hash[:free_or_reduced_price_lunch] = collect_lunch
+       econ_hash[:title_i] = collect_title
        econ_hash[:name] = dist
+       add_to_economic_repo(districts)
+
      end
 
    end
-  #   econ_hash[]
+
   def econ_hash_raw
     raw_hash = {
       :median_household_income => nil,

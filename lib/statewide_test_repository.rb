@@ -51,7 +51,7 @@ class StatewideTestRepository
     add_to_state_repo(keys)
 
   end
-  
+
   def input_contains_ethnicity_data(input)
     if input[:statewide_testing][:math].nil?
       true
