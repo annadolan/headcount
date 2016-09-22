@@ -17,6 +17,19 @@ module GradeAndTestData
     subject_data
   end
 
+  def make_final_hash(years, math_array, reading_array, writing_array)
+    new_array = years.zip(math_array.zip(reading_array, writing_array))
+    final_hash = {}
+    new_array.each do |item|
+      
+      final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
+                            :reading => truncate_float(item[1][1][:reading]),
+                            :writing => truncate_float(item[1][2][:writing])
+                            }
+      end
+    final_hash
+  end
+
   def clean_grade(grade_to_clean)
     year_array = get_year(grade_to_clean)
     subject_array = get_subject(get_year(grade_to_clean))

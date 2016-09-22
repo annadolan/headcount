@@ -78,17 +78,6 @@ class StatewideTest
     @race_ethnicity_hash = race_ethnicity_hash
   end
 
-  def make_final_hash(years, math_array, reading_array, writing_array)
-    new_array = years.zip(math_array.zip(reading_array, writing_array))
-    new_array.each do |item|
-      final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
-                            :reading => truncate_float(item[1][1][:reading]),
-                            :writing => truncate_float(item[1][2][:writing])
-                            }
-      end
-    final_hash
-  end
-
   def new_hash_ethnicity
     setup_ethnicity_hash =
     { 2011=>{:math=>nil, :reading=>nil, :writing=>nil},

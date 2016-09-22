@@ -1,4 +1,5 @@
 require_relative 'district_repository'
+require_relative 'statewide_test_repository'
 require_relative 'statewide_test'
 require_relative 'grade_and_test_data'
 require_relative 'errors'
@@ -9,26 +10,36 @@ class HeadcountAnalyst
   include GradeAndTestData
   
   attr_accessor :dist1, :dist2, :truncated_variance, :results, :g_input, 
-                :s_input, :total_grade
+                :s_input, :grade_to_clean, :final_hash
 
   GRADES = [3, 8]
 
   def initialize(new_repo)
     @new_repo = new_repo
+    @final_hash = final_hash
   end
   
   def top_statewide_test_year_over_year_growth(grade: g_input, subject: s_input)
+    final_hash = {}
     testing_analysis_error_checker(grade)
     if grade == 3
-      total_grade = @new_repo.statewide_test_repo.third_grade
+      grade_to_clean = @new_repo.statewide_test_repo.third_grade
     elsif grade == 8
-      total_grade = @new_repo.statewide_test_repo.eighth_grade
+      grade_to_clean = @new_repo.statewide_test_repo.eighth_grade
     else 
       nil
     end
+    test_array = []
+    grade_to_clean.values.each do |row|
+      test_array << clean_grade(row)
+    end
     
-    total_grade
-
+    keys = grade_to_clean.keys
+    hash_to_modify = keys.zip(test_array).to_h
+    
+    
+    
+    
     # find largest value and return the associated district and value
     
     

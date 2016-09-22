@@ -33,7 +33,6 @@ class StatewideTestRepository
 
     end
     parse_testing(tests_array, key)
-
   end
 
   def load_data(input)
@@ -50,7 +49,6 @@ class StatewideTestRepository
     end
     keys = third_grade.keys
     add_to_state_repo(keys)
-
   end
 
   def input_contains_ethnicity_data(input)
