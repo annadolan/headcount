@@ -9,7 +9,8 @@ require 'pry'
 
 class DistrictRepository
   include SharedMethods
-  attr_reader :districts, :enrollment_repo, :found_result, :statewide_test_repo
+  attr_reader :districts, :enrollment_repo, :found_result, :statewide_test_repo,
+              :economic_repo
 
   def initialize
     @economic_repo = EconomicProfileRepository.new
@@ -19,10 +20,14 @@ class DistrictRepository
   end
 
    def load_data(input)
-     enrollment_repo.load_data(input)
-     if input.include?(:statewide_testing)
+    enrollment_repo.load_data(input)
+    if input.include?(:statewide_testing)
        statewide_test_repo.load_data(input)
-     end
+    elsif input.include?(:economic_profile)
+      economic_repo.load_data(input)
+    else 
+      nil  
+    end
      create_districts
    end
 

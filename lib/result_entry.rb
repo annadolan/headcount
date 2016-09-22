@@ -31,7 +31,7 @@ class ResultEntry
   def high_school_graduation_rate
     if data[:high_school_graduation_rate].nil?
       nil
-    else ``
+    else
       data[:high_school_graduation_rate]
     end
   end

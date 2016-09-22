@@ -2,12 +2,14 @@ require_relative 'district_repository'
 require_relative 'statewide_test_repository'
 require_relative 'statewide_test'
 require_relative 'grade_and_test_data'
+require_relative 'result_set'
+require_relative 'result_entry'
 require_relative 'errors'
 require_relative 'shared_methods'
 
 class HeadcountAnalyst
   attr_reader :dist1, :dist2, :truncated_variance, :results, :g_input,
-  :s_input, :grade_to_clean, :blank_hash
+  :s_input, :grade_to_clean, :blank_hash, :new_repo
   include SharedMethods
   include GradeAndTestData
 
@@ -18,6 +20,40 @@ class HeadcountAnalyst
     @final_hash = final_hash
   end
 
+  def high_poverty_and_high_school_graduation
+    grad_rate_finder
+    binding.pry
+    
+  end
+
+
+  def grad_rate_finder
+    graduation = []
+    district_names = []
+    grad_rate_finder = @new_repo.districts.each do |row|
+      graduation << hs_for_result_entry_district_average(row).to_f
+      district_names << row[0]
+    end
+    result = district_names.zip(graduation).to_h
+    @grad_rate = result.sort_by {|k,v| v}.reverse.to_h
+    @grad_rate = grad_rate
+  end
+  
+  def poverty_rate_finder
+    child_poverty = []
+    district_names = []
+    poverty_rate_finder = nil
+    
+  end
+
+  def hs_for_result_entry_district_average(district)
+    values = district[1].enrollment.information[:high_school_graduation].values
+    dist_total = values.reduce(:+)
+    dist_avg = (dist_total/values.count).to_f
+    result = truncate_float(dist_avg)
+  end
+
+
   def district_average(district)
     dist_values = district.enrollment.information.values[1].values
     dist_total = dist_values.reduce(:+)
@@ -26,6 +62,7 @@ class HeadcountAnalyst
 
   def hs_district_average(district)
     dist_vals = district.enrollment.information[:high_school_graduation].values
+    # binding.pry
     dist_total = dist_vals.reduce(:+)
     dist_avg = dist_total/dist_vals.count
   end

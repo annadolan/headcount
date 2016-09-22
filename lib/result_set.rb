@@ -21,7 +21,5 @@ class ResultSet
   def statewide_average
     @statewide_average
   end
-  
-  binding.pry
-  
+    
 end
