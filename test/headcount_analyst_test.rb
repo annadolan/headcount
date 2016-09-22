@@ -124,7 +124,7 @@ class HeadcountAnalystTest < Minitest::Test
                    }
                    })
     ha = HeadcountAnalyst.new(dr)
-    assert_equal "ACADEMY 20", ha.top_statewide_test_year_over_year_growth(grade: 3).first
+    assert_equal "AGUILAR REORGANIZED 6", ha.top_statewide_test_year_over_year_growth(grade: 3).first
   end
   
   

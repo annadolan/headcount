@@ -18,7 +18,10 @@ class HeadcountAnalyst
     @final_hash = final_hash
   end
 
-  def top_statewide_test_year_over_year_growth(grade: g_input, subject: s_input)
+  def top_statewide_test_year_over_year_growth(input)
+    grade = input[:grade]
+    subject = input[:subject]
+    weight = input[:weight]
     final_hash = {}
     testing_analysis_error_checker(grade)
     if grade == 3
@@ -32,10 +35,8 @@ class HeadcountAnalyst
     grade_to_clean.values.each do |row|
       test_array << clean_grade(row)
     end
-
-    keys = grade_to_clean.keys.reject! {|i| i == "Colorado"}
-    hash_to_modify = keys.zip(test_array).reject {|i| i == nil}.to_h
-    subject = :math
+    keys = grade_to_clean.keys
+    hash_to_modify = keys.zip(test_array).to_h
     blank_hash = {}
     keys.each do |key|
       max = hash_to_modify[key].keys.max
@@ -43,17 +44,19 @@ class HeadcountAnalyst
       first = (hash_to_modify[key][max][subject])
       second = (hash_to_modify[key][min][subject])
       if second.nil?
-        second = 0
+        second = 1
       end
       if first.nil?
-        first = 0
+        first = 1
       end
       subtracted_values = first - second
+      number_to_use = (subtracted_values) / (max - min) 
       blank_hash[key] = {subject =>
-                      truncate_float_for_analyst(subtracted_values)}
-      sorted_hash = blank_hash.sort_by {|k, v| v.values }
-      result = [sorted_hash[0][0], sorted_hash[0][1].values[0].abs]
+        truncate_float_for_analyst(number_to_use)}
     end
+    sorted_hash = blank_hash.sort_by { |k, v| v.values }
+    final = sorted_hash.reverse
+    result = [final[0][0], final[0][1].values[0].abs]
   end
 
   def district_average(district)
