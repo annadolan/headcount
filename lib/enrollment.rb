@@ -1,12 +1,10 @@
 require_relative 'enrollment_repository'
 require_relative 'shared_methods'
-require_relative 'kindergarten'
 require 'pry'
 
 class Enrollment
 
   include SharedMethods
-  include Kindergarten
 
   attr_reader :information, :name, :grad_year
 
@@ -17,11 +15,19 @@ class Enrollment
 
   def graduation_rate_by_year
     grad_year = information[:high_school_graduation].reduce({}) do |year, data|
-      year.merge!(data.first => truncate_float(data.last))    
+      year.merge!(data.first => truncate_float(data.last))
     end
     grad_year
   end
-  
+
+  def kindergarten_participation_by_year
+    information[:kindergarten_participation]
+  end
+
+  def kindergarten_participation_in_year(year)
+    information[:kindergarten_participation][year].to_f
+  end
+
   def graduation_rate_in_year(year)
     if information[:high_school_graduation].include?(year) == false
       result = nil

@@ -9,4 +9,5 @@ class DistrictTest < Minitest::Test
     d = District.new({:name => "ACADEMY 20"})
     assert_equal "ACADEMY 20", d.name
   end
+    
 end

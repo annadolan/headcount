@@ -1,10 +1,8 @@
 require_relative 'shared_methods'
 require_relative 'enrollment'
-require_relative 'kindergarten'
 
 class EnrollmentRepository
   include SharedMethods
-  include Kindergarten
 
   attr_reader :district, :enrollments, :input
 

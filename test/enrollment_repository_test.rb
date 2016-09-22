@@ -6,6 +6,7 @@ require './lib/enrollment'
 require 'pry'
 
 class EnrollmentRepositoryTest < Minitest::Test
+
   def test_er_loads_data_into_hash
     er = EnrollmentRepository.new
     er.load_data({
