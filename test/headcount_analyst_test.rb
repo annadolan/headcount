@@ -19,6 +19,17 @@ class HeadcountAnalystTest < Minitest::Test
     assert_instance_of Float, ha.kindergarten_participation_rate_variation("ACADEMY 20", "COLORADO")
   end
   
+  def test_kindergarten_participation_rate_variation_trend_returns_the_right_answer
+    dr = DistrictRepository.new
+    dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+    ha = HeadcountAnalyst.new(dr)
+    assert_equal 0.96, ha.kindergarten_participation_rate_variation_trend("ACADEMY 20", "COLORADO")[2005]
+  end
+  
   def test_headcount_can_test_high_school_variation
     dr = DistrictRepository.new
     dr.load_data({
@@ -127,7 +138,26 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal "AGUILAR REORGANIZED 6", ha.top_statewide_test_year_over_year_growth(grade: 3).first
   end
   
-  
+  def test_headcount_returns_usable_results
+    dr = DistrictRepository.new
+    dr.load_data({
+                   :enrollment => {
+                     :kindergarten => "./data/Kindergartners in full-day program.csv",
+                     :high_school_graduation => "./data/High school graduation rates.csv"
+                   },
+                   :statewide_testing => {
+                     :third_grade => "./fixtures/3rd grade students scoring proficient or above on the CSAP_TCAP fixture.csv",
+                     :eighth_grade => "./fixtures/8th grade students scoring proficient or above on the CSAP_TCAP fixture.csv",
+                     :math => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math fixture.csv",
+                     :reading => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading fixture.csv",
+                     :writing => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing fixture.csv"
+                   }
+                   })
+    ha = HeadcountAnalyst.new(dr)
+    assert_equal "ADAMS COUNTY 14", ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math).first
+    assert_equal "ADAMS COUNTY 14", ha.top_statewide_test_year_over_year_growth(grade: 8, subject: :math).first
+
+  end
   
   
   

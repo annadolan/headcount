@@ -5,7 +5,7 @@ module SharedMethods
 
   def truncate_float(num)
     if num.class == String
-      truncated = 0
+      return truncated = 0
     else
       truncated = (num.to_f*1000).floor/1000.0
     end
