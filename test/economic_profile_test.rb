@@ -36,12 +36,12 @@ class EconomicProfileTest < Minitest::Test
         :title_i => "./fixtures/Title I students fixture.csv"
       }
       })
+      binding.pry
     ep = epr.find_by_name("ACADEMY 20")
-    assert_instance_of EconomicProfile, ep
-    assert_equal 85060.0, ep.data[0][:median_household_income][0]["ACADEMY 20"].values[0]
-    assert_equal 0.034, ep.data[1][:children_in_poverty][7]["ACADEMY 20"].values[0]
-    assert_equal 976.0, ep.data[2][:free_or_reduced_price_lunch][3]["ACADEMY 20"].values[0].values[0]
-    assert_equal 0.011, ep.data[3][:title_i][1]["ACADEMY 20"].values[0]
+    assert_equal 61071.0, ep.data[:median_household_income].values[2]
+    assert_equal 0.157, ep.data[:children_in_poverty][7]["ACADEMY 20"].values[0]
+    assert_equal 976.0, ep.data[:free_or_reduced_price_lunch][3]["ACADEMY 20"].values[0].values[0]
+    assert_equal 0.011, ep.data[:title_i][1]["ACADEMY 20"].values[0]
   end
 
   def test_ep_returns_error_if_given_invalid_year

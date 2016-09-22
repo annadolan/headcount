@@ -15,16 +15,17 @@ class EconomicProfileRepository
   YEARS = [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
           2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015]
 
+  attr_accessor :economic_repo
   attr_reader :median_household_income, :children_in_poverty,
-              :free_or_reduced_price_lunch, :title_i, :economic_repo,
+              :free_or_reduced_price_lunch, :title_i,
               :districts, :econ_hash
 
   def initialize
-    @economic_repo = {}
-    @median_household_income = {}
-    @children_in_poverty = {}
-    @free_or_reduced_price_lunch = {}
-    @title_i = {}
+    @economic_repo = Hash.new
+    @median_household_income = Hash.new
+    @children_in_poverty = Hash.new
+    @free_or_reduced_price_lunch = Hash.new
+    @title_i = Hash.new
   end
 
   def load_data(input)
@@ -35,7 +36,6 @@ class EconomicProfileRepository
     @title_i = load_economic_csv(path[:title_i], :title_i)
     districts = free_or_reduced_price_lunch.keys
     econ_hash_maker(districts)
-
   end
 
   def load_economic_csv(path, key)
@@ -56,17 +56,13 @@ class EconomicProfileRepository
   end
 
   def new_enrollment_object(dist, econ_hash)
-      econ_obj = EconomicProfile.new(econ_hash)
-      econ_obj.data = econ_hash
+      # econ_obj = EconomicProfile.new(econ_hash)
       dist = dist.upcase
-
-      add_to_economic_repo(econ_obj, dist)
-
+      add_to_economic_repo(econ_hash, dist)
   end
 
-  def add_to_economic_repo(econ_obj, dist)
-    @economic_repo[dist] = econ_obj
-
+  def add_to_economic_repo(econ_hash, dist)
+    @economic_repo[dist] = EconomicProfile.new(econ_hash)
   end
 
   def find_by_name(district_name)
