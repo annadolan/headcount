@@ -1,10 +1,13 @@
 require_relative 'district_repository'
 require_relative 'statewide_test'
+require_relative 'grade_and_test_data'
 require_relative 'errors'
 require_relative 'shared_methods'
 
 class HeadcountAnalyst
   include SharedMethods
+  include GradeAndTestData
+  
   attr_accessor :dist1, :dist2, :truncated_variance, :results, :g_input, 
                 :s_input, :total_grade
 
@@ -25,7 +28,7 @@ class HeadcountAnalyst
     end
     
     total_grade
-    
+
     # find largest value and return the associated district and value
     
     
