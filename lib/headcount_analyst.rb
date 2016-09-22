@@ -1,14 +1,29 @@
 require_relative 'district_repository'
+require_relative 'statewide_test'
+require_relative 'errors'
 require_relative 'shared_methods'
 
 class HeadcountAnalyst
   include SharedMethods
-  attr_accessor :dist1, :dist2, :truncated_variance, :results
+  attr_accessor :dist1, :dist2, :truncated_variance, :results, :g_input
+
+  GRADES = [3, 8]
 
   def initialize(new_repo)
     @new_repo = new_repo
   end
-
+  
+  def top_statewide_test_year_over_year_growth(grade: g_input, subject: s_input)
+    if grade.nil?
+      raise InsufficientInformationError
+    elsif GRADES.include?(grade) == false
+      raise UnknownDataError
+    end
+    
+    
+    
+  end
+    
   def district_average(district)
     dist_values = district.enrollment.information.values[1].values
     dist_total = dist_values.reduce(:+)
