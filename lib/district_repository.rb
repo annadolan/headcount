@@ -1,16 +1,14 @@
-require 'csv'
 require_relative 'shared_methods'
 require_relative 'enrollment_repository'
 require_relative 'enrollment'
-require_relative 'kindergarten'
 require_relative 'district'
 require_relative 'statewide_test_repository'
 require_relative 'economic_profile_repository'
+require 'csv'
 require 'pry'
 
 class DistrictRepository
   include SharedMethods
-  include Kindergarten
 
   attr_reader :districts, :enrollment_repo, :found_result, :statewide_test_repo
 

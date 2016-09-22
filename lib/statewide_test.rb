@@ -1,13 +1,11 @@
 require_relative 'statewide_test_repository'
 require_relative 'shared_methods'
-require_relative 'kindergarten'
 require_relative 'errors'
 require 'pry'
 
 class StatewideTest
 
   include SharedMethods
-  include Kindergarten
 
   attr_reader :grades
   attr_accessor :name, :third_grade, :eighth_grade, :math,
@@ -66,10 +64,14 @@ class StatewideTest
   def build_race_ethnicity_hash(subjects, race)
     race_ethnicity_hash = new_hash_ethnicity
     subjects.each do |subject|
-      race_ethnicity_hash[2011][subject[0]] = truncate_float(clean_subject(subject[1], race)[0][0])
-      race_ethnicity_hash[2012][subject[0]] = truncate_float(clean_subject(subject[1], race)[1][0])
-      race_ethnicity_hash[2013][subject[0]] = truncate_float(clean_subject(subject[1], race)[2][0])
-      race_ethnicity_hash[2014][subject[0]] = truncate_float(clean_subject(subject[1], race)[3][0])
+      race_ethnicity_hash[2011][subject[0]] =
+                        truncate_float(clean_subject(subject[1], race)[0][0])
+      race_ethnicity_hash[2012][subject[0]] =
+                        truncate_float(clean_subject(subject[1], race)[1][0])
+      race_ethnicity_hash[2013][subject[0]] =
+                        truncate_float(clean_subject(subject[1], race)[2][0])
+      race_ethnicity_hash[2014][subject[0]] =
+                        truncate_float(clean_subject(subject[1], race)[3][0])
     end
     @race_ethnicity_hash = race_ethnicity_hash
   end

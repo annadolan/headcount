@@ -1,13 +1,11 @@
 require_relative 'economic_profile_repository'
 require_relative 'shared_methods'
-require_relative 'kindergarten'
 require_relative 'errors'
 require 'pry'
 
 class EconomicProfile
 
   include SharedMethods
-  include Kindergarten
 
   attr_accessor :data
 
@@ -31,8 +29,9 @@ class EconomicProfile
       income
     end
     result = income.reduce(:+) / income.count
+    result.to_i
   end
-  
+
   def is_year_between?(year, row)
     if row[0].class == Array
       range = row[0]
@@ -45,7 +44,7 @@ class EconomicProfile
     temp_range
     year.between?(temp_range[0], temp_range[1])
   end
-    
+
 
   def median_household_income_average
     if data.class == Hash
@@ -56,33 +55,33 @@ class EconomicProfile
       end
     end
     result = household_income_avg.reduce(:+) / household_income_avg.count
-    result
+    result.to_i
   end
-  
+
   def children_in_poverty_in_year(year)
     raise UnknownDataError unless YEARS.include?(year)
     percent = []
     result = data[:children_in_poverty].values[0]
   end
-  
+
   def free_or_reduced_price_lunch_percentage_in_year(year)
     raise UnknownDataError unless YEARS.include?(year)
     percent = []
     result = data[:free_or_reduced_price_lunch].values[0][:percentage]
   end
-  
+
   def free_or_reduced_price_lunch_number_in_year(year)
     raise UnknownDataError unless YEARS.include?(year)
     number = []
     result = data[:free_or_reduced_price_lunch].values[0][:total]
   end
-  
+
   def title_i_in_year(year)
     raise UnknownDataError unless YEARS.include?(year)
     percent = []
     result = data[:title_i].values[0]
   end
-  
-  
-  
+
+
+
 end

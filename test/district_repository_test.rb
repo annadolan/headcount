@@ -7,8 +7,6 @@ require 'pry'
 
 class DistrictRepositoryTest < Minitest::Test
 
-  include Kindergarten
-
   def test_dr_loads_data_into_hash
     dr = DistrictRepository.new
     dr.load_data({

@@ -1,12 +1,11 @@
-require 'pry'
 require_relative 'shared_methods'
 require_relative 'statewide_test'
-require_relative 'kindergarten'
+require 'pry'
 
 
 class StatewideTestRepository
   include SharedMethods
-  include Kindergarten
+
   attr_accessor :statewide_repo, :tests_array
   attr_reader :third_grade, :eighth_grade, :math_ethnicity,
               :reading_ethnicity, :writing_ethnicity
@@ -24,9 +23,11 @@ class StatewideTestRepository
     tests_array = []
     CSV.foreach(path, headers: true, header_converters: :symbol) do |row|
       if path.include?("Average")
-        tests_array << ({row[:location] => {row[:timeframe] => {row[:race_ethnicity] => row[:data].to_f}}})
+        tests_array << ({row[:location] =>
+          {row[:timeframe] => {row[:race_ethnicity] => row[:data].to_f}}})
       else
-        tests_array << ({row[:location] => {row[:timeframe] => {row[:score] => row[:data].to_f}}})
+        tests_array << ({row[:location] =>
+          {row[:timeframe] => {row[:score] => row[:data].to_f}}})
       end
       tests_array
 

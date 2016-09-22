@@ -1,8 +1,8 @@
 require_relative 'district_repository'
-require_relative 'kindergarten'
+require_relative 'shared_methods'
 
 class HeadcountAnalyst
-  include Kindergarten
+  include SharedMethods
   attr_accessor :dist1, :dist2, :truncated_variance, :results
 
   def initialize(new_repo)

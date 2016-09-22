@@ -3,6 +3,15 @@ require 'csv'
 module SharedMethods
   attr_reader :organized_entries, :enrollment
 
+  def truncate_float(num)
+    if num.class == String
+      truncated = 0
+    else
+      truncated = (num.to_f*1000).floor/1000.0
+    end
+      zero_handler(truncated)
+  end
+
   def load_csv(path, key)
     enroll_array = []
     CSV.foreach(path, headers: true, header_converters: :symbol) do |row|
@@ -13,7 +22,8 @@ module SharedMethods
   end
 
    def parse(enroll_array, key)
-     temp_array = enroll_array.group_by { |item| item.values.first }.map{|_, second| second.reduce(:merge)}
+     temp_array = enroll_array.group_by { |item| item.values.first }.map{|_,
+                                              second| second.reduce(:merge)}
      parse = temp_array.reduce({}) do |result, item|
       temp_array.map do |item|
       {:name => item.values_at(:name).join, key => item}
@@ -41,6 +51,24 @@ module SharedMethods
      end
      new_enrollment(all_enrollment)
    end
+
+     def date_hash_maker(input)
+       unless input.nil?
+         array = []
+         input.each do |elem|
+           array << [elem[:timeframe].to_i, truncate_float(elem[:data])]
+         end
+         @enrollment = array.to_h
+       end
+     end
+
+     def zero_handler(num)
+       if num == 0
+         nil
+       else
+         num
+       end
+     end
 
 
 end
