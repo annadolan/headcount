@@ -53,7 +53,6 @@ class StatewideTestTest < Minitest::Test
       })
     st = str.find_by_name("ACADEMY 20")
     st.proficient_by_grade(8)
-    binding.pry
     assert_equal ({:math=>0.640, :reading=>0.843, :writing=>0.734}), st.final_hash[2008]
   end
 

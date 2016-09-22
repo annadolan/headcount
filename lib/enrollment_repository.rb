@@ -2,9 +2,8 @@ require_relative 'shared_methods'
 require_relative 'enrollment'
 
 class EnrollmentRepository
-  include SharedMethods
-
   attr_reader :district, :enrollments, :input
+  include SharedMethods
 
   def initialize
     @enrollments = {}

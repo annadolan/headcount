@@ -6,11 +6,10 @@ require_relative 'errors'
 require_relative 'shared_methods'
 
 class HeadcountAnalyst
+  attr_reader :dist1, :dist2, :truncated_variance, :results, :g_input,
+  :s_input, :grade_to_clean, :blank_hash
   include SharedMethods
   include GradeAndTestData
-
-  attr_accessor :dist1, :dist2, :truncated_variance, :results, :g_input,
-                :s_input, :grade_to_clean, :blank_hash
 
   GRADES = [3, 8]
 
@@ -33,7 +32,7 @@ class HeadcountAnalyst
     grade_to_clean.values.each do |row|
       test_array << clean_grade(row)
     end
-    
+
     keys = grade_to_clean.keys.reject! {|i| i == "Colorado"}
     hash_to_modify = keys.zip(test_array).reject {|i| i == nil}.to_h
     subject = :math
@@ -49,10 +48,11 @@ class HeadcountAnalyst
       if first.nil?
         first = 0
       end
-        subtracted_values = first - second
-        blank_hash[key] = {subject => truncate_float_for_analyst(subtracted_values)}
-        sorted_hash = blank_hash.sort_by {|k, v| v.values }
-    result = [sorted_hash[0][0], sorted_hash[0][1].values[0].abs]
+      subtracted_values = first - second
+      blank_hash[key] = {subject =>
+                      truncate_float_for_analyst(subtracted_values)}
+      sorted_hash = blank_hash.sort_by {|k, v| v.values }
+      result = [sorted_hash[0][0], sorted_hash[0][1].values[0].abs]
     end
   end
 
@@ -185,9 +185,5 @@ class HeadcountAnalyst
       "#{grade} is not a known grade."
     end
   end
-
-  # def hash_template
-  #   hash = {:math=>nil, :reading=>nil, :writing=>nil}
-  # end
 
 end

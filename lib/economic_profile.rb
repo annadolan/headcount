@@ -4,10 +4,8 @@ require_relative 'errors'
 require 'pry'
 
 class EconomicProfile
-
-  include SharedMethods
-
   attr_accessor :data
+  include SharedMethods
 
   YEARS = [1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
           2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015]
@@ -15,7 +13,6 @@ class EconomicProfile
   def initialize(data)
     @data = data
   end
-
 
   def median_household_income_in_year(year)
     raise UnknownDataError unless YEARS.include?(year)
@@ -44,7 +41,6 @@ class EconomicProfile
     temp_range
     year.between?(temp_range[0], temp_range[1])
   end
-
 
   def median_household_income_average
     if data.class == Hash
@@ -81,7 +77,4 @@ class EconomicProfile
     percent = []
     result = data[:title_i].values[0]
   end
-
-
-
 end

@@ -1,7 +1,6 @@
 module GradeAndTestData
-  
-  attr_accessor :final_hash
-  
+  attr_reader :final_hash
+
   def clean_subject(subject, race)
     ethnicities = get_ethnicity(subject)
     subject_array = ethnicities[race.to_s.capitalize]
@@ -23,7 +22,6 @@ module GradeAndTestData
     new_array = years.zip(math_array.zip(reading_array, writing_array))
     final_hash = {}
     new_array.each do |item|
-      
       final_hash[item[0]] = {:math => truncate_float(item[1][0][:math]),
                             :reading => truncate_float(item[1][1][:reading]),
                             :writing => truncate_float(item[1][2][:writing])
@@ -51,7 +49,7 @@ module GradeAndTestData
     year_array = year_array.flatten
     year_array.sort_by! {|hsh| hsh.keys }
   end
-  
+
   def get_subject(year_array)
     subject_array = []
     year_array.each do |elem|
@@ -84,9 +82,9 @@ module GradeAndTestData
     end
     years.uniq!
   end
-  
+
   def truncate_float_for_analyst(num)
       truncated = (num.to_f*1000).floor/1000.0
   end
-  
+
 end

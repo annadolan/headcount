@@ -5,13 +5,10 @@ require_relative 'errors'
 require 'pry'
 
 class StatewideTest
-
+  attr_accessor :grades, :race_ethnicity_hash, :final_hash, :name,
+  :third_grade, :eighth_grade, :math, :reading, :writing
   include SharedMethods
   include GradeAndTestData
-
-  attr_reader :grades
-  attr_accessor :name, :third_grade, :eighth_grade, :math,
-                :reading, :writing, :final_hash, :race_ethnicity_hash
 
   GRADES = [3, 8]
   RACES = [:asian, :black, :pacific_islander, :hispanic, :native_american,
@@ -47,7 +44,6 @@ class StatewideTest
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
     raise UnknownDataError unless SUBJECTS.include?(subject)
-    grade
     result = proficient_by_grade(grade)
     final_result = result[year][subject]
     if final_result == 0.0 || final_result == nil

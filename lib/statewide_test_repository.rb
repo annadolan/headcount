@@ -4,11 +4,9 @@ require 'pry'
 
 
 class StatewideTestRepository
-  include SharedMethods
-
-  attr_accessor :statewide_repo, :tests_array
   attr_reader :third_grade, :eighth_grade, :math_ethnicity,
-              :reading_ethnicity, :writing_ethnicity
+  :reading_ethnicity, :writing_ethnicity, :statewide_repo
+  include SharedMethods
 
   def initialize
     @statewide_repo = {}
@@ -30,7 +28,6 @@ class StatewideTestRepository
           {row[:timeframe] => {row[:score] => row[:data].to_f}}})
       end
       tests_array
-
     end
     parse_testing(tests_array, key)
   end
@@ -80,5 +77,4 @@ class StatewideTestRepository
   def find_by_name(district_name)
     @statewide_repo[district_name.upcase]
   end
-
 end
