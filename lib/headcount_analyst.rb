@@ -6,8 +6,8 @@ require_relative 'errors'
 require_relative 'shared_methods'
 
 class HeadcountAnalyst
-  attr_reader :dist1, :dist2, :truncated_variance, :results, :g_input,
-  :s_input, :grade_to_clean, :blank_hash
+  attr_reader :dist1, :dist2, :truncated_variance, :g_input,
+  :s_input, :grade_to_clean, :blank_hash, :all_results, :result
   include SharedMethods
   include GradeAndTestData
 
@@ -18,9 +18,25 @@ class HeadcountAnalyst
     @final_hash = final_hash
   end
 
+  def generate_total_improvements_for_grade(input)
+    subjects = [:math, :reading, :writing]
+    grade = input[:grade]
+    all_results = []
+    subjects.map do |subject|
+      result = top_statewide_test_year_over_year_growth(:subject => subject, :grade => grade)
+        all_results << [subject, result[0], result[1].abs]
+      end
+      all_results
+  end
+    
+
   def top_statewide_test_year_over_year_growth(input)
     grade = input[:grade]
-    subject = input[:subject]
+    if input[:subject].nil?
+      generate_total_improvements_for_grade(input)
+    else 
+      subject = input[:subject]
+    end
     weight = input[:weight]
     final_hash = {}
     testing_analysis_error_checker(grade)
@@ -49,14 +65,13 @@ class HeadcountAnalyst
       if first.nil?
         first = 1
       end
-      subtracted_values = first - second
-      number_to_use = (subtracted_values) / (max - min)
+      number_to_use = ((first) - (second)) / ((max) - (min))
       blank_hash[key] = {subject =>
         truncate_float_for_analyst(number_to_use)}
     end
-    sorted_hash = blank_hash.sort_by { |k, v| v.values }
-    final = sorted_hash.reverse
-    result = [final[0][0], final[0][1].values[0].abs]
+    sorted_hash = blank_hash.sort_by { |k, v| v.values[0].abs }
+    final = sorted_hash.reverse!
+    result = [final[0][0], final[0][1].values[0]]
   end
 
   def district_average(district)
