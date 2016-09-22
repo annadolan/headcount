@@ -8,7 +8,7 @@ require 'pry'
 class ResultSetTest < Minitest::Test
   
   def test_result_set_has_a_matching_district_method_that_is_an_array_of_objects
-    rs = ResultSet.new
+    rs = ResultSet.new(:matching_districts => [1,2], :statewide_average => [3,4])
     assert_instance_of ResultEntry, rs.matching_districts[3]
     assert_instance_of Array, rs.matching_districts
   end

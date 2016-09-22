@@ -86,17 +86,20 @@ class HeadcountAnalystTest < Minitest::Test
     dr.load_data({
                    :enrollment => {
                      :kindergarten => "./data/Kindergartners in full-day program.csv",
-                     :high_school_graduation => "./data/High school graduation rates.csv"}
-                    :economic_profile => {
-                       :median_household_income => "./fixtures/Median household income fixture.csv",
-                       :children_in_poverty => "./fixtures/School-aged children in poverty fixture.csv",
-                       :free_or_reduced_price_lunch => "./fixtures/Students qualifying for free or reduced price lunch fixture.csv",
-                       :title_i => "./fixtures/Title I students fixture.csv"
+                     :high_school_graduation => "./data/High school graduation rates.csv"
                    }
-                 })
+                  })
+    dr.economic_repo.load_data({
+      :economic_profile => {
+        :median_household_income => "./fixtures/Median household income fixture.csv",
+        :children_in_poverty => "./fixtures/School-aged children in poverty fixture.csv",
+        :free_or_reduced_price_lunch => "./fixtures/Students qualifying for free or reduced price lunch fixture.csv",
+        :title_i => "./fixtures/Title I students fixture.csv"
+      }
+    })              
+    
 
     ha = HeadcountAnalyst.new(dr)
-    binding.pry
     assert ha.kindergarten_participation_correlates_with_high_school_graduation(:across => districts)
   end
   

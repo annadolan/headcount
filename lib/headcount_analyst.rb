@@ -22,7 +22,6 @@ class HeadcountAnalyst
 
   def high_poverty_and_high_school_graduation
     grad_rate_finder
-    binding.pry
     
   end
 
@@ -42,7 +41,11 @@ class HeadcountAnalyst
   def poverty_rate_finder
     child_poverty = []
     district_names = []
-    poverty_rate_finder = nil
+    poverty_rate_finder = @new_repo.economic_repo.children.each do |row|
+      child_poverty << row[1]
+      district_names << row[0]
+    end
+    result = district_names.zip(child_poverty).to_h
     
   end
 

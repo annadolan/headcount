@@ -22,7 +22,7 @@ class DistrictRepository
    def load_data(input)
     enrollment_repo.load_data(input)
     if input.include?(:statewide_testing)
-       statewide_test_repo.load_data(input)
+      statewide_test_repo.load_data(input)
     elsif input.include?(:economic_profile)
       economic_repo.load_data(input)
     else 
