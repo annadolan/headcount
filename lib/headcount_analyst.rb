@@ -50,7 +50,7 @@ class HeadcountAnalyst
         first = 1
       end
       subtracted_values = first - second
-      number_to_use = (subtracted_values) / (max - min) 
+      number_to_use = (subtracted_values) / (max - min)
       blank_hash[key] = {subject =>
         truncate_float_for_analyst(number_to_use)}
     end
