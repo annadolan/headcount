@@ -1,3 +1,4 @@
+
 require './test/test_helper'
 require 'minitest/autorun'
 require 'minitest/pride'
@@ -80,4 +81,56 @@ class HeadcountAnalystTest < Minitest::Test
     districts = ["ACADEMY 20", 'PARK (ESTES PARK) R-3', 'YUMA SCHOOL DISTRICT 1']
     assert ha.kindergarten_participation_correlates_with_high_school_graduation(:across => districts)
   end
+  
+  def test_headcount_raises_insufficient_information_error_if_grade_is_not_provided
+    dr = DistrictRepository.new
+    dr.load_data({
+                   :enrollment => {
+                     :kindergarten => "./data/Kindergartners in full-day program.csv",
+                     :high_school_graduation => "./data/High school graduation rates.csv"
+                   }
+                 })
+    ha = HeadcountAnalyst.new(dr)
+    assert_raises(InsufficientInformationError) do ha.top_statewide_test_year_over_year_growth(subject: :math)
+    end
+  end
+  
+  def test_headcount_raises_unknown_data_error_if_invalid_grade_entered
+    dr = DistrictRepository.new
+    dr.load_data({
+                   :enrollment => {
+                     :kindergarten => "./data/Kindergartners in full-day program.csv",
+                     :high_school_graduation => "./data/High school graduation rates.csv"
+                   
+                 }})
+    ha = HeadcountAnalyst.new(dr)
+    assert_raises(UnknownDataError) do ha.top_statewide_test_year_over_year_growth(grade: 9, subject: :math)
+    end
+  end
+  
+  def test_headcount_can_find_the_district_with_the_highest_growth
+    dr = DistrictRepository.new
+    dr.load_data({
+                   :enrollment => {
+                     :kindergarten => "./data/Kindergartners in full-day program.csv",
+                     :high_school_graduation => "./data/High school graduation rates.csv"
+                   },
+                   :statewide_testing => {
+                     :third_grade => "./fixtures/3rd grade students scoring proficient or above on the CSAP_TCAP fixture.csv",
+                     :eighth_grade => "./fixtures/8th grade students scoring proficient or above on the CSAP_TCAP fixture.csv",
+                     :math => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math fixture.csv",
+                     :reading => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading fixture.csv",
+                     :writing => "./fixtures/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing fixture.csv"
+                   }
+                   })
+    ha = HeadcountAnalyst.new(dr)
+    assert_equal "AGUILAR REORGANIZED 6", ha.top_statewide_test_year_over_year_growth(grade: 3).first
+  end
+  
+  
+  
+  
+  
+  
+  
 end

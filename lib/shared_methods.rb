@@ -17,6 +17,7 @@ module SharedMethods
     CSV.foreach(path, headers: true, header_converters: :symbol) do |row|
       enroll_array << ({:name => row[:location].upcase,
                         row[:timeframe].to_i => row[:data].to_f})
+
     end
     parse(enroll_array, key)
   end
@@ -37,38 +38,35 @@ module SharedMethods
     parse
   end
 
-   def delete_extra_name(parse, key)
-     final_enrollment = parse.map do |elem|
-       elem[key].delete(:name)
-       elem
-     end
-   end
+  def delete_extra_name(parse, key)
+    final_enrollment = parse.map do |elem|
+      elem[key].delete(:name)
+      elem
+    end
+  end
 
-   def zip_arrays(kindergarten_array, hs_array)
-     all_enrollment = kindergarten_array.zip(hs_array).map do |kinder_array|
-       kinder_array.reduce(&:merge)
+  def zip_arrays(kindergarten_array, hs_array)
+    all_enrollment = kindergarten_array.zip(hs_array).map do |kinder_array|
+      kinder_array.reduce(&:merge)
+    end
+    new_enrollment(all_enrollment)
+  end
 
-     end
-     new_enrollment(all_enrollment)
-   end
+  def date_hash_maker(input)
+    unless input.nil?
+      array = []
+      input.each do |elem|
+        array << [elem[:timeframe].to_i, truncate_float(elem[:data])]
+      end
+      @enrollment = array.to_h
+    end
+  end
 
-     def date_hash_maker(input)
-       unless input.nil?
-         array = []
-         input.each do |elem|
-           array << [elem[:timeframe].to_i, truncate_float(elem[:data])]
-         end
-         @enrollment = array.to_h
-       end
-     end
-
-     def zero_handler(num)
-       if num == 0
-         nil
-       else
-         num
-       end
-     end
-
-
+  def zero_handler(num)
+    if num == 0
+      nil
+    else
+      num
+    end
+  end
 end

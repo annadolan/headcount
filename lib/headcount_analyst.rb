@@ -1,12 +1,62 @@
 require_relative 'district_repository'
+require_relative 'statewide_test_repository'
+require_relative 'statewide_test'
+require_relative 'grade_and_test_data'
+require_relative 'errors'
 require_relative 'shared_methods'
 
 class HeadcountAnalyst
+  attr_reader :dist1, :dist2, :truncated_variance, :results, :g_input,
+  :s_input, :grade_to_clean, :blank_hash
   include SharedMethods
-  attr_accessor :dist1, :dist2, :truncated_variance, :results
+  include GradeAndTestData
+
+  GRADES = [3, 8]
 
   def initialize(new_repo)
     @new_repo = new_repo
+    @final_hash = final_hash
+  end
+
+  def top_statewide_test_year_over_year_growth(input)
+    grade = input[:grade]
+    subject = input[:subject]
+    weight = input[:weight]
+    final_hash = {}
+    testing_analysis_error_checker(grade)
+    if grade == 3
+      grade_to_clean = @new_repo.statewide_test_repo.third_grade
+    elsif grade == 8
+      grade_to_clean = @new_repo.statewide_test_repo.eighth_grade
+    else
+      nil
+    end
+    test_array = []
+    grade_to_clean.values.each do |row|
+      test_array << clean_grade(row)
+    end
+    keys = grade_to_clean.keys
+    hash_to_modify = keys.zip(test_array).to_h
+    blank_hash = {}
+    keys.each do |key|
+      max = hash_to_modify[key].keys.max
+      min = hash_to_modify[key].keys.min
+      first = (hash_to_modify[key][max][subject])
+      second = (hash_to_modify[key][min][subject])
+      if second.nil?
+        second = 1
+      end
+      if first.nil?
+        first = 1
+      end
+      subtracted_values = first - second
+      number_to_use = (subtracted_values) / (max - min)
+      blank_hash[key] = {subject =>
+        truncate_float_for_analyst(number_to_use)}
+    end
+    sorted_hash = blank_hash.sort_by { |k, v| v.values }
+    final = sorted_hash.reverse
+    result = [final[0][0], final[0][1].values[0].abs]
   end
 
   def district_average(district)
@@ -128,6 +178,15 @@ class HeadcountAnalyst
 
   def reject_all_state_data(districts)
     statewide_districts = districts.reject { |district| district == "COLORADO" }
+  end
+
+  def testing_analysis_error_checker(grade)
+    if grade.nil?
+      raise InsufficientInformationError
+    elsif GRADES.include?(grade) == false
+      raise UnknownDataError
+      "#{grade} is not a known grade."
+    end
   end
 
 end

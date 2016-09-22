@@ -3,9 +3,7 @@ require_relative 'shared_methods'
 require_relative 'enrollment_repository'
 
 class District
-
   include SharedMethods
-
   attr_reader :name, :enrollment, :statewide_test, :economic_profile
 
   def initialize(name, enrollment_data = {}, statewide_test = {},

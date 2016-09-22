@@ -3,10 +3,8 @@ require_relative 'shared_methods'
 require 'pry'
 
 class Enrollment
-
-  include SharedMethods
-
   attr_reader :information, :name, :grad_year
+  include SharedMethods
 
   def initialize(information)
     @information = information
@@ -36,5 +34,4 @@ class Enrollment
       result = truncate_float(grad_year)
     end
   end
-
 end

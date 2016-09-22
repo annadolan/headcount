@@ -3,3 +3,6 @@ end
 
 class UnknownRaceError < IndexError
 end
+
+class InsufficientInformationError < IndexError
+end
