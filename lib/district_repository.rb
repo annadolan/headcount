@@ -9,7 +9,6 @@ require 'pry'
 
 class DistrictRepository
   include SharedMethods
-
   attr_reader :districts, :enrollment_repo, :found_result, :statewide_test_repo
 
   def initialize

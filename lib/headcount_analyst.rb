@@ -1,12 +1,21 @@
 require_relative 'district_repository'
+require_relative 'statewide_test_repository'
+require_relative 'statewide_test'
+require_relative 'grade_and_test_data'
+require_relative 'errors'
 require_relative 'shared_methods'
 
 class HeadcountAnalyst
+  attr_reader :dist1, :dist2, :truncated_variance, :results, :g_input,
+  :s_input, :grade_to_clean, :blank_hash
   include SharedMethods
-  attr_accessor :dist1, :dist2, :truncated_variance, :results
+  include GradeAndTestData
+
+  GRADES = [3, 8]
 
   def initialize(new_repo)
     @new_repo = new_repo
+    @final_hash = final_hash
   end
 
   def district_average(district)
@@ -128,6 +137,15 @@ class HeadcountAnalyst
 
   def reject_all_state_data(districts)
     statewide_districts = districts.reject { |district| district == "COLORADO" }
+  end
+
+  def testing_analysis_error_checker(grade)
+    if grade.nil?
+      raise InsufficientInformationError
+    elsif GRADES.include?(grade) == false
+      raise UnknownDataError
+      "#{grade} is not a known grade."
+    end
   end
 
 end
