@@ -23,18 +23,19 @@ class HeadcountAnalyst
     grade = input[:grade]
     all_results = []
     subjects.map do |subject|
-      result = top_statewide_test_year_over_year_growth(:subject => subject, :grade => grade)
+      result = top_statewide_test_year_over_year_growth(:subject => subject,
+                                                        :grade => grade)
         all_results << [subject, result[0], result[1].abs]
       end
       all_results
   end
-    
+
 
   def top_statewide_test_year_over_year_growth(input)
     grade = input[:grade]
     if input[:subject].nil?
       generate_total_improvements_for_grade(input)
-    else 
+    else
       subject = input[:subject]
     end
     weight = input[:weight]
@@ -200,7 +201,6 @@ class HeadcountAnalyst
       raise InsufficientInformationError
     elsif GRADES.include?(grade) == false
       raise UnknownDataError
-      "#{grade} is not a known grade."
     end
   end
 

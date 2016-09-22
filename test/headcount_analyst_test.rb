@@ -19,6 +19,17 @@ class HeadcountAnalystTest < Minitest::Test
     assert_instance_of Float, ha.kindergarten_participation_rate_variation("ACADEMY 20", "COLORADO")
   end
   
+  def test_kindergarten_participation_rate_variation_trend_returns_the_right_answer
+    dr = DistrictRepository.new
+    dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv"
+      }
+    })
+    ha = HeadcountAnalyst.new(dr)
+    assert_equal 0.96, ha.kindergarten_participation_rate_variation_trend("ACADEMY 20", "COLORADO")[2005]
+  end
+  
   def test_headcount_can_test_high_school_variation
     dr = DistrictRepository.new
     dr.load_data({
