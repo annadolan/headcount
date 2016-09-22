@@ -8,8 +8,8 @@ require_relative 'shared_methods'
 class HeadcountAnalyst
   include SharedMethods
   include GradeAndTestData
-  
-  attr_accessor :dist1, :dist2, :truncated_variance, :results, :g_input, 
+
+  attr_accessor :dist1, :dist2, :truncated_variance, :results, :g_input,
                 :s_input, :grade_to_clean, :final_hash
 
   GRADES = [3, 8]
@@ -18,7 +18,7 @@ class HeadcountAnalyst
     @new_repo = new_repo
     @final_hash = final_hash
   end
-  
+
   def top_statewide_test_year_over_year_growth(grade: g_input, subject: s_input)
     final_hash = {}
     testing_analysis_error_checker(grade)
@@ -26,25 +26,31 @@ class HeadcountAnalyst
       grade_to_clean = @new_repo.statewide_test_repo.third_grade
     elsif grade == 8
       grade_to_clean = @new_repo.statewide_test_repo.eighth_grade
-    else 
+    else
       nil
     end
     test_array = []
     grade_to_clean.values.each do |row|
       test_array << clean_grade(row)
     end
-    
+
     keys = grade_to_clean.keys
+
     hash_to_modify = keys.zip(test_array).to_h
-    
-    
-    
-    
+    subject = :math
+
+    blank_hash = {}
+    keys.each do |key|
+      subtracted_values = (hash_to_modify[key][2014][subject]) - (hash_to_modify[key][2008][subject])
+       blank_hash[key] = {subject => truncate_float(subtracted_values)}
+    end
+    binding.pry
+
     # find largest value and return the associated district and value
-    
-    
+
+
   end
-    
+
   def district_average(district)
     dist_values = district.enrollment.information.values[1].values
     dist_total = dist_values.reduce(:+)
@@ -174,5 +180,9 @@ class HeadcountAnalyst
       "#{grade} is not a known grade."
     end
   end
+
+  # def hash_template
+  #   hash = {:math=>nil, :reading=>nil, :writing=>nil}
+  # end
 
 end
