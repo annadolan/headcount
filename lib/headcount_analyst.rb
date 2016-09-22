@@ -5,7 +5,8 @@ require_relative 'shared_methods'
 
 class HeadcountAnalyst
   include SharedMethods
-  attr_accessor :dist1, :dist2, :truncated_variance, :results, :g_input
+  attr_accessor :dist1, :dist2, :truncated_variance, :results, :g_input, 
+                :s_input, :total_grade
 
   GRADES = [3, 8]
 
@@ -14,12 +15,18 @@ class HeadcountAnalyst
   end
   
   def top_statewide_test_year_over_year_growth(grade: g_input, subject: s_input)
-    if grade.nil?
-      raise InsufficientInformationError
-    elsif GRADES.include?(grade) == false
-      raise UnknownDataError
+    testing_analysis_error_checker(grade)
+    if grade == 3
+      total_grade = @new_repo.statewide_test_repo.third_grade
+    elsif grade == 8
+      total_grade = @new_repo.statewide_test_repo.eighth_grade
+    else 
+      nil
     end
     
+    total_grade
+    
+    # find largest value and return the associated district and value
     
     
   end
@@ -143,6 +150,15 @@ class HeadcountAnalyst
 
   def reject_all_state_data(districts)
     statewide_districts = districts.reject { |district| district == "COLORADO" }
+  end
+
+  def testing_analysis_error_checker(grade)
+    if grade.nil?
+      raise InsufficientInformationError
+    elsif GRADES.include?(grade) == false
+      raise UnknownDataError
+      "#{grade} is not a known grade."
+    end
   end
 
 end
