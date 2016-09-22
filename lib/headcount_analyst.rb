@@ -10,7 +10,7 @@ class HeadcountAnalyst
   include GradeAndTestData
 
   attr_accessor :dist1, :dist2, :truncated_variance, :results, :g_input,
-                :s_input, :grade_to_clean, :final_hash
+                :s_input, :grade_to_clean, :blank_hash
 
   GRADES = [3, 8]
 
@@ -33,22 +33,27 @@ class HeadcountAnalyst
     grade_to_clean.values.each do |row|
       test_array << clean_grade(row)
     end
-
-    keys = grade_to_clean.keys
-
-    hash_to_modify = keys.zip(test_array).to_h
+    
+    keys = grade_to_clean.keys.reject! {|i| i == "Colorado"}
+    hash_to_modify = keys.zip(test_array).reject {|i| i == nil}.to_h
     subject = :math
-
     blank_hash = {}
     keys.each do |key|
-      subtracted_values = (hash_to_modify[key][2014][subject]) - (hash_to_modify[key][2008][subject])
-       blank_hash[key] = {subject => truncate_float(subtracted_values)}
+      max = hash_to_modify[key].keys.max
+      min = hash_to_modify[key].keys.min
+      first = (hash_to_modify[key][max][subject])
+      second = (hash_to_modify[key][min][subject])
+      if second.nil?
+        second = 0
+      end
+      if first.nil?
+        first = 0
+      end
+        subtracted_values = first - second
+        blank_hash[key] = {subject => truncate_float_for_analyst(subtracted_values)}
+        sorted_hash = blank_hash.sort_by {|k, v| v.values }
+    result = [sorted_hash[0][0], sorted_hash[0][1].values[0].abs]
     end
-    binding.pry
-
-    # find largest value and return the associated district and value
-
-
   end
 
   def district_average(district)

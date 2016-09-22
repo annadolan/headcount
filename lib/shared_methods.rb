@@ -17,6 +17,7 @@ module SharedMethods
     CSV.foreach(path, headers: true, header_converters: :symbol) do |row|
       enroll_array << ({:name => row[:location].upcase,
                         row[:timeframe].to_i => row[:data].to_f})
+
     end
     parse(enroll_array, key)
   end

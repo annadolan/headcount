@@ -1,5 +1,7 @@
 module GradeAndTestData
   
+  attr_accessor :final_hash
+  
   def clean_subject(subject, race)
     ethnicities = get_ethnicity(subject)
     subject_array = ethnicities[race.to_s.capitalize]
@@ -81,6 +83,10 @@ module GradeAndTestData
       years << elem.keys[0].to_i
     end
     years.uniq!
+  end
+  
+  def truncate_float_for_analyst(num)
+      truncated = (num.to_f*1000).floor/1000.0
   end
   
 end

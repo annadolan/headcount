@@ -25,7 +25,7 @@ class StatewideTest
     @math = math
     @reading = reading
     @writing = writing
-    @final_hash = {}
+    @final_hash = final_hash
     @race_ethnicity_hash = {}
   end
 
